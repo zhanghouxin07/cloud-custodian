@@ -27,7 +27,7 @@ RUN . /usr/local/bin/activate && poetry install --without dev --no-root
 ADD c7n /src/c7n/
 RUN . /usr/local/bin/activate && poetry install --only-root
 
-ARG providers="gcp azure kube openstack tencentcloud oci awscc"
+ARG providers="gcp azure kube openstack tencentcloud oci awscc huaweicloud"
 # Add provider packages
 # We include `pyproject.toml` and `poetry.lock` first to allow
 # cache of dependency installs.
@@ -60,6 +60,10 @@ ADD tools/c7n_awscc/pyproject.toml tools/c7n_awscc/poetry.lock /src/tools/c7n_aw
 RUN if [[ " ${providers[*]} " =~ "awscc" ]]; then     . /usr/local/bin/activate &&     cd tools/c7n_awscc &&     poetry install --without dev --no-root; fi
 
 
+ADD tools/c7n_huaweicloud/pyproject.toml tools/c7n_huaweicloud/poetry.lock /src/tools/c7n_huaweicloud/
+RUN if [[ " ${providers[*]} " =~ "huaweicloud" ]]; then     . /usr/local/bin/activate &&     cd tools/c7n_huaweicloud &&     poetry install --without dev --no-root; fi
+
+
 # Now install the root of each provider
 
 ADD tools/c7n_gcp /src/tools/c7n_gcp
@@ -88,6 +92,10 @@ RUN if [[ " ${providers[*]} " =~ "oci" ]]; then     . /usr/local/bin/activate &&
 
 ADD tools/c7n_awscc /src/tools/c7n_awscc
 RUN if [[ " ${providers[*]} " =~ "awscc" ]]; then     . /usr/local/bin/activate &&     cd tools/c7n_awscc &&     poetry install --only-root; fi
+
+
+ADD tools/c7n_huaweicloud /src/tools/c7n_huaweicloud
+RUN if [[ " ${providers[*]} " =~ "huaweicloud" ]]; then     . /usr/local/bin/activate &&     cd tools/c7n_huaweicloud &&     poetry install --only-root; fi
 
 
 # Install c7n_awscc
