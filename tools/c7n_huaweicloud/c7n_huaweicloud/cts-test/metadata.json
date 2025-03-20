@@ -17,10 +17,10 @@
   },
   "version": "0.9.43",
   "execution": {
-    "id": "03eded95-ccbe-4979-ac1f-1d8dd8ceaf7a",
-    "start": 1742443856.9394524,
-    "end_time": 1742443856.941295,
-    "duration": 0.001842498779296875
+    "id": "c63ff8ab-f6b6-4940-878c-48432620853a",
+    "start": 1742446519.760267,
+    "end_time": 1742446519.7619586,
+    "duration": 0.001691579818725586
   },
   "config": {
     "region": "",
@@ -54,35 +54,30 @@
     "vars": null
   },
   "sys-stats": {
-    "snapshot_time": 0.0018420219421386719,
+    "snapshot_time": 0.0017054080963134766,
     "num_fds": 2,
-    "num_ctx_switches_involuntary": 2,
+    "cpu_user": 0.010000000000000009,
+    "num_ctx_switches_involuntary": 7,
     "read_count": 17,
     "write_count": 3,
     "write_bytes": 4096,
-    "rss": 933888,
-    "vms": 135168,
-    "shared": 712704,
-    "data": 135168
+    "rss": 942080,
+    "vms": 139264,
+    "shared": 724992,
+    "data": 139264
   },
   "api-stats": {},
   "metrics": [
     {
       "MetricName": "ResourceCount",
-      "Timestamp": "2025-03-20T12:10:56.940969",
-      "Value": 1,
+      "Timestamp": "2025-03-20T12:55:19.761734",
+      "Value": 0,
       "Unit": "Count"
     },
     {
       "MetricName": "ResourceTime",
-      "Timestamp": "2025-03-20T12:10:56.940986",
-      "Value": 0.00046706199645996094,
-      "Unit": "Seconds"
-    },
-    {
-      "MetricName": "ActionTime",
-      "Timestamp": "2025-03-20T12:10:56.941277",
-      "Value": 2.6226043701171875e-06,
+      "Timestamp": "2025-03-20T12:55:19.761753",
+      "Value": 0.0004119873046875,
       "Unit": "Seconds"
     }
   ]

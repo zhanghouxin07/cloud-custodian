@@ -60,7 +60,6 @@ class Session:
                 .with_credentials(globalCredentials) \
                 .with_region(TmsRegion.value_of(self.region)) \
                 .build()
-
         elif service == 'cts':
             client = CtsClient.new_builder() \
                 .with_credentials(credentials) \

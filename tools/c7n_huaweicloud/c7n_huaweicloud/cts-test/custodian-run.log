@@ -161,3 +161,14 @@ Traceback (most recent call last):
     except exceptions.ClientRequestException as e:
 NameError: name 'exceptions' is not defined
 2025-03-20 12:10:56,940 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 12:13:58,529 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:1 time:1.47
+2025-03-20 12:14:43,383 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 12:15:34,638 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 12:16:03,361 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 12:16:04,866 - custodian.policy - INFO - policy:cts-test action:ctsaddtracker resources:1 execution_time:1.50
+2025-03-20 12:16:22,764 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 12:53:48,555 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:0 time:1.40
+2025-03-20 12:54:03,917 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 12:54:31,293 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 12:55:11,755 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 12:55:19,761 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:0 time:0.00
