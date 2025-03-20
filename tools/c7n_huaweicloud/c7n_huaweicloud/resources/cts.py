@@ -18,12 +18,12 @@ class Cts(QueryResourceManager):
     class resource_type(TypeInfo):
         service = 'cts'
         enum_spec = ("list_trackers", "trackers", "offset")
-        id = 'trackers'
+        id = 'id'
         tag = True
 
-@Cts.action_registry.register("query")
-class CtsQuery(HuaweiCloudBaseAction):
-    """Query cts server.
+@Cts.action_registry.register("add-tracker")
+class CtsAddTracker(HuaweiCloudBaseAction):
+    """Add Tracker.
 
     :Example:
 
@@ -33,13 +33,13 @@ class CtsQuery(HuaweiCloudBaseAction):
         - name: cts-test
           resource: huaweicloud.cts
           actions:
-            - type: query
+            - type: addTracker
               tracker_name: "system"
               tracker_type: "system"
     """
 
     schema = type_schema(
-        "query",
+        "add-tracker",
         tracker_name={"type": "string"},
         tracker_type={"type": "string"}
     )
@@ -47,21 +47,20 @@ class CtsQuery(HuaweiCloudBaseAction):
     def perform_action(self, resource):
         client = self.manager.get_client()
         properties = {
-            "tracker_name": self.data.get("tracker_name", "system"), 
+            "tracker_name": self.data.get("tracker_name", "system"),
             "tracker_type": self.data.get("tracker_type", "system")
         }
-        request = ListTrackersRequest()
-        #request.tracker_name = properties["tracker_name"]
-        #request.tracker_type = properties["tracker_type"]
-        request.tracker_name = "system"
-        request.tracker_type = "system"
+        request = CreateTrackerRequest()
+        request.body = CreateTrackerRequestBody(
+            tracker_name=properties["tracker_name"],
+            tracker_type=properties["tracker_type"]
+        )
         try:
-          response = client.list_trackers(request)
+            response = client.create_tracker(request)
         except exceptions.ClientRequestException as e:
-          log.error(e.status_code, e.request_id, e.error_code, e.error_msg)
-          raise
+            log.error(e.status_code, e.request_id, e.error_code, e.error_msg)
+            raise
         return response
-
 
 
 

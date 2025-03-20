@@ -1,0 +1,7 @@
+policies:
+    - name: cts-test
+      resource: huaweicloud.cts
+      actions:
+        - type: add-tracker
+          tracker_name: "system"
+          tracker_type: "system"

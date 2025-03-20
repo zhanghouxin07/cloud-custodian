@@ -1,7 +1,10 @@
 policies:
     - name: cts-test
       resource: huaweicloud.cts
-      actions:
-        - type: query
-          tracker_name: "system"
-          tracker_type: "system"
+      filters:
+      - type: value
+        key: tracker_name
+        value: system
+      - type: value
+        key: tracker_type
+        value: system
