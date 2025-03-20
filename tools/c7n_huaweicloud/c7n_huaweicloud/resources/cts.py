@@ -17,7 +17,7 @@ log = logging.getLogger("custodian.huaweicloud.resources.cts")
 class Cts(QueryResourceManager):
     class resource_type(TypeInfo):
         service = 'cts'
-        enum_spec = ("list_trackers", "cts", "offset")
+        enum_spec = ("list_trackers", "trackers", "offset")
         id = 'tracker_name'
         tag = True
 

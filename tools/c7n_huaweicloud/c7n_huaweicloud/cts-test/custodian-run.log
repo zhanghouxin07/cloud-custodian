@@ -1,0 +1,62 @@
+2025-03-19 20:46:39,436 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 330, in run
+    resources = self.policy.resource_manager.resources()
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 153, in resources
+    resources = self._fetch_resources(q)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 172, in _fetch_resources
+    return self.augment(self.source.get_resources(query)) or []
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 74, in get_resources
+    return self.query.filter(self.manager, **query)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 28, in filter
+    resources = self._pagination_limit_offset(m, enum_op, path)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 54, in _pagination_limit_offset
+    resources = resources + res
+TypeError: can only concatenate list (not "NoneType") to list
+2025-03-20 09:17:37,148 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 330, in run
+    resources = self.policy.resource_manager.resources()
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 153, in resources
+    resources = self._fetch_resources(q)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 172, in _fetch_resources
+    return self.augment(self.source.get_resources(query)) or []
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 74, in get_resources
+    return self.query.filter(self.manager, **query)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 28, in filter
+    resources = self._pagination_limit_offset(m, enum_op, path)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 54, in _pagination_limit_offset
+    resources = resources + res
+TypeError: can only concatenate list (not "NoneType") to list
+2025-03-20 09:18:03,152 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 330, in run
+    resources = self.policy.resource_manager.resources()
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 153, in resources
+    resources = self._fetch_resources(q)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 172, in _fetch_resources
+    return self.augment(self.source.get_resources(query)) or []
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 74, in get_resources
+    return self.query.filter(self.manager, **query)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 28, in filter
+    resources = self._pagination_limit_offset(m, enum_op, path)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 54, in _pagination_limit_offset
+    resources = resources + res
+TypeError: can only concatenate list (not "NoneType") to list
+2025-03-20 09:24:06,142 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 330, in run
+    resources = self.policy.resource_manager.resources()
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 153, in resources
+    resources = self._fetch_resources(q)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 172, in _fetch_resources
+    return self.augment(self.source.get_resources(query)) or []
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 74, in get_resources
+    return self.query.filter(self.manager, **query)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 28, in filter
+    resources = self._pagination_limit_offset(m, enum_op, path)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/query.py", line 54, in _pagination_limit_offset
+    resources = resources + res
+TypeError: can only concatenate list (not "NoneType") to list
+2025-03-20 09:25:49,373 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:3 time:1.59
+2025-03-20 09:25:52,042 - custodian.policy - INFO - policy:cts-test action:ctsquery resources:3 execution_time:2.67
