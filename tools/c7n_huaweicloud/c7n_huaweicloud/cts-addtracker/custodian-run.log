@@ -346,3 +346,11 @@ NameError: name 'exceptions' is not defined
 2025-03-20 18:05:34,850 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
 2025-03-20 18:05:34,851 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
 2025-03-20 18:05:34,853 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 18:16:09,840 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 18:16:09,842 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 18:16:09,842 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 18:16:09,844 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 18:16:13,289 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 18:16:13,290 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 18:16:13,290 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 18:16:13,291 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy

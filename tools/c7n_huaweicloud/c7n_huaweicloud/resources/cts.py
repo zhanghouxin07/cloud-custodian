@@ -14,14 +14,14 @@ from c7n_huaweicloud.query import QueryResourceManager, TypeInfo
 log = logging.getLogger("custodian.huaweicloud.resources.cts")
 
 @resources.register('cts')
-class Cts(QueryResourceManager):
+class Tracker(QueryResourceManager):
     class resource_type(TypeInfo):
         service = 'cts'
         enum_spec = ("list_trackers", "trackers", "offset")
         id = 'id'
         tag = True
 
-@Cts.action_registry.register("add-tracker")
+@Tracker.action_registry.register("add-tracker")
 class CtsAddTracker(HuaweiCloudBaseAction):
     """Add Tracker.
 
@@ -65,7 +65,7 @@ class CtsAddTracker(HuaweiCloudBaseAction):
             raise
         return response
 
-@Cts.action_registry.register("delete-tracker")
+@Tracker.action_registry.register("delete-tracker")
 class CtsDeleteTracker(HuaweiCloudBaseAction):
     """Delete Tracker.
 
@@ -105,7 +105,7 @@ class CtsDeleteTracker(HuaweiCloudBaseAction):
             raise
         return response
 
-@Cts.action_registry.register("toggle-tracker")
+@Tracker.action_registry.register("toggle-tracker")
 class CtsToggleTracker(HuaweiCloudBaseAction):
     """Enable or Disable Tracker.
 
