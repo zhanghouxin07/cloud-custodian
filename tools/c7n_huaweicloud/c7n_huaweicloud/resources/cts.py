@@ -55,8 +55,10 @@ class CtsAddTracker(HuaweiCloudBaseAction):
             tracker_name=properties["tracker_name"],
             tracker_type=properties["tracker_type"]
         )
+        log.error("API req: %s", request)
         try:
             response = client.create_tracker(request)
+            log.debug("API Response: %s", response)
         except exceptions.ClientRequestException as e:
             log.error(e.status_code, e.request_id, e.error_code, e.error_msg)
             raise
