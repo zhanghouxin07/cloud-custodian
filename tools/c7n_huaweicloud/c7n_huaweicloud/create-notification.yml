@@ -1,0 +1,7 @@
+policies:
+  - name: create-cts-notification
+    resource: huaweicloud.cts
+    actions:
+      - type: create-notification
+        operation_type: "complete"
+        notification_name: "test-notification"

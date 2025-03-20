@@ -149,6 +149,48 @@ class CtsToggleTracker(HuaweiCloudBaseAction):
             raise
         return response
 
+@Cts.action_registry.register("create-notification")
+class CtsCreateNotification(HuaweiCloudBaseAction):
+    """Create Critical Operation Notification.
+
+    :Example:
+
+    .. code-block:: yaml
+
+    policies:
+        - name: create-notification
+          resource: huaweicloud.cts
+          actions:
+            - type: create-notification
+              operation_type: "complete"
+              notification_name: "test"
+    """
+
+    schema = type_schema(
+        "create-notification",
+        operation_type={"type": "string"},
+        notification_name={"type": "string"}
+    )
+
+    def perform_action(self, resource):
+        client = self.manager.get_client()
+        properties = {
+            "operation_type": self.data.get("operation_type", "complete"),
+            "notification_name": self.data.get("notification_name", "defaultname")
+        }
+
+        request = CreateNotificationRequest()
+        request.body = CreateNotificationRequestBody(
+            operation_type=properties["operation_type"],
+            notification_name=properties["notification_name"]
+        )
+
+        try:
+            response = client.create_notification(request)
+        except exceptions.ClientRequestException as e:
+            log.error(e.status_code, e.request_id, e.error_code, e.error_msg)
+            raise
+        return response
 
 
 

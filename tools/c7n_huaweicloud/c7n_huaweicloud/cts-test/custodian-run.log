@@ -13,3 +13,7 @@
 2025-03-20 14:03:36,708 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
 2025-03-20 14:03:36,710 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:1 time:0.00
 2025-03-20 14:03:36,711 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts scope:policy
+2025-03-20 17:03:20,999 - custodian.policy - DEBUG - Running policy:cts-test resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 17:03:21,000 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 17:03:21,000 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 17:03:21,002 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-test restype:huaweicloud.cts scope:policy

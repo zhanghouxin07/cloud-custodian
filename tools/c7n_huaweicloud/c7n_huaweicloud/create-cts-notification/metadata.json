@@ -1,14 +1,21 @@
 {
   "policy": {
-    "name": "cts-test",
-    "resource": "huaweicloud.cts"
+    "name": "create-cts-notification",
+    "resource": "huaweicloud.cts",
+    "actions": [
+      {
+        "type": "create-notification",
+        "operation_type": "complete",
+        "notification_name": "test-notification"
+      }
+    ]
   },
   "version": "0.9.43",
   "execution": {
-    "id": "9ece865a-ef7d-473f-8ca4-ad5db5265455",
-    "start": 1742461400.9980931,
-    "end_time": 1742461401.0019825,
-    "duration": 0.003889322280883789
+    "id": "13b80be1-9c00-45fe-88d2-74f109c5a297",
+    "start": 1742461331.5737104,
+    "end_time": 1742461333.0108013,
+    "duration": 1.4370908737182617
   },
   "config": {
     "region": "",
@@ -24,13 +31,13 @@
     "metrics_enabled": null,
     "metrics": null,
     "output_dir": ".",
-    "cache_period": 15,
+    "cache_period": 0,
     "dryrun": false,
     "authorization_file": null,
     "subparser": "run",
     "config": null,
     "configs": [
-      "custodian.yml"
+      "create-notification.yml"
     ],
     "policy_filters": [],
     "resource_types": [],
@@ -42,29 +49,31 @@
     "vars": null
   },
   "sys-stats": {
-    "snapshot_time": 0.003885984420776367,
-    "num_fds": 2,
-    "num_ctx_switches_involuntary": 31,
-    "read_count": 17,
-    "write_count": 8,
+    "snapshot_time": 1.4370951652526855,
+    "num_fds": 1,
+    "cpu_user": 0.010000000000000009,
+    "num_ctx_switches_voluntary": 17,
+    "num_ctx_switches_involuntary": 54,
+    "read_count": 59,
+    "write_count": 14,
     "write_bytes": 8192,
-    "rss": 880640,
-    "vms": 188416,
-    "shared": 655360,
-    "data": 188416
+    "rss": 774144,
+    "vms": 75911168,
+    "shared": 192512,
+    "data": 8933376
   },
   "api-stats": {},
   "metrics": [
     {
       "MetricName": "ResourceCount",
-      "Timestamp": "2025-03-20T17:03:21.001784",
+      "Timestamp": "2025-03-20T17:02:13.010591",
       "Value": 0,
       "Unit": "Count"
     },
     {
       "MetricName": "ResourceTime",
-      "Timestamp": "2025-03-20T17:03:21.001801",
-      "Value": 0.0010418891906738281,
+      "Timestamp": "2025-03-20T17:02:13.010608",
+      "Value": 1.4339075088500977,
       "Unit": "Seconds"
     }
   ]
