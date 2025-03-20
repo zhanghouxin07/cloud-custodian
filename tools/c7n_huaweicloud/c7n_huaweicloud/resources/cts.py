@@ -62,6 +62,45 @@ class CtsAddTracker(HuaweiCloudBaseAction):
             raise
         return response
 
+@Cts.action_registry.register("delete-tracker")
+class CtsDeleteTracker(HuaweiCloudBaseAction):
+    """Delete Tracker.
+
+    :Example:
+
+    .. code-block:: yaml
+
+    policies:
+        - name: delete-tracker
+          resource: huaweicloud.cts
+          actions:
+            - type: delete-tracker
+              tracker_name: "system"
+              tracker_type: "system"
+    """
+
+    schema = type_schema(
+        "delete-tracker",
+        tracker_name={"type": "string"},
+        tracker_type={"type": "string"}
+    )
+
+    def perform_action(self, resource):
+        client = self.manager.get_client()
+        properties = {
+            "tracker_name": self.data.get("tracker_name", "system"),
+            "tracker_type": self.data.get("tracker_type", "system")
+        }
+
+        request = DeleteTrackerRequest()
+        request.tracker_name = properties["tracker_name"]
+        request.tracker_type = properties["tracker_type"]
+        try:
+            response = client.delete_tracker(request)
+        except exceptions.ClientRequestException as e:
+            log.error(e.status_code, e.request_id, e.error_code, e.error_msg)
+            raise
+        return response
 
 
 

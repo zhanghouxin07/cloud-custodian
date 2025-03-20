@@ -1,0 +1,7 @@
+policies:
+    - name: delete-tracker
+      resource: huaweicloud.cts
+      actions:
+        - type: delete-tracker
+          tracker_name: "system"
+          tracker_type: "system"

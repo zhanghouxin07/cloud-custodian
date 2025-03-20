@@ -1,10 +1,10 @@
 {
   "policy": {
-    "name": "cts-addtracker",
+    "name": "delete-tracker",
     "resource": "huaweicloud.cts",
     "actions": [
       {
-        "type": "add-tracker",
+        "type": "delete-tracker",
         "tracker_name": "system",
         "tracker_type": "system"
       }
@@ -12,10 +12,10 @@
   },
   "version": "0.9.43",
   "execution": {
-    "id": "30f03319-8008-4d9a-a26d-3c38f3ff690a",
-    "start": 1742448263.3724082,
-    "end_time": 1742448265.0230892,
-    "duration": 1.6506810188293457
+    "id": "4ec4fe35-9f7a-4ca6-9e67-f207191470ac",
+    "start": 1742448273.0961733,
+    "end_time": 1742448275.5771923,
+    "duration": 2.4810190200805664
   },
   "config": {
     "region": "",
@@ -37,7 +37,7 @@
     "subparser": "run",
     "config": null,
     "configs": [
-      "addtrakcer.yml"
+      "deletetracker.yml"
     ],
     "policy_filters": [],
     "resource_types": [],
@@ -49,38 +49,38 @@
     "vars": null
   },
   "sys-stats": {
-    "snapshot_time": 1.6506876945495605,
+    "snapshot_time": 2.481022357940674,
     "num_fds": 2,
-    "cpu_user": 0.010000000000000009,
+    "cpu_user": 0.020000000000000018,
     "cpu_system": 0.010000000000000002,
-    "num_ctx_switches_voluntary": 15,
-    "num_ctx_switches_involuntary": 65,
-    "read_count": 67,
-    "write_count": 21,
-    "write_bytes": 12288,
-    "rss": 1810432,
-    "vms": 76103680,
-    "shared": 1032192,
-    "data": 9125888
+    "num_ctx_switches_voluntary": 37,
+    "num_ctx_switches_involuntary": 30,
+    "read_count": 94,
+    "write_count": 51,
+    "write_bytes": 77824,
+    "rss": 1953792,
+    "vms": 76046336,
+    "shared": 1171456,
+    "data": 9068544
   },
   "api-stats": {},
   "metrics": [
     {
       "MetricName": "ResourceCount",
-      "Timestamp": "2025-03-20T13:24:23.376552",
+      "Timestamp": "2025-03-20T13:24:34.608949",
       "Value": 1,
       "Unit": "Count"
     },
     {
       "MetricName": "ResourceTime",
-      "Timestamp": "2025-03-20T13:24:23.376560",
-      "Value": 0.0011527538299560547,
+      "Timestamp": "2025-03-20T13:24:34.608963",
+      "Value": 1.5112018585205078,
       "Unit": "Seconds"
     },
     {
       "MetricName": "ActionTime",
-      "Timestamp": "2025-03-20T13:24:25.023075",
-      "Value": 1.6463401317596436,
+      "Timestamp": "2025-03-20T13:24:35.577177",
+      "Value": 0.9679362773895264,
       "Unit": "Seconds"
     }
   ]
