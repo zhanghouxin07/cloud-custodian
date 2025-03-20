@@ -16,6 +16,7 @@ from tools.c7n_huaweicloud.c7n_huaweicloud.marker_pagination import MarkerPagina
 log = logging.getLogger('custodian.huaweicloud.query')
 
 DEFAULT_LIMIT_SIZE = 100
+DEFAULT_MAXITEMS_SIZE = 400
 
 
 def _dict_map(obj, params_map):
@@ -37,6 +38,8 @@ class ResourceQuery:
             resources = self._pagination_limit_offset(m, enum_op, path)
         elif pagination == 'marker':
             resources = self._pagination_limit_marker(m, enum_op, path)
+        elif pagination == 'maxitems-marker':
+            resources = self._pagination_maxitems_marker(m, enum_op, path)
         else:
             log.exception(f"Unsupported pagination type: {pagination}")
             sys.exit(1)
@@ -67,6 +70,33 @@ class ResourceQuery:
                 offset += limit
             else:
                 return resources
+        return resources
+
+    def _pagination_maxitems_marker(self, m, enum_op, path):
+        session = local_session(self.session_factory)
+        client = session.client(m.service)
+
+        marker = 0
+        maxitems = DEFAULT_MAXITEMS_SIZE
+        resources = []
+        while 1:
+            request = session.request(m.service)
+            request.marker = marker
+            request.maxitems = maxitems
+            response = self._invoke_client_enum(client, enum_op, request)
+            res = jmespath.search(path, eval(
+                str(response).replace('null', 'None').replace('false', 'False').replace('true', 'True')))
+
+            # replace id with the specified one
+            if res is not None:
+                for data in res:
+                    data['id'] = data[m.id]
+
+            resources = resources + res
+            if len(res) == maxitems:
+                marker += maxitems
+            else:
+                break
         return resources
 
     def _pagination_limit_marker(self, m, enum_op, path, marker_pagination: MarkerPagination=None):
