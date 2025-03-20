@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "id": "e584d650-1a5c-4bf8-9a32-b831be122634",
+    "create_time": 1742465751468,
+    "is_support_validate": false,
+    "is_organization_tracker": false,
+    "lts": {
+      "is_lts_enabled": false,
+      "log_group_name": "CTS",
+      "log_topic_name": "system-trace"
+    },
+    "tracker_type": "system",
+    "domain_id": "5315255b948546efbcb5ab7925ea7c68",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "tracker_name": "system",
+    "status": "enabled",
+    "is_support_trace_files_encryption": false,
+    "obs_info": {
+      "bucket_name": "",
+      "file_prefix_name": "",
+      "is_obs_created": false,
+      "is_authorized_bucket": false,
+      "bucket_lifecycle": 0,
+      "is_sort_by_service": true
+    }
+  }
+]

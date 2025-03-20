@@ -58,3 +58,18 @@
 2025-03-20 18:16:41,441 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
 2025-03-20 18:16:41,441 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:0 time:0.00
 2025-03-20 18:16:41,443 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-test restype:huaweicloud.cts scope:policy
+2025-03-20 18:34:04,900 - custodian.policy - DEBUG - Running policy:cts-test resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-20 18:34:04,902 - custodian.cache - DEBUG - expired 1 stale cache entries
+2025-03-20 18:34:06,368 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-20 18:34:06,369 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts-tracker region: count:1 time:1.47
+2025-03-20 18:34:06,370 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts-tracker scope:policy
+2025-03-20 18:34:10,029 - custodian.policy - DEBUG - Running policy:cts-test resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-20 18:34:10,032 - custodian.resources.tracker - DEBUG - Using cached c7n_huaweicloud.resources.cts.Tracker: 1
+2025-03-20 18:34:10,033 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-20 18:34:10,033 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts-tracker region: count:1 time:0.00
+2025-03-20 18:34:10,034 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts-tracker scope:policy
+2025-03-20 18:39:46,904 - custodian.policy - DEBUG - Running policy:cts-test resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-20 18:39:46,905 - custodian.resources.tracker - DEBUG - Using cached c7n_huaweicloud.resources.cts.Tracker: 1
+2025-03-20 18:39:46,905 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-20 18:39:46,905 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts-tracker region: count:1 time:0.00
+2025-03-20 18:39:46,906 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts-tracker scope:policy

@@ -1,6 +1,6 @@
 policies:
     - name: cts-addtracker
-      resource: huaweicloud.cts
+      resource: huaweicloud.cts-tracker
       actions:
         - type: add-tracker
           tracker_name: "system"

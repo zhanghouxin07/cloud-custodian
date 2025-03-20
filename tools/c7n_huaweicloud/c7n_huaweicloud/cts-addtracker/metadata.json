@@ -1,7 +1,7 @@
 {
   "policy": {
     "name": "cts-addtracker",
-    "resource": "huaweicloud.cts",
+    "resource": "huaweicloud.cts-tracker",
     "actions": [
       {
         "type": "add-tracker",
@@ -12,10 +12,10 @@
   },
   "version": "0.9.43",
   "execution": {
-    "id": "47400a6e-0255-42ae-a275-1b8387edb71f",
-    "start": 1742465773.2890418,
-    "end_time": 1742465773.2912548,
-    "duration": 0.002213001251220703
+    "id": "2c40d5d2-2966-4043-a087-cdc26fb12247",
+    "start": 1742467047.268713,
+    "end_time": 1742467048.6116734,
+    "duration": 1.3429603576660156
   },
   "config": {
     "region": "",
@@ -41,7 +41,7 @@
     ],
     "policy_filters": [],
     "resource_types": [],
-    "verbose": 1,
+    "verbose": null,
     "quiet": null,
     "debug": false,
     "skip_validation": false,
@@ -49,29 +49,39 @@
     "vars": null
   },
   "sys-stats": {
-    "snapshot_time": 0.0022025108337402344,
-    "num_fds": 2,
-    "read_count": 17,
-    "write_count": 8,
-    "write_bytes": 4096,
-    "rss": 937984,
-    "vms": 139264,
-    "shared": 716800,
-    "data": 139264
+    "num_threads": 1,
+    "snapshot_time": 1.3430383205413818,
+    "num_fds": 4,
+    "cpu_user": 0.010000000000000009,
+    "num_ctx_switches_voluntary": 16,
+    "num_ctx_switches_involuntary": 40,
+    "read_count": 67,
+    "write_count": 10,
+    "write_bytes": 8192,
+    "rss": 1634304,
+    "vms": 75927552,
+    "shared": 1179648,
+    "data": 8949760
   },
   "api-stats": {},
   "metrics": [
     {
       "MetricName": "ResourceCount",
-      "Timestamp": "2025-03-20T18:16:13.291109",
-      "Value": 0,
+      "Timestamp": "2025-03-20T18:37:27.271401",
+      "Value": 1,
       "Unit": "Count"
     },
     {
       "MetricName": "ResourceTime",
-      "Timestamp": "2025-03-20T18:16:13.291118",
-      "Value": 0.0007460117340087891,
+      "Timestamp": "2025-03-20T18:37:27.271420",
+      "Value": 0.00038933753967285156,
       "Unit": "Seconds"
+    },
+    {
+      "MetricName": "PolicyException",
+      "Timestamp": "2025-03-20T18:37:28.611657",
+      "Value": 1,
+      "Unit": "Count"
     }
   ]
 }

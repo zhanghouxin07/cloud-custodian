@@ -13,7 +13,7 @@ from c7n_huaweicloud.query import QueryResourceManager, TypeInfo
 
 log = logging.getLogger("custodian.huaweicloud.resources.cts")
 
-@resources.register('cts')
+@resources.register('cts-tracker')
 class Tracker(QueryResourceManager):
     class resource_type(TypeInfo):
         service = 'cts'
@@ -45,7 +45,6 @@ class CtsAddTracker(HuaweiCloudBaseAction):
     )
 
     def perform_action(self, resource):
-        log.warn("Entering perform_action()")
         client = self.manager.get_client()
         properties = {
             "tracker_name": self.data.get("tracker_name", "system"),
@@ -56,10 +55,8 @@ class CtsAddTracker(HuaweiCloudBaseAction):
             tracker_name=properties["tracker_name"],
             tracker_type=properties["tracker_type"]
         )
-        log.error("API req: %s", request)
         try:
             response = client.create_tracker(request)
-            log.debug("API Response: %s", response)
         except exceptions.ClientRequestException as e:
             log.error(e.status_code, e.request_id, e.error_code, e.error_msg)
             raise
