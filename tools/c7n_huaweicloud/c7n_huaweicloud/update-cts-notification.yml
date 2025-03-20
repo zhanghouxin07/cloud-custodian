@@ -1,0 +1,19 @@
+policies:
+  - name: update-cts-notification
+    resource: huaweicloud.cts-tracker
+    actions:
+      - type: update-notification
+        notification_id: "938c9c8a-804b-4c61-bf7b-5e8b1793ae64"
+        topic_id: "urn:smn:cn-east-2:932cb325cbca47a59ec1ea930ecc0f29:testcc"
+        status: "enabled"
+        notification_name: "keyOperate_info_zr1s"
+        notify_user_list:
+          - user_group: "zhanghouxin"
+            user_list:
+              - "zhanghouxin"
+        operations:
+          - service_type: "AAD"
+            resource_type: "addprotocolrule"
+            trace_names:
+              - "addProtocolRule"
+

@@ -1,0 +1,15 @@
+policies:
+  - name: set-trace-file-validation
+    resource: huaweicloud.cts-tracker
+    actions:
+      - type: set-trace-file-validation
+        tracker_name: "system"
+        tracker_type: "system"
+        is_support_validate: true
+        kms_id: ""
+        is_support_trace_files_encryption: false
+        obs_info:
+          bucket_name: "sh2-gaochang1"
+          compress_type: "gzip"
+          is_sort_by_service: true
+

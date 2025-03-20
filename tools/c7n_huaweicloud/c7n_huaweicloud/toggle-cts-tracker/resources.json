@@ -1,10 +1,9 @@
 [
   {
-    "id": "8a4fcd1d-9406-43fc-9e85-bb8e5cf7c37c",
-    "create_time": 1742448401358,
+    "id": "0875b678-1663-4e3d-ac32-0cbd05570b01",
+    "create_time": 1742467604018,
     "is_support_validate": false,
     "is_organization_tracker": false,
-    "agency_name": "cts_admin_trust",
     "lts": {
       "is_lts_enabled": false,
       "log_group_name": "CTS",
@@ -17,11 +16,11 @@
     "status": "enabled",
     "is_support_trace_files_encryption": false,
     "obs_info": {
-      "bucket_name": "sh2-gaochang1",
+      "bucket_name": "",
+      "file_prefix_name": "",
       "is_obs_created": false,
       "is_authorized_bucket": false,
       "bucket_lifecycle": 0,
-      "compress_type": "gzip",
       "is_sort_by_service": true
     }
   }

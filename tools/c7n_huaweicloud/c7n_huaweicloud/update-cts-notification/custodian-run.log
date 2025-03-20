@@ -1,0 +1,14 @@
+2025-03-20 19:44:31,200 - custodian.policy - DEBUG - Running policy:update-cts-notification resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-20 19:44:31,200 - custodian.cache - DEBUG - expired 1 stale cache entries
+2025-03-20 19:44:32,588 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-20 19:44:32,590 - custodian.policy - INFO - policy:update-cts-notification resource:huaweicloud.cts-tracker region: count:1 time:1.39
+2025-03-20 19:44:33,614 - custodian.huaweicloud.resources.cts - INFO - Successfully updated CTS notification: {"notification_name": "keyOperate_info_zr1s", "operation_type": "customized", "operations": [{"service_type": "AAD", "resource_type": "addprotocolrule", "trace_names": ["addProtocolRule"]}], "notify_user_list": [{"user_group": "zhanghouxin", "user_list": ["zhanghouxin"]}], "status": "enabled", "topic_id": "urn:smn:cn-east-2:932cb325cbca47a59ec1ea930ecc0f29:testcc", "notification_id": "938c9c8a-804b-4c61-bf7b-5e8b1793ae64", "notification_type": "smn", "project_id": "932cb325cbca47a59ec1ea930ecc0f29", "create_time": 1731586668378}
+2025-03-20 19:44:33,617 - custodian.policy - INFO - policy:update-cts-notification action:ctsupdatenotification resources:1 execution_time:1.03
+2025-03-20 19:44:33,619 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:update-cts-notification restype:huaweicloud.cts-tracker scope:policy
+2025-03-20 19:44:49,812 - custodian.policy - DEBUG - Running policy:update-cts-notification resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-20 19:44:49,814 - custodian.resources.tracker - DEBUG - Using cached c7n_huaweicloud.resources.cts.Tracker: 1
+2025-03-20 19:44:49,815 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-20 19:44:49,816 - custodian.policy - INFO - policy:update-cts-notification resource:huaweicloud.cts-tracker region: count:1 time:0.00
+2025-03-20 19:44:51,582 - custodian.huaweicloud.resources.cts - INFO - Successfully updated CTS notification: {"notification_name": "keyOperate_info_zr1s", "operation_type": "customized", "operations": [{"service_type": "AAD", "resource_type": "addprotocolrule", "trace_names": ["addProtocolRule"]}], "notify_user_list": [{"user_group": "zhanghouxin", "user_list": ["zhanghouxin"]}], "status": "enabled", "topic_id": "urn:smn:cn-east-2:932cb325cbca47a59ec1ea930ecc0f29:testcc", "notification_id": "938c9c8a-804b-4c61-bf7b-5e8b1793ae64", "notification_type": "smn", "project_id": "932cb325cbca47a59ec1ea930ecc0f29", "create_time": 1731586668378}
+2025-03-20 19:44:51,588 - custodian.policy - INFO - policy:update-cts-notification action:ctsupdatenotification resources:1 execution_time:1.77
+2025-03-20 19:44:51,589 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:update-cts-notification restype:huaweicloud.cts-tracker scope:policy

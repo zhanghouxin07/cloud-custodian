@@ -1,0 +1,105 @@
+{
+  "policy": {
+    "name": "update-cts-notification",
+    "resource": "huaweicloud.cts-tracker",
+    "actions": [
+      {
+        "type": "update-notification",
+        "notification_id": "938c9c8a-804b-4c61-bf7b-5e8b1793ae64",
+        "topic_id": "urn:smn:cn-east-2:932cb325cbca47a59ec1ea930ecc0f29:testcc",
+        "status": "enabled",
+        "notification_name": "keyOperate_info_zr1s",
+        "notify_user_list": [
+          {
+            "user_group": "zhanghouxin",
+            "user_list": [
+              "zhanghouxin"
+            ]
+          }
+        ],
+        "operations": [
+          {
+            "service_type": "AAD",
+            "resource_type": "addprotocolrule",
+            "trace_names": [
+              "addProtocolRule"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "version": "0.9.43",
+  "execution": {
+    "id": "ef1e717d-14c3-4a7e-9039-8ea365977d6a",
+    "start": 1742471089.8110409,
+    "end_time": 1742471091.5891953,
+    "duration": 1.7781543731689453
+  },
+  "config": {
+    "region": "",
+    "regions": [],
+    "cache": "~/.cache/cloud-custodian.cache",
+    "profile": null,
+    "account_id": null,
+    "assume_role": null,
+    "session_policy": null,
+    "external_id": null,
+    "log_group": null,
+    "tracer": null,
+    "metrics_enabled": null,
+    "metrics": null,
+    "output_dir": ".",
+    "cache_period": 15,
+    "dryrun": false,
+    "authorization_file": null,
+    "subparser": "run",
+    "config": null,
+    "configs": [
+      "update-cts-notification.yml"
+    ],
+    "policy_filters": [],
+    "resource_types": [],
+    "verbose": 1,
+    "quiet": null,
+    "debug": false,
+    "skip_validation": false,
+    "command": "c7n.commands.run",
+    "vars": null
+  },
+  "sys-stats": {
+    "snapshot_time": 1.7781603336334229,
+    "num_fds": 2,
+    "cpu_user": 0.020000000000000018,
+    "num_ctx_switches_voluntary": 16,
+    "num_ctx_switches_involuntary": 104,
+    "read_count": 67,
+    "write_count": 23,
+    "write_bytes": 8192,
+    "rss": 1966080,
+    "vms": 76034048,
+    "shared": 1187840,
+    "data": 9056256
+  },
+  "api-stats": {},
+  "metrics": [
+    {
+      "MetricName": "ResourceCount",
+      "Timestamp": "2025-03-20T19:44:49.816934",
+      "Value": 1,
+      "Unit": "Count"
+    },
+    {
+      "MetricName": "ResourceTime",
+      "Timestamp": "2025-03-20T19:44:49.816953",
+      "Value": 0.0019834041595458984,
+      "Unit": "Seconds"
+    },
+    {
+      "MetricName": "ActionTime",
+      "Timestamp": "2025-03-20T19:44:51.589179",
+      "Value": 1.7719974517822266,
+      "Unit": "Seconds"
+    }
+  ]
+}

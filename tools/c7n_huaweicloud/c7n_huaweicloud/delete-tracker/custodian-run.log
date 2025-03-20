@@ -16,3 +16,9 @@
 2025-03-20 14:02:24,771 - custodian.policy - INFO - policy:delete-tracker resource:huaweicloud.cts region: count:1 time:0.00
 2025-03-20 14:02:26,537 - custodian.policy - INFO - policy:delete-tracker action:ctsdeletetracker resources:1 execution_time:1.77
 2025-03-20 14:02:26,539 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:delete-tracker restype:huaweicloud.cts scope:policy
+2025-03-20 18:42:59,504 - custodian.policy - DEBUG - Running policy:delete-tracker resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-20 18:42:59,505 - custodian.resources.tracker - DEBUG - Using cached c7n_huaweicloud.resources.cts.Tracker: 1
+2025-03-20 18:42:59,506 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-20 18:42:59,506 - custodian.policy - INFO - policy:delete-tracker resource:huaweicloud.cts-tracker region: count:1 time:0.00
+2025-03-20 18:43:01,522 - custodian.policy - INFO - policy:delete-tracker action:ctsdeletetracker resources:1 execution_time:2.02
+2025-03-20 18:43:01,524 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:delete-tracker restype:huaweicloud.cts-tracker scope:policy

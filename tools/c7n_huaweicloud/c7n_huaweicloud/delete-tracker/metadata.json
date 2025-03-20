@@ -1,7 +1,7 @@
 {
   "policy": {
     "name": "delete-tracker",
-    "resource": "huaweicloud.cts",
+    "resource": "huaweicloud.cts-tracker",
     "actions": [
       {
         "type": "delete-tracker",
@@ -12,10 +12,10 @@
   },
   "version": "0.9.43",
   "execution": {
-    "id": "beed0361-10c8-46c2-895b-6756f98adc94",
-    "start": 1742450544.7690299,
-    "end_time": 1742450546.53901,
-    "duration": 1.7699801921844482
+    "id": "b11b7ca4-efca-4399-b30c-6ed9216c148b",
+    "start": 1742467379.5029652,
+    "end_time": 1742467381.5237656,
+    "duration": 2.0208003520965576
   },
   "config": {
     "region": "",
@@ -49,37 +49,37 @@
     "vars": null
   },
   "sys-stats": {
-    "snapshot_time": 1.7699835300445557,
+    "snapshot_time": 2.0208005905151367,
     "num_fds": 2,
     "cpu_user": 0.010000000000000009,
     "num_ctx_switches_voluntary": 16,
-    "num_ctx_switches_involuntary": 14,
+    "num_ctx_switches_involuntary": 68,
     "read_count": 67,
     "write_count": 20,
     "write_bytes": 12288,
-    "rss": 1875968,
-    "vms": 76050432,
-    "shared": 1097728,
-    "data": 9072640
+    "rss": 1957888,
+    "vms": 76046336,
+    "shared": 1183744,
+    "data": 9068544
   },
   "api-stats": {},
   "metrics": [
     {
       "MetricName": "ResourceCount",
-      "Timestamp": "2025-03-20T14:02:24.771525",
+      "Timestamp": "2025-03-20T18:42:59.506782",
       "Value": 1,
       "Unit": "Count"
     },
     {
       "MetricName": "ResourceTime",
-      "Timestamp": "2025-03-20T14:02:24.771540",
-      "Value": 0.0010538101196289062,
+      "Timestamp": "2025-03-20T18:42:59.506789",
+      "Value": 0.00182342529296875,
       "Unit": "Seconds"
     },
     {
       "MetricName": "ActionTime",
-      "Timestamp": "2025-03-20T14:02:26.538994",
-      "Value": 1.7671430110931396,
+      "Timestamp": "2025-03-20T18:43:01.523750",
+      "Value": 2.0167927742004395,
       "Unit": "Seconds"
     }
   ]
