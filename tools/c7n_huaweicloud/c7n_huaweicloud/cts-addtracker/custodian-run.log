@@ -1,0 +1,188 @@
+2025-03-20 13:05:38,324 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 13:09:23,806 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 13:09:23,808 - custodian.cache - DEBUG - expired 1 stale cache entries
+2025-03-20 13:09:25,277 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 13:09:25,280 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:1 time:1.47
+2025-03-20 13:09:26,058 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 13:09:26,060 - custodian.output - DEBUG - metric:PolicyException Count:1 policy:cts-addtracker restype:huaweicloud.cts
+2025-03-20 13:09:26,061 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 127, in response_hook
+    resp.raise_for_status()
+  File "/usr/local/lib/python3.9/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error:  for url: https://cts.cn-east-2.myhuaweicloud.com/v3/932cb325cbca47a59ec1ea930ecc0f29/tracker
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 59, in perform_action
+    response = client.create_tracker(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 319, in create_tracker
+    return self._call_api(**http_info)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 1123, in _call_api
+    return self.do_http_request(**kwargs)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 480, in do_http_request
+    response = self._do_http_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 531, in _do_http_request_sync
+    response = self._http_client.do_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 100, in do_request_sync
+    self.response_error_hook_factory()(response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 129, in response_hook
+    self._exception_handler.handle_exception(httpError.request, httpError.response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/exceptions/exception_handler.py", line 75, in handle_exception
+    raise exceptions.ClientRequestException(response.status_code, sdk_error) if response.status_code < 500 \
+huaweicloudsdkcore.exceptions.exceptions.ClientRequestException: ClientRequestException - {status_code:400,request_id:6c09deb2163ed36df6e0d7cf96285f4d,error_code:CTS.0200,error_msg:Tracker number is Maximum.,encoded_authorization_message:None }
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 364, in run
+    results = a.process(resources)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/actions/base.py", line 33, in process
+    self.perform_action(resource)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 60, in perform_action
+    except exceptions.ClientRequestException as e:
+NameError: name 'exceptions' is not defined
+2025-03-20 13:09:44,800 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 13:09:46,305 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 127, in response_hook
+    resp.raise_for_status()
+  File "/usr/local/lib/python3.9/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error:  for url: https://cts.cn-east-2.myhuaweicloud.com/v3/932cb325cbca47a59ec1ea930ecc0f29/tracker
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 59, in perform_action
+    response = client.create_tracker(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 319, in create_tracker
+    return self._call_api(**http_info)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 1123, in _call_api
+    return self.do_http_request(**kwargs)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 480, in do_http_request
+    response = self._do_http_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 531, in _do_http_request_sync
+    response = self._http_client.do_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 100, in do_request_sync
+    self.response_error_hook_factory()(response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 129, in response_hook
+    self._exception_handler.handle_exception(httpError.request, httpError.response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/exceptions/exception_handler.py", line 75, in handle_exception
+    raise exceptions.ClientRequestException(response.status_code, sdk_error) if response.status_code < 500 \
+huaweicloudsdkcore.exceptions.exceptions.ClientRequestException: ClientRequestException - {status_code:400,request_id:ca711babe2f23b0af323a664262577b5,error_code:CTS.0200,error_msg:Tracker number is Maximum.,encoded_authorization_message:None }
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 364, in run
+    results = a.process(resources)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/actions/base.py", line 33, in process
+    self.perform_action(resource)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 60, in perform_action
+    except exceptions.ClientRequestException as e:
+NameError: name 'exceptions' is not defined
+2025-03-20 13:10:02,105 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 13:10:02,106 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 13:10:02,106 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 13:10:02,107 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 13:10:03,608 - custodian.policy - INFO - policy:cts-addtracker action:ctsaddtracker resources:1 execution_time:1.50
+2025-03-20 13:10:03,610 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 13:10:23,582 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 13:10:23,583 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 13:10:23,583 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 13:10:23,584 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 13:10:25,042 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 13:10:25,044 - custodian.output - DEBUG - metric:PolicyException Count:1 policy:cts-addtracker restype:huaweicloud.cts
+2025-03-20 13:10:25,044 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 127, in response_hook
+    resp.raise_for_status()
+  File "/usr/local/lib/python3.9/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error:  for url: https://cts.cn-east-2.myhuaweicloud.com/v3/932cb325cbca47a59ec1ea930ecc0f29/tracker
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 59, in perform_action
+    response = client.create_tracker(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 319, in create_tracker
+    return self._call_api(**http_info)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 1123, in _call_api
+    return self.do_http_request(**kwargs)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 480, in do_http_request
+    response = self._do_http_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 531, in _do_http_request_sync
+    response = self._http_client.do_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 100, in do_request_sync
+    self.response_error_hook_factory()(response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 129, in response_hook
+    self._exception_handler.handle_exception(httpError.request, httpError.response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/exceptions/exception_handler.py", line 75, in handle_exception
+    raise exceptions.ClientRequestException(response.status_code, sdk_error) if response.status_code < 500 \
+huaweicloudsdkcore.exceptions.exceptions.ClientRequestException: ClientRequestException - {status_code:400,request_id:60a993b76e039043f6dab3729ee80145,error_code:CTS.0200,error_msg:Tracker number is Maximum.,encoded_authorization_message:None }
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 364, in run
+    results = a.process(resources)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/actions/base.py", line 33, in process
+    self.perform_action(resource)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 60, in perform_action
+    except exceptions.ClientRequestException as e:
+NameError: name 'exceptions' is not defined
+2025-03-20 13:16:22,488 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 13:16:22,491 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 13:16:22,491 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 13:16:22,492 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 13:16:23,922 - custodian.policy - INFO - policy:cts-addtracker action:ctsaddtracker resources:1 execution_time:1.43
+2025-03-20 13:16:23,923 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 13:16:50,285 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 13:16:50,285 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 13:16:50,285 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 13:16:50,286 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 13:16:51,689 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 13:16:51,692 - custodian.output - DEBUG - metric:PolicyException Count:1 policy:cts-addtracker restype:huaweicloud.cts
+2025-03-20 13:16:51,692 - custodian.output - ERROR - Error while executing policy
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 127, in response_hook
+    resp.raise_for_status()
+  File "/usr/local/lib/python3.9/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error:  for url: https://cts.cn-east-2.myhuaweicloud.com/v3/932cb325cbca47a59ec1ea930ecc0f29/tracker
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 59, in perform_action
+    response = client.create_tracker(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 319, in create_tracker
+    return self._call_api(**http_info)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcts/v3/cts_client.py", line 1123, in _call_api
+    return self.do_http_request(**kwargs)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 480, in do_http_request
+    response = self._do_http_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/client.py", line 531, in _do_http_request_sync
+    response = self._http_client.do_request_sync(request)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 100, in do_request_sync
+    self.response_error_hook_factory()(response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/http/http_client.py", line 129, in response_hook
+    self._exception_handler.handle_exception(httpError.request, httpError.response)
+  File "/usr/local/lib/python3.9/site-packages/huaweicloudsdkcore/exceptions/exception_handler.py", line 75, in handle_exception
+    raise exceptions.ClientRequestException(response.status_code, sdk_error) if response.status_code < 500 \
+huaweicloudsdkcore.exceptions.exceptions.ClientRequestException: ClientRequestException - {status_code:400,request_id:ede6c686bf8153284178318a43bdef72,error_code:CTS.0200,error_msg:Tracker number is Maximum.,encoded_authorization_message:None }
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/zhx/c7n/policy.py", line 364, in run
+    results = a.process(resources)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/actions/base.py", line 33, in process
+    self.perform_action(resource)
+  File "/root/zhx/tools/c7n_huaweicloud/c7n_huaweicloud/resources/cts.py", line 60, in perform_action
+    except exceptions.ClientRequestException as e:
+NameError: name 'exceptions' is not defined
