@@ -1,9 +1,10 @@
 [
   {
-    "id": "52de4f7f-27e8-4cce-b68f-ce0c419e0482",
-    "create_time": 1742446894550,
+    "id": "8a4fcd1d-9406-43fc-9e85-bb8e5cf7c37c",
+    "create_time": 1742448401358,
     "is_support_validate": false,
     "is_organization_tracker": false,
+    "agency_name": "cts_admin_trust",
     "lts": {
       "is_lts_enabled": false,
       "log_group_name": "CTS",
@@ -16,16 +17,12 @@
     "status": "enabled",
     "is_support_trace_files_encryption": false,
     "obs_info": {
-      "bucket_name": "",
-      "file_prefix_name": "",
+      "bucket_name": "sh2-gaochang1",
       "is_obs_created": false,
       "is_authorized_bucket": false,
       "bucket_lifecycle": 0,
+      "compress_type": "gzip",
       "is_sort_by_service": true
-    },
-    "c7n:MatchedFilters": [
-      "tracker_name",
-      "tracker_type"
-    ]
+    }
   }
 ]

@@ -102,7 +102,52 @@ class CtsDeleteTracker(HuaweiCloudBaseAction):
             raise
         return response
 
+@Cts.action_registry.register("toggle-tracker")
+class CtsToggleTracker(HuaweiCloudBaseAction):
+    """Enable or Disable Tracker.
 
+    :Example:
+
+    .. code-block:: yaml
+
+    policies:
+        - name: toggle-tracker
+          resource: huaweicloud.cts
+          actions:
+            - type: toggle-tracker
+              tracker_name: "system"
+              tracker_type: "system"
+              status: "enabled"  # or "disabled"
+    """
+
+    schema = type_schema(
+        "toggle-tracker",
+        tracker_name={"type": "string"},
+        tracker_type={"type": "string"},
+        status={"type": "string", "enum": ["enabled", "disabled"]}
+    )
+
+    def perform_action(self, resource):
+        client = self.manager.get_client()
+        properties = {
+            "tracker_name": self.data.get("tracker_name", "system"),
+            "tracker_type": self.data.get("tracker_type", "system"),
+            "status": self.data.get("status", "enabled")
+        }
+
+        request = UpdateTrackerRequest()
+        request.body = UpdateTrackerRequestBody(
+            status=properties["status"],
+            tracker_name=properties["tracker_name"],
+            tracker_type=properties["tracker_type"]
+        )
+
+        try:
+            response = client.update_tracker(request)
+        except exceptions.ClientRequestException as e:
+            log.error(e.status_code, e.request_id, e.error_code, e.error_msg)
+            raise
+        return response
 
 
 

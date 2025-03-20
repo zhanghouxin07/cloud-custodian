@@ -1,0 +1,30 @@
+2025-03-20 14:00:19,043 - custodian.policy - DEBUG - Running policy:toggle-cts-tracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 14:00:19,044 - custodian.cache - DEBUG - expired 1 stale cache entries
+2025-03-20 14:00:20,501 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 14:00:20,503 - custodian.policy - INFO - policy:toggle-cts-tracker resource:huaweicloud.cts region: count:1 time:1.46
+2025-03-20 14:00:21,282 - custodian.policy - INFO - policy:toggle-cts-tracker action:ctstoggletracker resources:1 execution_time:0.78
+2025-03-20 14:00:21,284 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:toggle-cts-tracker restype:huaweicloud.cts scope:policy
+2025-03-20 14:01:07,165 - custodian.policy - DEBUG - Running policy:toggle-cts-tracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 14:01:07,166 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 14:01:07,166 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 14:01:07,166 - custodian.policy - INFO - policy:toggle-cts-tracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 14:01:08,718 - custodian.policy - INFO - policy:toggle-cts-tracker action:ctstoggletracker resources:1 execution_time:1.55
+2025-03-20 14:01:08,720 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:toggle-cts-tracker restype:huaweicloud.cts scope:policy
+2025-03-20 14:01:19,639 - custodian.policy - DEBUG - Running policy:toggle-cts-tracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 14:01:19,640 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 14:01:19,640 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 14:01:19,640 - custodian.policy - INFO - policy:toggle-cts-tracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 14:01:21,117 - custodian.policy - INFO - policy:toggle-cts-tracker action:ctstoggletracker resources:1 execution_time:1.48
+2025-03-20 14:01:21,119 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:toggle-cts-tracker restype:huaweicloud.cts scope:policy
+2025-03-20 14:01:32,103 - custodian.policy - DEBUG - Running policy:toggle-cts-tracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 14:01:32,104 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 14:01:32,105 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 14:01:32,106 - custodian.policy - INFO - policy:toggle-cts-tracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 14:01:33,633 - custodian.policy - INFO - policy:toggle-cts-tracker action:ctstoggletracker resources:1 execution_time:1.53
+2025-03-20 14:01:33,635 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:toggle-cts-tracker restype:huaweicloud.cts scope:policy
+2025-03-20 14:01:42,047 - custodian.policy - DEBUG - Running policy:toggle-cts-tracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 14:01:42,048 - custodian.resources.cts - DEBUG - Using cached c7n_huaweicloud.resources.cts.Cts: 1
+2025-03-20 14:01:42,049 - custodian.resources.cts - DEBUG - Filtered from 1 to 1 cts
+2025-03-20 14:01:42,050 - custodian.policy - INFO - policy:toggle-cts-tracker resource:huaweicloud.cts region: count:1 time:0.00
+2025-03-20 14:01:43,464 - custodian.policy - INFO - policy:toggle-cts-tracker action:ctstoggletracker resources:1 execution_time:1.41
+2025-03-20 14:01:43,468 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:toggle-cts-tracker restype:huaweicloud.cts scope:policy

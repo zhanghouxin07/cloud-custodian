@@ -1,0 +1,8 @@
+policies:
+  - name: toggle-cts-tracker
+    resource: huaweicloud.cts
+    actions:
+      - type: toggle-tracker
+        tracker_name: "system"
+        tracker_type: "system"
+        status: "enabled" 
