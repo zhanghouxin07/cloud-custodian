@@ -304,3 +304,45 @@ NameError: name 'exceptions' is not defined
 2025-03-20 17:33:19,942 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
 2025-03-20 17:33:19,943 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
 2025-03-20 17:33:19,944 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 17:37:02,858 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 17:37:02,859 - custodian.cache - DEBUG - expired 1 stale cache entries
+2025-03-20 17:37:04,300 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 17:37:04,301 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:1.44
+2025-03-20 17:37:04,303 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 17:38:28,549 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 17:38:28,549 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 17:38:28,549 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 17:38:28,550 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 17:42:35,147 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 17:42:35,149 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 17:42:35,149 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 17:42:35,150 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 17:42:40,078 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 17:42:40,080 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 17:42:40,081 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 17:42:40,083 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 17:48:56,571 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 17:48:56,572 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 17:48:56,572 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 17:48:56,573 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 17:53:04,190 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 17:53:04,192 - custodian.cache - DEBUG - expired 1 stale cache entries
+2025-03-20 17:53:05,639 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 17:53:05,640 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:1.45
+2025-03-20 17:53:05,642 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 18:01:11,106 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 18:01:11,106 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 18:01:11,106 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 18:01:11,107 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 18:02:29,992 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 18:02:29,993 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 18:02:29,994 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 18:02:29,996 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 18:04:42,201 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 18:04:42,203 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 18:04:42,203 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 18:04:42,206 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
+2025-03-20 18:05:34,848 - custodian.policy - DEBUG - Running policy:cts-addtracker resource:huaweicloud.cts region:default c7n:0.9.43
+2025-03-20 18:05:34,850 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
+2025-03-20 18:05:34,851 - custodian.policy - INFO - policy:cts-addtracker resource:huaweicloud.cts region: count:0 time:0.00
+2025-03-20 18:05:34,853 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:cts-addtracker restype:huaweicloud.cts scope:policy
