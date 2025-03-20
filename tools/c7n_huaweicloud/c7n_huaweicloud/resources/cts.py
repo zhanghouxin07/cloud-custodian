@@ -18,7 +18,7 @@ class Cts(QueryResourceManager):
     class resource_type(TypeInfo):
         service = 'cts'
         enum_spec = ("list_trackers", "trackers", "offset")
-        id = 'tracker_name'
+        id = 'trackers'
         tag = True
 
 @Cts.action_registry.register("query")
@@ -30,15 +30,11 @@ class CtsQuery(HuaweiCloudBaseAction):
     .. code-block:: yaml
 
     policies:
-        - name: query-ecs-tracker
+        - name: cts-test
           resource: huaweicloud.cts
-          filters:
-            - type: value
-              key: tracker_name
-              value: "your tracker name"
           actions:
             - type: query
-              tracker_name: "trackerName"
+              tracker_name: "system"
               tracker_type: "system"
     """
 
@@ -55,8 +51,10 @@ class CtsQuery(HuaweiCloudBaseAction):
             "tracker_type": self.data.get("tracker_type", "system")
         }
         request = ListTrackersRequest()
-        request.tracker_name = properties["tracker_name"]
-        request.tracker_type = properties["tracker_type"]
+        #request.tracker_name = properties["tracker_name"]
+        #request.tracker_type = properties["tracker_type"]
+        request.tracker_name = "system"
+        request.tracker_type = "system"
         try:
           response = client.list_trackers(request)
         except exceptions.ClientRequestException as e:

@@ -60,3 +60,13 @@ Traceback (most recent call last):
 TypeError: can only concatenate list (not "NoneType") to list
 2025-03-20 09:25:49,373 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:3 time:1.59
 2025-03-20 09:25:52,042 - custodian.policy - INFO - policy:cts-test action:ctsquery resources:3 execution_time:2.67
+2025-03-20 09:43:32,424 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:3 time:1.68
+2025-03-20 09:43:35,044 - custodian.policy - INFO - policy:cts-test action:ctsquery resources:3 execution_time:2.62
+2025-03-20 09:48:15,825 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:3 time:0.00
+2025-03-20 09:48:19,242 - custodian.policy - INFO - policy:cts-test action:ctsquery resources:3 execution_time:3.42
+2025-03-20 09:50:52,308 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:3 time:0.00
+2025-03-20 09:50:55,867 - custodian.policy - INFO - policy:cts-test action:ctsquery resources:3 execution_time:3.56
+2025-03-20 09:51:36,065 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:3 time:0.00
+2025-03-20 09:51:39,370 - custodian.policy - INFO - policy:cts-test action:ctsquery resources:3 execution_time:3.30
+2025-03-20 09:55:42,834 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts region: count:3 time:0.00
+2025-03-20 09:55:46,131 - custodian.policy - INFO - policy:cts-test action:ctsquery resources:3 execution_time:3.30
