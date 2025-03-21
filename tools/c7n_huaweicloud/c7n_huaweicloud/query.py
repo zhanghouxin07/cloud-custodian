@@ -13,6 +13,8 @@ from c7n.utils import local_session
 
 from tools.c7n_huaweicloud.c7n_huaweicloud.marker_pagination import MarkerPagination
 
+from huaweicloudsdkcore.exceptions import exceptions
+
 log = logging.getLogger('custodian.huaweicloud.query')
 
 DEFAULT_LIMIT_SIZE = 100
@@ -76,14 +78,21 @@ class ResourceQuery:
         session = local_session(self.session_factory)
         client = session.client(m.service)
 
-        marker = 0
+        marker, count = 0, 0
         maxitems = DEFAULT_MAXITEMS_SIZE
         resources = []
         while 1:
             request = session.request(m.service)
             request.marker = marker
             request.maxitems = maxitems
-            response = self._invoke_client_enum(client, enum_op, request)
+            try:
+                response = self._invoke_client_enum(client, enum_op, request)
+            except exceptions.ClientRequestException as e:
+                log.error(
+                    f'request[{e.request_id}] failed[{e.status_code}], error_code[{e.error_code}], error_msg[{e.error_msg}]')
+                return resources
+            count = response.count
+            next_marker = response.next_marker
             res = jmespath.search(path, eval(
                 str(response).replace('null', 'None').replace('false', 'False').replace('true', 'True')))
 
@@ -93,9 +102,8 @@ class ResourceQuery:
                     data['id'] = data[m.id]
 
             resources = resources + res
-            if len(res) == maxitems:
-                marker += maxitems
-            else:
+            marker = next_marker
+            if next_marker >= count:
                 break
         return resources
 
