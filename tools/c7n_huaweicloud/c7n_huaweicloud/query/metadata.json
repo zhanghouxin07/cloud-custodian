@@ -1,0 +1,68 @@
+{
+  "policy": {
+    "name": "query",
+    "resource": "huaweicloud.cts-notification"
+  },
+  "version": "0.9.43",
+  "execution": {
+    "id": "c0a18c82-bc52-4e6d-9def-74e5645c5dc0",
+    "start": 1742551689.0710807,
+    "end_time": 1742551690.5003402,
+    "duration": 1.4292595386505127
+  },
+  "config": {
+    "region": "",
+    "regions": [],
+    "cache": "~/.cache/cloud-custodian.cache",
+    "profile": null,
+    "account_id": null,
+    "assume_role": null,
+    "session_policy": null,
+    "external_id": null,
+    "log_group": null,
+    "tracer": null,
+    "metrics_enabled": null,
+    "metrics": null,
+    "output_dir": ".",
+    "cache_period": 15,
+    "dryrun": false,
+    "authorization_file": null,
+    "subparser": "run",
+    "config": null,
+    "configs": [
+      "testNotification/query.yml"
+    ],
+    "policy_filters": [],
+    "resource_types": [],
+    "verbose": null,
+    "quiet": null,
+    "debug": false,
+    "skip_validation": false,
+    "command": "c7n.commands.run",
+    "vars": null
+  },
+  "sys-stats": {
+    "num_threads": 1,
+    "snapshot_time": 1.4292755126953125,
+    "num_fds": 4,
+    "cpu_user": 0.010000000000000009,
+    "num_ctx_switches_voluntary": 22,
+    "num_ctx_switches_involuntary": 2,
+    "read_count": 69,
+    "write_count": 20,
+    "write_bytes": 32768,
+    "rss": 1507328,
+    "vms": 76042240,
+    "shared": 1044480,
+    "data": 9064448
+  },
+  "api-stats": {},
+  "metrics": [
+    {
+      "MetricName": "PolicyException",
+      "Timestamp": "2025-03-21T18:08:10.500324",
+      "Value": 1,
+      "Unit": "Count"
+    }
+  ]
+}

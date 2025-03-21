@@ -101,3 +101,17 @@
 2025-03-20 18:47:12,452 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
 2025-03-20 18:47:12,453 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts-tracker region: count:1 time:1.41
 2025-03-20 18:47:12,455 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts-tracker scope:policy
+2025-03-21 17:07:35,932 - custodian.policy - DEBUG - Running policy:cts-test resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-21 17:07:35,933 - custodian.cache - DEBUG - expired 1 stale cache entries
+2025-03-21 17:07:37,514 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-21 17:07:37,515 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts-tracker region: count:1 time:1.58
+2025-03-21 17:07:37,517 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts-tracker scope:policy
+2025-03-21 17:08:23,782 - custodian.policy - DEBUG - Running policy:cts-test resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-21 17:08:23,783 - custodian.resources.tracker - DEBUG - Using cached c7n_huaweicloud.resources.cts.Tracker: 1
+2025-03-21 17:08:23,783 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-21 17:08:23,784 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts-tracker region: count:1 time:0.00
+2025-03-21 17:08:23,785 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts-tracker scope:policy
+2025-03-21 17:08:40,911 - custodian.policy - DEBUG - Running policy:cts-test resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-21 17:08:42,484 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-21 17:08:42,484 - custodian.policy - INFO - policy:cts-test resource:huaweicloud.cts-tracker region: count:1 time:1.57
+2025-03-21 17:08:42,486 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:cts-test restype:huaweicloud.cts-tracker scope:policy

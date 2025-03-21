@@ -1,0 +1,3 @@
+policies:
+  - name: query
+    resource: huaweicloud.cts-notification
