@@ -11,9 +11,18 @@ from c7n.manager import ResourceManager
 from c7n.query import sources, MaxResourceLimit
 from c7n.utils import local_session
 
+from tools.c7n_huaweicloud.c7n_huaweicloud.marker_pagination import MarkerPagination
+
 log = logging.getLogger('custodian.huaweicloud.query')
 
 DEFAULT_LIMIT_SIZE = 100
+
+
+def _dict_map(obj, params_map):
+    if not params_map:
+        return obj
+    for k, v in params_map.items():
+        obj.__dict__[k] = v
 
 
 class ResourceQuery:
@@ -26,6 +35,8 @@ class ResourceQuery:
 
         if pagination == 'offset':
             resources = self._pagination_limit_offset(m, enum_op, path)
+        elif pagination == 'marker':
+            resources = self._pagination_limit_marker(m, enum_op, path)
         else:
             log.exception(f"Unsupported pagination type: {pagination}")
             sys.exit(1)
@@ -58,8 +69,60 @@ class ResourceQuery:
                 return resources
         return resources
 
+    def _pagination_limit_marker(self, m, enum_op, path, marker_pagination: MarkerPagination=None):
+        session = local_session(self.session_factory)
+        client = session.client(m.service)
+
+        if not marker_pagination:
+            marker_pagination = DefaultMarkerPagination(DEFAULT_LIMIT_SIZE)
+        page_params = marker_pagination.get_first_page_params()
+        request = session.request(m.service)
+        _dict_map(request, page_params)
+        resources = []
+        print(request)
+        while 1:
+            response = self._invoke_client_enum(client, enum_op, request)
+            response = eval(str(response).replace('null', 'None').
+                            replace('false', 'False').replace('true', 'True'))
+            res = jmespath.search(path, response)
+
+            # replace id with the specified one
+            if res is None or len(res) == 0:
+                return resources
+            # re-set id
+            if 'id' not in res[0]:
+                for data in res:
+                    data['id'] = data[m.id]
+            # merge result
+            resources = resources + res
+
+            # get next page info
+            next_page_params = marker_pagination.get_next_page_params(response)
+            if next_page_params:
+                _dict_map(request, next_page_params)
+            else:
+                return resources
+
     def _invoke_client_enum(self, client, enum_op, request):
         return getattr(client, enum_op)(request)
+
+
+# abstract method for pagination
+class DefaultMarkerPagination(MarkerPagination):
+    def __init__(self, limit):
+        self.limit = limit
+
+    def get_first_page_params(self):
+        return {'limit': self.limit}
+
+    def get_next_page_params(self, response):
+        page_info = jmespath.search('page_info', response)
+        if not page_info:
+            return None
+        next_marker = page_info.get('next_marker')
+        if not next_marker:
+            return None
+        return {'limit': self.limit, 'marker': next_marker}
 
 
 @sources.register('describe-huaweicloud')
