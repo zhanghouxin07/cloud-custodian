@@ -36,7 +36,7 @@ class ResourceQuery:
         if pagination == 'offset':
             resources = self._pagination_limit_offset(m, enum_op, path)
         elif isinstance(pagination, MarkerPagination):
-            resources = self._pagination_marker(m, enum_op, path, pagination)
+            resources = self._pagination_limit_marker(m, enum_op, path, pagination)
         else:
             log.exception(f"Unsupported pagination type: {pagination}")
             sys.exit(1)
@@ -69,7 +69,7 @@ class ResourceQuery:
                 return resources
         return resources
 
-    def _pagination_marker(self, m, enum_op, path, marker_pagination: MarkerPagination):
+    def _pagination_limit_marker(self, m, enum_op, path, marker_pagination: MarkerPagination):
         session = local_session(self.session_factory)
         client = session.client(m.service)
 
