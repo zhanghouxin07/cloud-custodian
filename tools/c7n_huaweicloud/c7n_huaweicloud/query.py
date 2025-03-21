@@ -22,7 +22,7 @@ def _dict_map(obj, params_map):
     if not params_map:
         return obj
     for k, v in params_map.items():
-        obj.__dict__[k] = v
+        obj.__dict__['_' + k] = v
 
 
 class ResourceQuery:
@@ -79,7 +79,6 @@ class ResourceQuery:
         request = session.request(m.service)
         _dict_map(request, page_params)
         resources = []
-        print(request)
         while 1:
             response = self._invoke_client_enum(client, enum_op, request)
             response = eval(str(response).replace('null', 'None').
