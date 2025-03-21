@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 # abstract method for pagination
-class Pagination(ABC):
+class MarkerPagination(ABC):
     @abstractmethod
     def get_first_page_params(self):
         pass
