@@ -92,3 +92,11 @@ huaweicloudsdkcore.exceptions.exceptions.ClientRequestException: ClientRequestEx
 2025-03-22 10:06:45,585 - custodian.resources.notification - DEBUG - Filtered from 7 to 7 notification
 2025-03-22 10:06:45,588 - custodian.policy - INFO - policy:query-noti resource:huaweicloud.cts-notification-smn region: count:7 time:1.47
 2025-03-22 10:06:45,589 - custodian.output - DEBUG - metric:ResourceCount Count:7 policy:query-noti restype:huaweicloud.cts-notification-smn scope:policy
+2025-03-22 10:15:41,379 - custodian.policy - DEBUG - Running policy:query-noti resource:huaweicloud.cts-notification-smn region:default c7n:0.9.43
+2025-03-22 10:15:43,071 - custodian.resources.notification - DEBUG - Filtered from 7 to 7 notification
+2025-03-22 10:15:43,072 - custodian.policy - INFO - policy:query-noti resource:huaweicloud.cts-notification-smn region: count:7 time:1.69
+2025-03-22 10:15:43,074 - custodian.output - DEBUG - metric:ResourceCount Count:7 policy:query-noti restype:huaweicloud.cts-notification-smn scope:policy
+2025-03-22 10:20:42,078 - custodian.policy - DEBUG - Running policy:query-noti resource:huaweicloud.cts-notification-smn region:default c7n:0.9.43
+2025-03-22 10:20:43,598 - custodian.resources.notification - DEBUG - Filtered from 7 to 1 notification
+2025-03-22 10:20:43,599 - custodian.policy - INFO - policy:query-noti resource:huaweicloud.cts-notification-smn region: count:1 time:1.52
+2025-03-22 10:20:43,601 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:query-noti restype:huaweicloud.cts-notification-smn scope:policy

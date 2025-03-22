@@ -1,0 +1,7 @@
+policies:
+  - name: query-noti-filter
+    resource: huaweicloud.cts-notification-smn
+    filters:
+      - type: value
+        key: notification_name
+        value: "keyOperate_info_zr1s"
