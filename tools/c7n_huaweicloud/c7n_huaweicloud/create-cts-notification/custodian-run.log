@@ -1,9 +1,0 @@
-2025-03-20 16:59:28,408 - custodian.policy - DEBUG - Running policy:create-cts-notification resource:huaweicloud.cts region:default c7n:0.9.43
-2025-03-20 16:59:28,409 - custodian.cache - DEBUG - expired 1 stale cache entries
-2025-03-20 16:59:29,866 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
-2025-03-20 16:59:29,866 - custodian.policy - INFO - policy:create-cts-notification resource:huaweicloud.cts region: count:0 time:1.46
-2025-03-20 16:59:29,867 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:create-cts-notification restype:huaweicloud.cts scope:policy
-2025-03-20 17:02:11,574 - custodian.policy - DEBUG - Running policy:create-cts-notification resource:huaweicloud.cts region:default c7n:0.9.43
-2025-03-20 17:02:13,008 - custodian.resources.cts - DEBUG - Filtered from 0 to 0 cts
-2025-03-20 17:02:13,009 - custodian.policy - INFO - policy:create-cts-notification resource:huaweicloud.cts region: count:0 time:1.43
-2025-03-20 17:02:13,011 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:create-cts-notification restype:huaweicloud.cts scope:policy
