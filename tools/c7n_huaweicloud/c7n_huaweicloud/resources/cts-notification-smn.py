@@ -23,7 +23,7 @@ class Notification(QueryResourceManager):
 
 @Notification.action_registry.register("update-notification")
 class CtsUpdateNotification(HuaweiCloudBaseAction):
-    """Update CTS Notification.
+    """Update CTS Notification. CTS supports modifying existing Notification configurations by matching the notification_id field; the notification_id must already exist. When enabling notifications, you can configure the user list and the SMN service topic as needed
 
     :Example:
 

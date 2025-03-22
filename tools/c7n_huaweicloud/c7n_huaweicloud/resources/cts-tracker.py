@@ -23,7 +23,7 @@ class Tracker(QueryResourceManager):
 
 @Tracker.action_registry.register("add-tracker")
 class CtsAddTracker(HuaweiCloudBaseAction):
-    """Add Tracker.
+    """Add Tracker. only one system tracker is allowed to be created.
 
     :Example:
 
@@ -151,7 +151,7 @@ class CtsToggleTracker(HuaweiCloudBaseAction):
 
 @Tracker.action_registry.register("set-trace-file-validation")
 class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
-    """Set Trace File Validation.
+    """Set Trace File Validation. this action is used to configure the log file integrity verification and encryption storage settings for the CTS tracker.
 
     :Example:
 
@@ -165,10 +165,10 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
               tracker_name: "system"
               tracker_type: "system"
               is_support_validate: true
-              kms_id: "your-kms-id"
+              kms_id: "kms id"
               is_support_trace_files_encryption: true
               obs_info:
-                bucket_name: "sh2-gaochang1"
+                bucket_name: "your bucketname"
                 compress_type: "gzip"
                 is_sort_by_service: true
     """
