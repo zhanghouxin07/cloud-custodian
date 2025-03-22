@@ -1,14 +1,14 @@
 {
   "policy": {
-    "name": "queryTracker",
-    "resource": "huaweicloud.cts-tracker"
+    "name": "query-noti-func",
+    "resource": "huaweicloud.cts-notification-func"
   },
   "version": "0.9.43",
   "execution": {
-    "id": "f6fa3ddc-8e5f-42b3-a373-97c072936f4b",
-    "start": 1742611793.8957393,
-    "end_time": 1742611795.385571,
-    "duration": 1.4898316860198975
+    "id": "892bcd15-8581-402f-912f-2f81905ca912",
+    "start": 1742613393.148017,
+    "end_time": 1742613394.4930012,
+    "duration": 1.3449842929840088
   },
   "config": {
     "region": "",
@@ -30,7 +30,7 @@
     "subparser": "run",
     "config": null,
     "configs": [
-      "testTracker/custodian.yml"
+      "testNotification/query-func.yml"
     ],
     "policy_filters": [],
     "resource_types": [],
@@ -42,36 +42,31 @@
     "vars": null
   },
   "sys-stats": {
-    "snapshot_time": 1.4898483753204346,
+    "snapshot_time": 1.3449814319610596,
     "num_fds": 1,
     "cpu_user": 0.010000000000000009,
-    "num_ctx_switches_voluntary": 16,
-    "num_ctx_switches_involuntary": 20,
+    "num_ctx_switches_voluntary": 17,
+    "num_ctx_switches_involuntary": 55,
     "read_count": 59,
     "write_count": 14,
     "write_bytes": 8192,
-    "rss": 323584,
+    "rss": 491520,
     "vms": 75763712,
+    "shared": 188416,
     "data": 8785920
   },
   "api-stats": {},
   "metrics": [
     {
       "MetricName": "ResourceCount",
-      "Timestamp": "2025-03-22T10:49:55.385198",
-      "Value": 1,
+      "Timestamp": "2025-03-22T11:16:34.492807",
+      "Value": 0,
       "Unit": "Count"
     },
     {
       "MetricName": "ResourceTime",
-      "Timestamp": "2025-03-22T10:49:55.385217",
-      "Value": 1.4881529808044434,
-      "Unit": "Seconds"
-    },
-    {
-      "MetricName": "ActionTime",
-      "Timestamp": "2025-03-22T10:49:55.385554",
-      "Value": 2.384185791015625e-06,
+      "Timestamp": "2025-03-22T11:16:34.492823",
+      "Value": 1.34196138381958,
       "Unit": "Seconds"
     }
   ]

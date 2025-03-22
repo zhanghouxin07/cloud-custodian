@@ -1,0 +1,4 @@
+2025-03-22 11:16:33,148 - custodian.policy - DEBUG - Running policy:query-noti-func resource:huaweicloud.cts-notification-func region:default c7n:0.9.43
+2025-03-22 11:16:34,490 - custodian.resources.notification - DEBUG - Filtered from 0 to 0 notification
+2025-03-22 11:16:34,491 - custodian.policy - INFO - policy:query-noti-func resource:huaweicloud.cts-notification-func region: count:0 time:1.34
+2025-03-22 11:16:34,493 - custodian.output - DEBUG - metric:ResourceCount Count:0 policy:query-noti-func restype:huaweicloud.cts-notification-func scope:policy

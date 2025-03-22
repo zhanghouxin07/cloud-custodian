@@ -1,0 +1,95 @@
+{
+  "policy": {
+    "name": "set-trace-file-validation",
+    "resource": "huaweicloud.cts-tracker",
+    "actions": [
+      {
+        "type": "set-trace-file-validation",
+        "tracker_name": "system",
+        "tracker_type": "system",
+        "is_support_validate": true,
+        "kms_id": "",
+        "is_support_trace_files_encryption": false,
+        "obs_info": {
+          "bucket_name": "sh2-gaochang1",
+          "compress_type": "gzip",
+          "is_sort_by_service": true
+        }
+      }
+    ]
+  },
+  "version": "0.9.43",
+  "execution": {
+    "id": "d6a61f3b-672e-4673-aabf-93236cf0a208",
+    "start": 1742612633.5175476,
+    "end_time": 1742612635.9042258,
+    "duration": 2.3866782188415527
+  },
+  "config": {
+    "region": "",
+    "regions": [],
+    "cache": "~/.cache/cloud-custodian.cache",
+    "profile": null,
+    "account_id": null,
+    "assume_role": null,
+    "session_policy": null,
+    "external_id": null,
+    "log_group": null,
+    "tracer": null,
+    "metrics_enabled": null,
+    "metrics": null,
+    "output_dir": "test/",
+    "cache_period": 0,
+    "dryrun": false,
+    "authorization_file": null,
+    "subparser": "run",
+    "config": null,
+    "configs": [
+      "testTracker/enable-trace-file-validation.yml"
+    ],
+    "policy_filters": [],
+    "resource_types": [],
+    "verbose": 1,
+    "quiet": null,
+    "debug": false,
+    "skip_validation": false,
+    "command": "c7n.commands.run",
+    "vars": null
+  },
+  "sys-stats": {
+    "snapshot_time": 2.386698007583618,
+    "num_fds": 1,
+    "cpu_user": 0.020000000000000018,
+    "cpu_system": 0.010000000000000002,
+    "num_ctx_switches_voluntary": 25,
+    "num_ctx_switches_involuntary": 66,
+    "read_count": 82,
+    "write_count": 24,
+    "write_bytes": 8192,
+    "rss": 831488,
+    "vms": 75902976,
+    "shared": 258048,
+    "data": 8925184
+  },
+  "api-stats": {},
+  "metrics": [
+    {
+      "MetricName": "ResourceCount",
+      "Timestamp": "2025-03-22T11:03:54.901272",
+      "Value": 1,
+      "Unit": "Count"
+    },
+    {
+      "MetricName": "ResourceTime",
+      "Timestamp": "2025-03-22T11:03:54.901292",
+      "Value": 1.3823668956756592,
+      "Unit": "Seconds"
+    },
+    {
+      "MetricName": "ActionTime",
+      "Timestamp": "2025-03-22T11:03:55.904211",
+      "Value": 1.0025737285614014,
+      "Unit": "Seconds"
+    }
+  ]
+}

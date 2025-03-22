@@ -1,0 +1,138 @@
+[
+  {
+    "notification_name": "keyOperate_info_zr1s",
+    "operation_type": "customized",
+    "operations": [
+      {
+        "service_type": "AAD",
+        "resource_type": "addprotocolrule",
+        "trace_names": [
+          "addProtocolRule"
+        ]
+      }
+    ],
+    "notify_user_list": [
+      {
+        "user_group": "zhanghouxin",
+        "user_list": [
+          "zhanghouxin"
+        ]
+      }
+    ],
+    "status": "enabled",
+    "topic_id": "urn:smn:cn-east-2:932cb325cbca47a59ec1ea930ecc0f29:testcc",
+    "notification_id": "938c9c8a-804b-4c61-bf7b-5e8b1793ae64",
+    "notification_type": "smn",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "create_time": 1731586668378,
+    "id": "938c9c8a-804b-4c61-bf7b-5e8b1793ae64"
+  },
+  {
+    "notification_name": "keyOperate_info_mo1u",
+    "operation_type": "complete",
+    "operations": [],
+    "notify_user_list": [],
+    "status": "disabled",
+    "topic_id": "",
+    "notification_id": "4319f7b9-0cc4-46c9-8cc5-1d034315b1a7",
+    "notification_type": "smn",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "create_time": 1729511733861,
+    "filter": {
+      "condition": "",
+      "is_support_filter": false,
+      "rule": []
+    },
+    "id": "4319f7b9-0cc4-46c9-8cc5-1d034315b1a7"
+  },
+  {
+    "notification_name": "keyOperate_info_3kwl",
+    "operation_type": "complete",
+    "operations": [],
+    "notify_user_list": [],
+    "status": "disabled",
+    "topic_id": "",
+    "notification_id": "40b83a41-b0a6-40c5-b153-6b7a2ed2b081",
+    "notification_type": "smn",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "create_time": 1729074142372,
+    "filter": {
+      "condition": "",
+      "is_support_filter": false,
+      "rule": []
+    },
+    "id": "40b83a41-b0a6-40c5-b153-6b7a2ed2b081"
+  },
+  {
+    "notification_name": "keyOperate_info_vp32",
+    "operation_type": "complete",
+    "operations": [],
+    "notify_user_list": [],
+    "status": "disabled",
+    "topic_id": "",
+    "notification_id": "399ae086-9a5b-4643-bee4-2a994b3ceaf5",
+    "notification_type": "smn",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "create_time": 1729073774225,
+    "filter": {
+      "condition": "",
+      "is_support_filter": false,
+      "rule": []
+    },
+    "id": "399ae086-9a5b-4643-bee4-2a994b3ceaf5"
+  },
+  {
+    "notification_name": "keyOperate_info_uj28",
+    "operation_type": "complete",
+    "operations": [],
+    "notify_user_list": [],
+    "status": "disabled",
+    "topic_id": "",
+    "notification_id": "41d6c7f3-1709-47f3-b3a7-e359d64f5bdd",
+    "notification_type": "smn",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "create_time": 1729063641847,
+    "filter": {
+      "condition": "",
+      "is_support_filter": false,
+      "rule": []
+    },
+    "id": "41d6c7f3-1709-47f3-b3a7-e359d64f5bdd"
+  },
+  {
+    "notification_name": "keyOperate_info_gunj",
+    "operation_type": "complete",
+    "operations": [],
+    "notify_user_list": [],
+    "status": "disabled",
+    "topic_id": "",
+    "notification_id": "fb5c88c5-a5b9-4281-95f3-3ea72713cea1",
+    "notification_type": "smn",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "create_time": 1694531778869,
+    "filter": {
+      "condition": "",
+      "is_support_filter": false,
+      "rule": []
+    },
+    "id": "fb5c88c5-a5b9-4281-95f3-3ea72713cea1"
+  },
+  {
+    "notification_name": "keyOperate_info_dxr8",
+    "operation_type": "complete",
+    "operations": [],
+    "notify_user_list": [],
+    "status": "disabled",
+    "topic_id": "",
+    "notification_id": "a85e6ee7-b897-4012-831a-4394b999e6de",
+    "notification_type": "smn",
+    "project_id": "932cb325cbca47a59ec1ea930ecc0f29",
+    "create_time": 1694531642356,
+    "filter": {
+      "condition": "",
+      "is_support_filter": false,
+      "rule": []
+    },
+    "id": "a85e6ee7-b897-4012-831a-4394b999e6de"
+  }
+]

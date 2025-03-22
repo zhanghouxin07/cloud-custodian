@@ -1,0 +1,18 @@
+2025-03-22 11:00:53,520 - custodian.policy - DEBUG - Running policy:set-trace-file-validation resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-22 11:00:54,912 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-22 11:00:54,914 - custodian.policy - INFO - policy:set-trace-file-validation resource:huaweicloud.cts-tracker region: count:1 time:1.39
+2025-03-22 11:00:56,538 - custodian.huaweicloud.resources.cts - INFO - Successfully updated trace file validation (is_support_validate=True) for tracker system.
+2025-03-22 11:00:56,542 - custodian.policy - INFO - policy:set-trace-file-validation action:ctssettracefilevalidation resources:1 execution_time:1.63
+2025-03-22 11:00:56,545 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:set-trace-file-validation restype:huaweicloud.cts-tracker scope:policy
+2025-03-22 11:03:28,588 - custodian.policy - DEBUG - Running policy:set-trace-file-validation resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-22 11:03:29,922 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-22 11:03:29,923 - custodian.policy - INFO - policy:set-trace-file-validation resource:huaweicloud.cts-tracker region: count:1 time:1.33
+2025-03-22 11:03:31,666 - custodian.huaweicloud.resources.cts - INFO - Successfully updated trace file validation (is_support_validate=False) for tracker system.
+2025-03-22 11:03:31,669 - custodian.policy - INFO - policy:set-trace-file-validation action:ctssettracefilevalidation resources:1 execution_time:1.75
+2025-03-22 11:03:31,671 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:set-trace-file-validation restype:huaweicloud.cts-tracker scope:policy
+2025-03-22 11:03:53,518 - custodian.policy - DEBUG - Running policy:set-trace-file-validation resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-22 11:03:54,900 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-22 11:03:54,900 - custodian.policy - INFO - policy:set-trace-file-validation resource:huaweicloud.cts-tracker region: count:1 time:1.38
+2025-03-22 11:03:55,898 - custodian.huaweicloud.resources.cts - INFO - Successfully updated trace file validation (is_support_validate=True) for tracker system.
+2025-03-22 11:03:55,902 - custodian.policy - INFO - policy:set-trace-file-validation action:ctssettracefilevalidation resources:1 execution_time:1.00
+2025-03-22 11:03:55,904 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:set-trace-file-validation restype:huaweicloud.cts-tracker scope:policy

@@ -8,3 +8,7 @@
 2025-03-22 10:45:07,259 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
 2025-03-22 10:45:07,260 - custodian.policy - INFO - policy:queryTracker resource:huaweicloud.cts-tracker region: count:1 time:1.51
 2025-03-22 10:45:07,262 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:querytracker restype:huaweicloud.cts-tracker scope:policy
+2025-03-22 10:49:53,896 - custodian.policy - DEBUG - Running policy:queryTracker resource:huaweicloud.cts-tracker region:default c7n:0.9.43
+2025-03-22 10:49:55,383 - custodian.resources.tracker - DEBUG - Filtered from 1 to 1 tracker
+2025-03-22 10:49:55,384 - custodian.policy - INFO - policy:queryTracker resource:huaweicloud.cts-tracker region: count:1 time:1.49
+2025-03-22 10:49:55,386 - custodian.output - DEBUG - metric:ResourceCount Count:1 policy:querytracker restype:huaweicloud.cts-tracker scope:policy

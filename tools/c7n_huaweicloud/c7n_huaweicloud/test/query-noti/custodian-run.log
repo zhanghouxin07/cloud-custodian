@@ -1,0 +1,8 @@
+2025-03-22 11:14:41,256 - custodian.policy - DEBUG - Running policy:query-noti resource:huaweicloud.cts-notification-smn region:default c7n:0.9.43
+2025-03-22 11:14:42,756 - custodian.resources.notification - DEBUG - Filtered from 7 to 7 notification
+2025-03-22 11:14:42,757 - custodian.policy - INFO - policy:query-noti resource:huaweicloud.cts-notification-smn region: count:7 time:1.50
+2025-03-22 11:14:42,759 - custodian.output - DEBUG - metric:ResourceCount Count:7 policy:query-noti restype:huaweicloud.cts-notification-smn scope:policy
+2025-03-22 11:16:05,892 - custodian.policy - DEBUG - Running policy:query-noti resource:huaweicloud.cts-notification-smn region:default c7n:0.9.43
+2025-03-22 11:16:07,363 - custodian.resources.notification - DEBUG - Filtered from 7 to 7 notification
+2025-03-22 11:16:07,364 - custodian.policy - INFO - policy:query-noti resource:huaweicloud.cts-notification-smn region: count:7 time:1.47
+2025-03-22 11:16:07,366 - custodian.output - DEBUG - metric:ResourceCount Count:7 policy:query-noti restype:huaweicloud.cts-notification-smn scope:policy

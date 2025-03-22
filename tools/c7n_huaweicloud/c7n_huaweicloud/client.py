@@ -60,12 +60,17 @@ class Session:
                 .with_credentials(globalCredentials) \
                 .with_region(TmsRegion.value_of(self.region)) \
                 .build()
-        elif service == 'cts':
+        elif service == 'cts-tracker':
             client = CtsClient.new_builder() \
                 .with_credentials(credentials) \
                 .with_region(CtsRegion.value_of(self.region)) \
                 .build()
         elif service == 'cts-notification-smn':
+            client = CtsClient.new_builder() \
+                .with_credentials(credentials) \
+                .with_region(CtsRegion.value_of(self.region)) \
+                .build()
+        elif service == 'cts-notification-func':
             client = CtsClient.new_builder() \
                 .with_credentials(credentials) \
                 .with_region(CtsRegion.value_of(self.region)) \
@@ -78,10 +83,13 @@ class Session:
             request = ListVpcsRequest()
         elif service == 'evs':
             request = ListVolumesRequest()
-        elif service == 'cts':
+        elif service == 'cts-tracker':
             request = ListTrackersRequest()
         elif service == 'cts-notification-smn':           
             request = ListNotificationsRequest()
             request.notification_type = "smn"
+        elif service == 'cts-notification-func':           
+            request = ListNotificationsRequest()
+            request.notification_type = "fun"
 
         return request
