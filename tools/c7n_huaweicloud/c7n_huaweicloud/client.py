@@ -65,7 +65,7 @@ class Session:
                 .with_credentials(credentials) \
                 .with_region(CtsRegion.value_of(self.region)) \
                 .build()
-        elif service == 'cts-notification':
+        elif service == 'cts-notification-smn':
             client = CtsClient.new_builder() \
                 .with_credentials(credentials) \
                 .with_region(CtsRegion.value_of(self.region)) \
@@ -80,7 +80,8 @@ class Session:
             request = ListVolumesRequest()
         elif service == 'cts':
             request = ListTrackersRequest()
-        elif service == 'cts-notification':
+        elif service == 'cts-notification-smn':           
             request = ListNotificationsRequest()
+            request.notification_type = "smn"
 
         return request

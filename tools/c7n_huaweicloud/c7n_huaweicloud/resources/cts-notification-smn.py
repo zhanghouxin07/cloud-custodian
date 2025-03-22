@@ -13,10 +13,11 @@ from c7n_huaweicloud.query import QueryResourceManager, TypeInfo
 
 log = logging.getLogger("custodian.huaweicloud.resources.cts")
 
-@resources.register('cts-notification')
+@resources.register('cts-notification-smn')
 class Notification(QueryResourceManager):
     class resource_type(TypeInfo):
-        service = 'cts-notification'
+        service = 'cts-notification-smn'
         enum_spec = ("list_notifications", "notifications", "offset")
         id = 'notification_id'
         tag = True
+

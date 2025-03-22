@@ -1,3 +1,3 @@
 policies:
-  - name: query
-    resource: huaweicloud.cts-notification
+  - name: query-noti
+    resource: huaweicloud.cts-notification-smn

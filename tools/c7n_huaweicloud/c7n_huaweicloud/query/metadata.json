@@ -5,10 +5,10 @@
   },
   "version": "0.9.43",
   "execution": {
-    "id": "c0a18c82-bc52-4e6d-9def-74e5645c5dc0",
-    "start": 1742551689.0710807,
-    "end_time": 1742551690.5003402,
-    "duration": 1.4292595386505127
+    "id": "30f125c2-b817-49ed-aa4b-b64f17864ad3",
+    "start": 1742607927.6859317,
+    "end_time": 1742607928.9766426,
+    "duration": 1.2907109260559082
   },
   "config": {
     "region": "",
@@ -43,24 +43,22 @@
   },
   "sys-stats": {
     "num_threads": 1,
-    "snapshot_time": 1.4292755126953125,
+    "snapshot_time": 1.290736436843872,
     "num_fds": 4,
     "cpu_user": 0.010000000000000009,
-    "num_ctx_switches_voluntary": 22,
-    "num_ctx_switches_involuntary": 2,
-    "read_count": 69,
-    "write_count": 20,
-    "write_bytes": 32768,
-    "rss": 1507328,
-    "vms": 76042240,
-    "shared": 1044480,
-    "data": 9064448
+    "num_ctx_switches_voluntary": 16,
+    "read_count": 67,
+    "write_count": 6,
+    "rss": 1445888,
+    "vms": 76095488,
+    "shared": 974848,
+    "data": 9117696
   },
   "api-stats": {},
   "metrics": [
     {
       "MetricName": "PolicyException",
-      "Timestamp": "2025-03-21T18:08:10.500324",
+      "Timestamp": "2025-03-22T09:45:28.976625",
       "Value": 1,
       "Unit": "Count"
     }

@@ -4,5 +4,5 @@
 ResourceMap = {
     "huaweicloud.volume": "c7n_huaweicloud.resources.volume.Volume",
     "huaweicloud.cts-tracker": "c7n_huaweicloud.resources.cts.Tracker",
-    "huaweicloud.cts-notification": "c7n_huaweicloud.resources.cts-notification.Notification",
+    "huaweicloud.cts-notification-smn": "c7n_huaweicloud.resources.cts-notification-smn.Notification",
 }
