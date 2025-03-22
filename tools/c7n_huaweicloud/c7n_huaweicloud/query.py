@@ -1,6 +1,6 @@
 # Copyright The Cloud Custodian Authors.
 # SPDX-License-Identifier: Apache-2.0
-
+import json
 import logging
 import jmespath
 import sys
@@ -10,6 +10,8 @@ from c7n.filters import FilterRegistry
 from c7n.manager import ResourceManager
 from c7n.query import sources, MaxResourceLimit
 from c7n.utils import local_session
+from c7n_huaweicloud.actions.tms import register_tms_actions
+from c7n_huaweicloud.filters.tms import register_tms_filters
 
 from tools.c7n_huaweicloud.c7n_huaweicloud.marker_pagination import MarkerPagination
 
@@ -31,6 +33,12 @@ def _dict_map(obj, params_map):
 class ResourceQuery:
     def __init__(self, session_factory):
         self.session_factory = session_factory
+
+    @staticmethod
+    def resolve(resource_type):
+        if not isinstance(resource_type, type):
+            raise ValueError(resource_type)
+        return resource_type
 
     def filter(self, resource_manager, **params):
         m = resource_manager.resource_type
@@ -62,10 +70,15 @@ class ResourceQuery:
             res = jmespath.search(path, eval(
                 str(response).replace('null', 'None').replace('false', 'False').replace('true', 'True')))
 
+            if path == '*':
+                resources.append(json.loads(str(response)))
+                return resources
+
             # replace id with the specified one
             if res is not None:
                 for data in res:
                     data['id'] = data[m.id]
+                    data['tag_resource_type'] = m.tag_resource_type
 
             resources = resources + res
             if len(res) == limit:
@@ -183,6 +196,9 @@ class DescribeSource:
 class QueryMeta(type):
     """metaclass to have consistent action/filter registry for new resources."""
     def __new__(cls, name, parents, attrs):
+        if 'resource_type' not in attrs:
+            return super(QueryMeta, cls).__new__(cls, name, parents, attrs)
+
         if 'filter_registry' not in attrs:
             attrs['filter_registry'] = FilterRegistry(
                 '%s.filters' % name.lower())
@@ -190,6 +206,10 @@ class QueryMeta(type):
             attrs['action_registry'] = ActionRegistry(
                 '%s.actions' % name.lower())
 
+        m = ResourceQuery.resolve(attrs['resource_type'])
+        if getattr(m, 'tag_resource_type', None):
+            register_tms_actions(attrs['action_registry'])
+            register_tms_filters(attrs['filter_registry'])
         return super(QueryMeta, cls).__new__(cls, name, parents, attrs)
 
 
