@@ -75,6 +75,10 @@ class ResourceQuery:
                 resources.append(json.loads(str(response)))
                 return resources
 
+            if path == '*':
+                resources.append(json.loads(str(response)))
+                return resources
+
             # replace id with the specified one
             if res is not None:
                 for data in res:
@@ -109,7 +113,8 @@ class ResourceQuery:
             count = response.count
             next_marker = response.next_marker
             res = jmespath.search(path, eval(
-                str(response).replace('null', 'None').replace('false', 'False').
+                str(response)
+                .replace('null', 'None').replace('false', 'False').
                 replace('true', 'True')))
 
             # replace id with the specified one
@@ -124,7 +129,7 @@ class ResourceQuery:
         return resources
 
     def _pagination_limit_marker(self, m, enum_op, path,
-            marker_pagination: MarkerPagination = None):
+                                 marker_pagination: MarkerPagination = None):
         session = local_session(self.session_factory)
         client = session.client(m.service)
 
@@ -199,6 +204,7 @@ class DescribeSource:
 
 class QueryMeta(type):
     """metaclass to have consistent action/filter registry for new resources."""
+
     def __new__(cls, name, parents, attrs):
         if 'resource_type' not in attrs:
             return super(QueryMeta, cls).__new__(cls, name, parents, attrs)
@@ -218,7 +224,6 @@ class QueryMeta(type):
 
 
 class QueryResourceManager(ResourceManager, metaclass=QueryMeta):
-
     source_mapping = sources
 
     def __init__(self, ctx, data):
