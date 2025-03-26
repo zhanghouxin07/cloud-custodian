@@ -71,7 +71,7 @@ class CtsToggleTracker(HuaweiCloudBaseAction):
 
     policies:
         - name: toggle-tracker
-          resource: huaweicloud.cts
+          resource: huaweicloud.cts-tracker
           actions:
             - type: toggle-tracker
               tracker_name: "system"
