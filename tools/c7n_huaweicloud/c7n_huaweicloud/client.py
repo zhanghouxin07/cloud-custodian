@@ -24,6 +24,8 @@ from huaweicloudsdktms.v1 import TmsClient
 from huaweicloudsdktms.v1.region.tms_region import TmsRegion
 from huaweicloudsdkdeh.v1 import DeHClient, ListDedicatedHostsRequest
 from huaweicloudsdkdeh.v1.region.deh_region import DeHRegion
+from huaweicloudsdkobs.v1.region.obs_region import ObsRegion
+from obs import ObsClient
 from huaweicloudsdkces.v2 import CesClient, ListAlarmRulesRequest
 from huaweicloudsdkces.v2.region.ces_region import CesRegion
 from huaweicloudsdkkms.v2 import KmsClient, ListKeysRequest, ListKeysRequestBody
@@ -126,6 +128,9 @@ class Session:
                 .with_credentials(credentials) \
                 .with_region(DeHRegion.value_of(self.region)) \
                 .build()
+        elif service == "obs":
+            client = ObsClient(access_key_id=self.ak, secret_access_key=self.sk,
+                                server=ObsRegion.value_of(self.region).endpoint)
         elif service == 'ces':
             client = CesClient.new_builder() \
                 .with_credentials(credentials) \
@@ -215,6 +220,8 @@ class Session:
             request = ListServersDetailsRequest()
         elif service == 'deh':
             request = ListDedicatedHostsRequest()
+        elif service == 'obs':
+            request = True
         elif service == 'ces':
             request = ListAlarmRulesRequest()
         elif service == 'kms':
