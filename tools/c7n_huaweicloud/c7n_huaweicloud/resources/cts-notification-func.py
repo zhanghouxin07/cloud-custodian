@@ -32,6 +32,10 @@ class CtsUpdateNotification(HuaweiCloudBaseAction):
     policies:
         - name: update-cts-notification
           resource: huaweicloud.cts-notification-func
+          filters:
+            - type: value
+              key: notification_name
+              value: "keyOperate_info_zr1s"
           actions:
             - type: update-notification
               notification_id: "938c9c8a-804b-4c61-bf7b-5e8b1793ae64"
