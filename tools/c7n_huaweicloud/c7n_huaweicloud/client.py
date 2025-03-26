@@ -75,10 +75,6 @@ class Session:
                       'Specify a default via HUAWEI_SECRET_ACCESS_KEY or context')
             sys.exit(1)
 
-        self.tms_region = os.getenv('HUAWEI_DEFAULT_TMS_REGION')
-        if not self.tms_region:
-            self.tms_region = 'cn-north-4'
-
     def client(self, service):
         credentials = BasicCredentials(self.ak, self.sk, os.getenv('HUAWEI_PROJECT_ID')) \
             .with_security_token(self.token)
@@ -106,7 +102,7 @@ class Session:
             globalCredentials = GlobalCredentials(self.ak, self.sk)
             client = TmsClient.new_builder() \
                 .with_credentials(globalCredentials) \
-                .with_region(TmsRegion.value_of(self.tms_region)) \
+                .with_region(TmsRegion.value_of("cn-north-4")) \
                 .build()
         elif service == 'cbr':
             client = CbrClient.new_builder() \
@@ -123,7 +119,7 @@ class Session:
             globalCredentials = GlobalCredentials(self.ak, self.sk)
             client = ConfigClient.new_builder() \
                 .with_credentials(globalCredentials) \
-                .with_region(ConfigRegion.value_of(self.region)) \
+                .with_region(ConfigRegion.value_of("cn-north-4")) \
                 .build()
         elif service == 'deh':
             client = DeHClient.new_builder() \
