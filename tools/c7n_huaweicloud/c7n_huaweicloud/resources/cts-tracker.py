@@ -89,9 +89,9 @@ class CtsToggleTracker(HuaweiCloudBaseAction):
     def perform_action(self, resource):
         client = self.manager.get_client()
         properties = {
-            "tracker_name": self.data.get("tracker_name", "system"),
-            "tracker_type": self.data.get("tracker_type", "system"),
-            "status": self.data.get("status", "enabled")
+            "tracker_name": self.data.get("tracker_name", ""),
+            "tracker_type": self.data.get("tracker_type", ""),
+            "status": self.data.get("status", "")
         }
 
         request = UpdateTrackerRequest()
@@ -149,8 +149,8 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
     def perform_action(self, resource):
         client = self.manager.get_client()
         properties = {
-            "tracker_name": self.data.get("tracker_name", "system"),
-            "tracker_type": self.data.get("tracker_type", "system"),
+            "tracker_name": self.data.get("tracker_name", ""),
+            "tracker_type": self.data.get("tracker_type", ""),
             "is_support_validate": self.data.get("is_support_validate"),
             "kms_id": self.data.get("kms_id"),
             "is_support_trace_files_encryption": self.data.get("is_support_trace_files_encryption", True),
@@ -164,7 +164,7 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
             is_support_trace_files_encryption=properties["is_support_trace_files_encryption"],
             obs_info=TrackerObsInfo(
                 bucket_name=properties["obs_info"].get("bucket_name"),
-                compress_type=properties["obs_info"].get("compress_type", "gzip"),
+                compress_type=properties["obs_info"].get("compress_type", ""),
                 is_sort_by_service=properties["obs_info"].get("is_sort_by_service", True)
             ),
             tracker_name=properties["tracker_name"],
