@@ -106,6 +106,11 @@ class Session:
                 .with_credentials(globalCredentials) \
                 .with_region(TmsRegion.value_of(self.tms_region)) \
                 .build()
+        elif service == 'cbr':
+            client = CbrClient.new_builder() \
+                .with_credentials(credentials) \
+                .with_region(CbrRegion.value_of(self.region)) \
+                .build()
         elif service == 'iam':
             globalCredentials = GlobalCredentials(self.ak, self.sk)
             client = IamClient.new_builder() \
