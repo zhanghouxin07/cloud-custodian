@@ -70,7 +70,9 @@ from huaweicloudsdksfsturbo.v1 import SFSTurboClient, ListSharesRequest
 from huaweicloudsdksfsturbo.v1.region.sfsturbo_region import SFSTurboRegion
 from huaweicloudsdkcoc.v1 import CocClient, ListInstanceCompliantRequest
 from huaweicloudsdkcoc.v1.region.coc_region import CocRegion
-
+from huaweicloudsdkorganizations.v1 import OrganizationsClient, ListAccountsRequest, \
+    ListOrganizationalUnitsRequest, ListPoliciesRequest
+from huaweicloudsdkorganizations.v1.region.organizations_region import OrganizationsRegion
 from huaweicloudsdksecmaster.v2 import ListWorkspacesRequest, SecMasterClient
 from huaweicloudsdksecmaster.v2.region.secmaster_region import SecMasterRegion
 
@@ -327,6 +329,11 @@ class Session:
                 .with_region(CocRegion.value_of("cn-north-4"))
                 .build()
             )
+        elif service in ['org-policy', 'org-unit', 'org-account']:
+            client = OrganizationsClient.new_builder() \
+                .with_credentials(globalCredentials) \
+                .with_region(OrganizationsRegion.CN_NORTH_4) \
+                .build()
 
         return client
 
@@ -347,7 +354,14 @@ class Session:
             request = True
         elif service == "ces":
             request = ListAlarmRulesRequest()
-        elif service == "kms":
+        elif service == 'org-policy':
+            request = ListPoliciesRequest()
+        elif service == 'org-unit':
+            request = ListOrganizationalUnitsRequest()
+        elif service == 'org-account':
+            request = ListAccountsRequest()
+
+        elif service == 'kms':
             request = ListKeysRequest()
             request.body = ListKeysRequestBody(key_spec="ALL")
         elif service == "functiongraph":
