@@ -54,6 +54,8 @@ from huaweicloudsdkcts.v3.region.cts_region import CtsRegion
 from huaweicloudsdkcbr.v1 import ListBackupsRequest, ListVaultRequest
 from huaweicloudsdksfsturbo.v1 import SFSTurboClient, ListSharesRequest
 from huaweicloudsdksfsturbo.v1.region.sfsturbo_region import SFSTurboRegion
+from huaweicloudsdkcoc.v1 import CocClient, ListInstanceCompliantRequest
+from huaweicloudsdkcoc.v1.region.coc_region import CocRegion
 
 log = logging.getLogger('custodian.huaweicloud.client')
 
@@ -226,6 +228,12 @@ class Session:
                 .with_credentials(credentials) \
                 .with_region(CbrRegion.value_of(self.region)) \
                 .build()
+        elif service == 'coc':
+            client = CocClient.new_builder() \
+                .with_credentials(globalCredentials) \
+                .with_region(CocRegion.value_of("cn-north-4")) \
+                .build()
+
         return client
 
     def request(self, service):
@@ -280,5 +288,7 @@ class Session:
             request = ListVaultRequest()
         elif service == 'sfsturbo':
             request = ListSharesRequest()
+        elif service == 'coc':
+            request = ListInstanceCompliantRequest()
 
         return request
