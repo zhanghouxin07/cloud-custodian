@@ -12,6 +12,8 @@ ResourceMap = {
     "huaweicloud.alarm": "c7n_huaweicloud.resources.ces.Alarm",
     "huaweicloud.kms": "c7n_huaweicloud.resources.kms.Kms",
     "huaweicloud.ecs": "c7n_huaweicloud.resources.ecs.Ecs",
+    "huaweicloud.iam-user": "c7n_huaweicloud.resources.iam.User",
+    "huaweicloud.iam-policy": "c7n_huaweicloud.resources.iam.Policy",
     "huaweicloud.vpc": "c7n_huaweicloud.resources.vpc.Vpc",
     "huaweicloud.vpc-flow-log": "c7n_huaweicloud.resources.vpc.FlowLog",
     "huaweicloud.vpc-port": "c7n_huaweicloud.resources.vpc.Port",
