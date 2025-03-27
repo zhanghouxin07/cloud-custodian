@@ -28,6 +28,8 @@ from huaweicloudsdklts.v2 import LtsClient, ListTransfersRequest
 from huaweicloudsdklts.v2.region.lts_region import LtsRegion
 from huaweicloudsdkdeh.v1 import DeHClient, ListDedicatedHostsRequest
 from huaweicloudsdkdeh.v1.region.deh_region import DeHRegion
+from huaweicloudsdker.v3 import ErClient, ListEnterpriseRoutersRequest
+from huaweicloudsdker.v3.region.er_region import ErRegion
 from huaweicloudsdkobs.v1.region.obs_region import ObsRegion
 from obs import ObsClient
 from huaweicloudsdkces.v2 import CesClient, ListAlarmRulesRequest
@@ -140,6 +142,13 @@ class Session:
                 EcsClient.new_builder()
                 .with_credentials(credentials)
                 .with_region(EcsRegion.value_of(self.region))
+                .build()
+            )
+        elif service == 'er':
+            client = (
+                ErClient.new_builder()
+                .with_credentials(credentials)
+                .with_region(ErRegion.value_of(self.region))
                 .build()
             )
         elif service == "evs":
@@ -350,6 +359,8 @@ class Session:
             request = ListSecurityGroupsRequest()
         elif service == "evs":
             request = ListVolumesRequest()
+        elif service == 'er':
+            request = ListEnterpriseRoutersRequest()
         elif service == "lts-transfer":
             request = ListTransfersRequest()
         elif service == "config":
