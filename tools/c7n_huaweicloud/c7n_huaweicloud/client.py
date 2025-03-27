@@ -75,6 +75,9 @@ from huaweicloudsdkorganizations.v1 import OrganizationsClient, ListAccountsRequ
 from huaweicloudsdkorganizations.v1.region.organizations_region import OrganizationsRegion
 from huaweicloudsdksecmaster.v2 import ListWorkspacesRequest, SecMasterClient
 from huaweicloudsdksecmaster.v2.region.secmaster_region import SecMasterRegion
+from huaweicloudsdkram.v1 import RamClient, SearchResourceShareAssociationsRequest, \
+    SearchResourceShareAssociationsReqBody
+from huaweicloudsdkram.v1.region.ram_region import RamRegion
 
 log = logging.getLogger("custodian.huaweicloud.client")
 
@@ -334,6 +337,11 @@ class Session:
                 .with_credentials(globalCredentials) \
                 .with_region(OrganizationsRegion.CN_NORTH_4) \
                 .build()
+        elif service == 'ram':
+            client = RamClient.new_builder() \
+                .with_credentials(globalCredentials) \
+                .with_region(RamRegion.CN_NORTH_4) \
+                .build()
 
         return client
 
@@ -398,5 +406,10 @@ class Session:
             request = ListSharesRequest()
         elif service == "coc":
             request = ListInstanceCompliantRequest()
+        elif service == 'ram':
+            request = SearchResourceShareAssociationsRequest()
+            request.body = SearchResourceShareAssociationsReqBody(
+                association_type="principal",
+                association_status="associated")
 
         return request

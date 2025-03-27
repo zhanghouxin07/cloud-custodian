@@ -37,4 +37,5 @@ ResourceMap = {
     "huaweicloud.org-policy": "c7n_huaweicloud.resources.organizations.OrgPolicy",
     "huaweicloud.org-account": "c7n_huaweicloud.resources.organizations.OrgAccount",
     "huaweicloud.org-unit": "c7n_huaweicloud.resources.organizations.OrgUnit",
+    "huaweicloud.ram-shared-principals": "c7n_huaweicloud.resources.ram.RAMSharedPrincipals"
 }
