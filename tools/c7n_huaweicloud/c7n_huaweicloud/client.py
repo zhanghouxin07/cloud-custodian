@@ -387,7 +387,8 @@ class Session:
         elif service == "config":
             request = ShowTrackerConfigRequest()
         elif service == "ecs":
-            request = ListServersDetailsRequest()
+            request = ListServersDetailsRequest(
+                not_tags="__type_baremetal%2C__type_lcs%2C_sys_type_hcss_l")
         elif service == "deh":
             request = ListDedicatedHostsRequest()
         elif service == "obs":
