@@ -93,6 +93,8 @@ from huaweicloudsdkantiddos.v1 import AntiDDoSClient, ListDDosStatusRequest
 from huaweicloudsdkantiddos.v1.region.antiddos_region import AntiDDoSRegion
 from huaweicloudsdksecmaster.v2 import ListWorkspacesRequest, SecMasterClient
 from huaweicloudsdksecmaster.v2.region.secmaster_region import SecMasterRegion
+from huaweicloudsdkhss.v5 import ListHostStatusRequest, HssClient
+from huaweicloudsdkhss.v5.region.hss_region import HssRegion
 from huaweicloudsdkram.v1 import (
     RamClient,
     SearchResourceShareAssociationsRequest,
@@ -328,6 +330,13 @@ class Session:
                 .with_region(SecMasterRegion.value_of(self.region))
                 .build()
             )
+        elif service == "hss":
+            client = (
+                HssClient.new_builder()
+                .with_credentials(credentials)
+                .with_region(HssRegion.value_of(self.region))
+                .build()
+            )
         elif service == "cts-tracker":
             client = (
                 CtsClient.new_builder()
@@ -487,6 +496,8 @@ class Session:
             request = ListNatGatewayDnatRulesRequest()
         elif service == "secmaster":
             request = ListWorkspacesRequest()
+        elif service == "hss":
+            request = ListHostStatusRequest()
         elif service == "cts-tracker":
             request = ListTrackersRequest()
         elif service == "cts-notification-smn":
