@@ -113,21 +113,24 @@ class Session:
     def __init__(self, options=None):
         self.token = None
         self.domain_id = None
+        self.region = None
+        self.ak = None
+        self.sk = None
 
         if options is not None:
             self.ak = options.get("access_key_id")
             self.sk = options.get("secret_access_key")
             self.token = options.get("security_token")
-            self.domain_id = options.get("account_id")
+            self.domain_id = options.get("domain_id")
             self.region = options.get("region")
 
-        self.ak = os.getenv("HUAWEI_ACCESS_KEY_ID") or self.ak
-        self.sk = os.getenv("HUAWEI_SECRET_ACCESS_KEY") or self.sk
-        self.region = os.getenv("HUAWEI_DEFAULT_REGION") or self.region
+        self.ak = self.ak or os.getenv("HUAWEI_ACCESS_KEY_ID")
+        self.sk = self.sk or os.getenv("HUAWEI_SECRET_ACCESS_KEY")
+        self.region = self.region or os.getenv("HUAWEI_DEFAULT_REGION")
 
         if not self.region:
             log.error(
-                "No default region set. Specify a default via HUAWEI_DEFAULT_REGION"
+                "No default region set. Specify a default via HUAWEI_DEFAULT_REGION."
             )
             sys.exit(1)
 
@@ -150,7 +153,7 @@ class Session:
             ).with_security_token(self.token)
             globalCredentials = (GlobalCredentials(self.ak, self.sk, self.domain_id)
                                  .with_security_token(self.token))
-
+        client = None
         if service == "vpc":
             client = (
                 VpcClientV3.new_builder()
