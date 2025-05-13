@@ -103,6 +103,10 @@ from huaweicloudsdkram.v1 import (
     SearchResourceShareAssociationsReqBody,
 )
 from huaweicloudsdkram.v1.region.ram_region import RamRegion
+
+from huaweicloudsdkdc.v3 import DcClient, ListDirectConnectsRequest
+from huaweicloudsdkdc.v3.region.dc_region import DcRegion
+
 from huaweicloudsdkcc.v3 import CcClient, ListCentralNetworksRequest
 from huaweicloudsdkcc.v3.region.cc_region import CcRegion
 
@@ -412,6 +416,13 @@ class Session:
                 .with_region(KafkaRegion.value_of(self.region))
                 .build()
             )
+        elif service == 'dc':
+            client = (
+                DcClient.new_builder()
+                .with_credentials(credentials)
+                .with_region(DcRegion.value_of(self.region))
+                .build()
+            )
         elif service == "cc":
             client = (
                 CcClient.new_builder()
@@ -536,7 +547,8 @@ class Session:
             request = ListDDosStatusRequest()
         elif service == 'kafka':
             request = ListInstancesRequest()
+        elif service == 'dc':
+            request = ListDirectConnectsRequest()
         elif service == "bms":
             request = ListBareMetalServerDetailsRequest()
-
         return request
