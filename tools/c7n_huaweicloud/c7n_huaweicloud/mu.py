@@ -6,9 +6,13 @@ from datetime import datetime
 import json
 import logging
 import base64
+import site
+import zipfile
+import os
 
 from c7n.mu import get_exec_options, custodian_archive as base_archive
 from c7n.utils import local_session
+from c7n.exceptions import PolicyExecutionError
 
 from huaweicloudsdkfunctiongraph.v2 import (
     ListFunctionsRequest,
@@ -23,7 +27,16 @@ from huaweicloudsdkfunctiongraph.v2 import (
     CreateFunctionTriggerRequest,
     CreateFunctionTriggerRequestBody,
     ListDependenciesRequest,
-    ShowDependencyVersionRequest
+    ShowDependencyVersionRequest,
+    UpdateFunctionConfigRequest,
+    UpdateFunctionConfigRequestBody,
+    DeleteFunctionTriggerRequest,
+    ShowFunctionAsyncInvokeConfigRequest,
+    UpdateFunctionAsyncInvokeConfigRequest,
+    UpdateFunctionAsyncInvokeConfigRequestBody,
+    FuncAsyncDestinationConfig,
+    FuncDestinationConfig,
+    DeleteFunctionAsyncInvokeConfigRequest,
 )
 from huaweicloudsdkeg.v1 import (
     ListChannelsRequest,
@@ -45,6 +58,46 @@ def custodian_archive(packages=None):
     archive = base_archive(packages)
 
     return archive
+
+
+def package_dependencies(zip_filename):
+    log.info(f'Start package dependencies to {zip_filename}')
+    site_packages_dirs = site.getsitepackages()
+    zip_filepath = os.path.abspath(zip_filename)
+    with zipfile.ZipFile(zip_filename, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for sp_dir in site_packages_dirs:
+            if not os.path.exists(sp_dir):
+                continue
+
+            for root, dirs, files in os.walk(sp_dir):
+                # Filter directories: skip cache and metadata directories
+                dirs[:] = [
+                    d for d in dirs
+                    if d not in {"__pycache__"}
+                       and not d.endswith(".egg-info")
+                ]
+                # Filter files: skip .pyc, .pth, .dll, .exe and .pdb files
+                files = [
+                    f for f in files
+                    # Forced Lowercase Matching
+                    if not f.lower().endswith((".pyc", ".pth", ".dll", ".exe", ".pdb"))
+                ]
+
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    arcname = os.path.relpath(file_path, sp_dir)
+                    zipf.write(file_path, arcname=arcname)
+
+    # 获取 ZIP 文件大小
+    file_size = os.path.getsize(zip_filepath)
+
+    # 转换为 Base64
+    with open(zip_filepath, "rb") as f:
+        zip_data = f.read()
+    base64_data = base64.b64encode(zip_data).decode("utf-8")
+    log.info(f'Package dependencies success, filepath: {zip_filepath}, zip file size: {file_size}')  # noqa: E501
+
+    return file_size, base64_data
 
 
 class FunctionGraphManager:
@@ -85,9 +138,9 @@ class FunctionGraphManager:
         request_body = CreateFunctionRequestBody()
         for key, value in params.items():
             setattr(request_body, key, value)
+        # 配置公共依赖
         dep_ids = self.get_custodian_depend_version_id(params["runtime"])
         request_body.depend_version_list = dep_ids
-        log.info(request_body.user_data)
         request.body = request_body
         try:
             response = self.client.create_function(request)
@@ -100,8 +153,8 @@ class FunctionGraphManager:
 
         return response
 
-    def get_custodian_depend_version_id(self, runtime="Python3.10") -> [str]:
-        depend_name = "custodian-huaweicloud-py3.10"
+    def get_custodian_depend_version_id(self, runtime="Python3.10"):
+        depend_name = f'custodian-huaweicloud-{runtime}'
         list_dependencies_request = ListDependenciesRequest(runtime=runtime, name=depend_name)
         try:
             dependencies = self.client.list_dependencies(list_dependencies_request).dependencies
@@ -113,22 +166,90 @@ class FunctionGraphManager:
             return []
 
         dependency_versions = []
+        dependency_version_map = {}
         for dependency in dependencies:
             show_dependency_version_request = ShowDependencyVersionRequest(
                 depend_id=dependency.id,
                 version=dependency.version,
             )
-            dependency_version = self.client.show_dependency_version(show_dependency_version_request)  # noqa: E501
-            dependency_versions.append(dependency_version.id)
+            try:
+                dependency_version = self.client.show_dependency_version(show_dependency_version_request)  # noqa: E501
+            except exceptions.ClientRequestException as e:
+                log.error(f'Show dependency version failed, request id:[{e.request_id}], '
+                          f'status code:[{e.status_code}], '
+                          f'error code:[{e.error_code}], '
+                          f'error message:[{e.error_msg}].')
+                continue
+            owner = dependency_version.owner
+            dependency_version_id = dependency_version.id
+            if dependency_version_map.get(owner):
+                dependency_version_map.append(dependency_version_id)
+            else:
+                dependency_version_map[owner] = [dependency_version_id]
+
+        for owner, dependency_version_list in dependency_version_map.items():
+            if owner == "public":
+                dependency_versions = dependency_version_list
+                log.info(f'Using public dependency {dependency_version_list}')
+                return dependency_versions
+            else:
+                dependency_versions += dependency_version_list
+                log.info(
+                    f'Can not find public dependency, using [{owner}] private dependency {dependency_version_list}')  # noqa: E501
+
+        if len(dependency_versions) == 0:
+            log.error(f'Not find any dependency named: {depend_name}, please add dependencies manually')  # noqa: E501
 
         return dependency_versions
 
-    def show_function_config(self, func_name):
+    def show_function_config(self, func_name, is_public=False):
         request = ShowFunctionConfigRequest(function_urn=func_name)
         try:
             response = self.client.show_function_config(request)
         except exceptions.ClientRequestException as e:
-            log.error(f'Show function config failed, request id:[{e.request_id}], '
+            if is_public and e.status_code == 404:
+                log.warning(f'Can not find function[{func_name}], will create.')
+            else:
+                log.error(f'Show function config failed, request id:[{e.request_id}], '
+                          f'status code:[{e.status_code}], '
+                          f'error code:[{e.error_code}], '
+                          f'error message:[{e.error_msg}].')
+            return None
+
+        return response
+
+    def update_function_config(self, old_config, need_update):
+        old_config = old_config.to_dict()
+        allow_parameters_list = [
+            "timeout", "handler", "memory_size", "gpu_memory", "gpu_type", "user_data",
+            "encrypted_user_data", "xrole", "app_xrole", "description", "func_vpc", "peering_cidr",
+            "mount_config", "strategy_config", "custom_image", "extend_config",
+            "initializer_handler", "initializer_timeout", "pre_stop_handler", "pre_stop_timeout",
+            "ephemeral_storage", "enterprise_project_id", "log_config", "network_controller",
+            "is_stateful_function", "enable_dynamic_memory", "enable_auth_in_header",
+            "domain_names", "restore_hook_handler", "restore_hook_timeout", "heartbeat_handler",
+            "enable_class_isolation", "enable_lts_log", "lts_custom_tag",
+            "user_data_encrypt_kms_key_id",
+        ]
+        request = UpdateFunctionConfigRequest(function_urn=old_config["func_urn"])
+        request_body = UpdateFunctionConfigRequestBody(
+            func_name=old_config['func_name'],
+            runtime=old_config['runtime'],
+        )
+        if 'enable_lts_log' not in need_update:
+            old_config.pop('enable_lts_log', None)
+        # Put the original configuration into the request body, and check whether parameter is valid.  # noqa: E501
+        for key, value in old_config.items():
+            if key in allow_parameters_list:
+                setattr(request_body, key, value)
+        # Put update parameter into the request body.
+        for key, value in need_update.items():
+            setattr(request_body, key, value)
+        request.body = request_body
+        try:
+            response = self.client.update_function_config(request)
+        except exceptions.ClientRequestException as e:
+            log.error(f'Update function config failed, request id:[{e.request_id}], '
                       f'status code:[{e.status_code}], '
                       f'error code:[{e.error_code}], '
                       f'error message:[{e.error_msg}].')
@@ -145,7 +266,8 @@ class FunctionGraphManager:
             func_code=FuncCode(
                 file=base64_str
             ),
-            depend_version_list=self.get_custodian_depend_version_id(func.runtime)
+            depend_version_list=self.get_custodian_depend_version_id(func.runtime),
+            code_encrypt_kms_key_id=func.code_encrypt_kms_key_id,
         )
         try:
             response = self.client.update_function_code(request)
@@ -172,31 +294,36 @@ class FunctionGraphManager:
         return response.body
 
     def publish(self, func, role=None):
-        result, _, _ = self._create_or_update(func, role)
+        try:
+            result, changed, _ = self._create_or_update(func, role)
+        except PolicyExecutionError:
+            return
         func.func_urn = result.func_urn
-        eg_not_exist = True
-        triggers = self.list_function_triggers(func.func_urn)
-        if triggers is not None:
-            for trigger in triggers:
-                if trigger.trigger_type_code == "CTS" and trigger.trigger_status == "ACTIVE":
-                    eg_not_exist = False
-                    break
-        if eg_not_exist:
+
+        if changed:
+            triggers = self.list_function_triggers(func.func_urn)
             for e in func.get_events(self.session_factory):
+                if triggers is not None:
+                    for trigger in triggers:
+                        if trigger.trigger_type_code == e.trigger_type_code:
+                            update_trigger = e.remove(trigger.trigger_id, func.func_urn)
+                            if update_trigger:
+                                log.info(f'Delete trigger[{trigger.trigger_id}] success.')
                 create_trigger = e.add(func.func_urn)
                 if create_trigger:
                     log.info(
                         f'Created trigger[{create_trigger.trigger_id}] for function[{func.func_name}].')  # noqa: E501
-        else:
-            log.info("Trigger existed, skip create.")
 
-        return result
+        results = []
+        if result:
+            results.append(result)
+        return results
 
     def _create_or_update(self, func, role=None):
         role = func.xrole or role
         assert role, "FunctionGraph function xrole must be specified"
         archive = func.get_archive()
-        existing = self.show_function_config(func.func_name)
+        existing = self.show_function_config(func.func_name, is_public=True)
 
         changed = False
         if existing:
@@ -206,6 +333,10 @@ class FunctionGraphManager:
                 result = self.update_function_code(func, archive)
                 if result:
                     changed = True
+            need_update = self.compare_function_config(old_config, func)
+            if need_update:
+                log.info(f'Updating function[{func.func_name}] config: [{need_update}]...')
+                result = self.update_function_config(old_config, need_update)
         else:
             log.info(f'Creating custodian policy FunctionGraph function[{func.func_name}]...')
             params = func.get_config()
@@ -219,7 +350,107 @@ class FunctionGraphManager:
             result = self.create_function(params)
             changed = True
 
+        if result:
+            self.process_async_invoke_config(func, result.func_urn)
+        else:
+            raise PolicyExecutionError("Create or update failed.")
+
         return result, changed, existing
+
+    @staticmethod
+    def compare_function_config(old_config, func):
+        params = func.get_config()
+        old_config = old_config.to_dict()
+        old_user_data, new_user_data = {}, {}
+        need_update_params = {}
+        # 将user_data字段转为dict, 便于比较
+        if params.get('user_data', ""):
+            new_user_data = json.loads(params['user_data'])
+        if old_config.get('user_data', ""):
+            old_user_data = json.loads(old_config['user_data'])
+        for param in params:
+            # 跳过异步配置、环境变量
+            if param in ["async_invoke_config", "user_data"]:
+                continue
+            if params[param] != old_config.get(param):
+                need_update_params[param] = params[param]
+
+        # 单独比较user_data:
+        if new_user_data != old_user_data:
+            need_update_params['user_data'] = json.dumps(new_user_data)
+        return need_update_params
+
+    def process_async_invoke_config(self, func, func_urn):
+        show_async_config_request = ShowFunctionAsyncInvokeConfigRequest(
+            function_urn=func_urn
+        )
+        try:
+            old_config = self.client.show_function_async_invoke_config(
+                show_async_config_request).to_dict()
+        except exceptions.ClientRequestException as e:
+            if int(e.status_code) == 404:
+                old_config = None
+            else:
+                log.error(f'Show function async config failed, request id:[{e.request_id}], '
+                          f'status code:[{e.status_code}], '
+                          f'error code:[{e.error_code}], '
+                          f'error message:[{e.error_msg}].')
+                return
+
+        new_config = func.async_invoke_config
+        if new_config:
+            update_async_config_request = UpdateFunctionAsyncInvokeConfigRequest(
+                function_urn=func_urn
+            )
+            update_async_config_request.body = UpdateFunctionAsyncInvokeConfigRequestBody(
+                enable_async_status_log=new_config.get('enable_async_status_log'),
+                max_async_retry_attempts=new_config.get('max_async_retry_attempts'),
+                max_async_event_age_in_seconds=new_config.get('max_async_event_age_in_seconds'),
+                destination_config=FuncAsyncDestinationConfig(
+                    on_success=FuncDestinationConfig(
+                        destination=new_config.get('destination_config', {}).
+                        get('on_success', {}).
+                        get('destination', ""),
+                        param=json.dumps(
+                            new_config.get('destination_config', {}).
+                            get('on_success', {}).
+                            get('param', {})),
+                    ),
+                    on_failure=FuncDestinationConfig(
+                        destination=new_config.get('destination_config', {}).
+                        get('on_failure', {}).
+                        get('destination', ""),
+                        param=json.dumps(
+                            new_config.get('destination_config', {}).
+                            get('on_failure', {}).
+                            get('param', {})),
+                    ),
+                )
+            )
+            try:
+                log.info('Update function async config...')
+                _ = self.client.update_function_async_invoke_config(
+                    update_async_config_request
+                )
+            except exceptions.ClientRequestException as e:
+                log.error(f'Update function async config failed, request id:[{e.request_id}], '
+                          f'status code:[{e.status_code}], '
+                          f'error code:[{e.error_code}], '
+                          f'error message:[{e.error_msg}].')
+                return
+        elif old_config and not new_config:
+            delete_async_config_request = DeleteFunctionAsyncInvokeConfigRequest(
+                function_urn=func_urn
+            )
+            try:
+                log.info('Delete function async config')
+                _ = self.client.delete_function_async_invoke_config(delete_async_config_request)
+            except exceptions.ClientRequestException as e:
+                log.error(f'Delete function async config failed, request id:[{e.request_id}], '
+                          f'status code:[{e.status_code}], '
+                          f'error code:[{e.error_code}], '
+                          f'error message:[{e.error_msg}].')
+                return
 
     @staticmethod
     def calculate_sha512(archive, buffer_size=65536) -> str:
@@ -311,6 +542,31 @@ class AbstractFunctionGraph:
     def description(self):
         """ """
 
+    @property
+    @abc.abstractmethod
+    def enable_lts_log(self):
+        """Whether open lts log"""
+
+    @property
+    @abc.abstractmethod
+    def log_config(self):
+        """LTS log config"""
+
+    @property
+    @abc.abstractmethod
+    def async_invoke_config(self):
+        """Async invoke config"""
+
+    @property
+    @abc.abstractmethod
+    def user_data_encrypt_kms_key_id(self):
+        """KMS key id for encrypt user data"""
+
+    @property
+    @abc.abstractmethod
+    def code_encrypt_kms_key_id(self):
+        """KMS key id for encrypt function code"""
+
     @abc.abstractmethod
     def get_events(self, session_factory):
         """ """
@@ -331,6 +587,11 @@ class AbstractFunctionGraph:
             'func_vpc': self.func_vpc,
             'user_data': self.user_data,
             'description': self.description,
+            'enable_lts_log': self.enable_lts_log,
+            'log_config': self.log_config,
+            'async_invoke_config': self.async_invoke_config,
+            'user_data_encrypt_kms_key_id': self.user_data_encrypt_kms_key_id,
+            'code_encrypt_kms_key_id': self.code_encrypt_kms_key_id,
         }
 
         return conf
@@ -392,7 +653,27 @@ class FunctionGraph(AbstractFunctionGraph):
     def description(self):
         return self.func_data.get('description', "")
 
-    def get_events(self, ssession_factory):
+    @property
+    def enable_lts_log(self):
+        return self.func_data.get('enable_lts_log', False)
+
+    @property
+    def log_config(self):
+        return self.func_data.get('log_config', None)
+
+    @property
+    def async_invoke_config(self):
+        return self.func_data.get('async_invoke_config', None)
+
+    @property
+    def user_data_encrypt_kms_key_id(self):
+        return self.func_data.get('user_data_encrypt_kms_key_id', "")
+
+    @property
+    def code_encrypt_kms_key_id(self):
+        return self.func_data.get('code_encrypt_kms_key_id', "")
+
+    def get_events(self, session_factory):
         return self.func_data.get('events', ())
 
     def get_archive(self):
@@ -401,6 +682,10 @@ class FunctionGraph(AbstractFunctionGraph):
 
 FunctionGraphHandlerTemplate = """\
 from c7n_huaweicloud import handler
+import logging
+import os
+
+logging.basicConfig(level=os.getenv("LOG_LEVEL"))
 
 def run(event, context):
     return handler.run(event, context)
@@ -452,13 +737,22 @@ class PolicyFunctionGraph(AbstractFunctionGraph):
     @property
     def user_data(self):
         user_data = {
-            "HUAWEI_DEFAULT_REGION": self.policy.data['mode'].get('default_region', "")
+            "HUAWEI_DEFAULT_REGION": local_session(self.policy.session_factory).region,
+            "LOG_LEVEL": self.policy.data['mode'].get('log_level', "WARNING"),
         }
         return json.dumps(user_data)
 
     @property
     def description(self):
         return self.policy.data['mode'].get('description', 'cloud-custodian FunctionGraph policy')
+
+    @property
+    def enable_lts_log(self):
+        return self.policy.data['mode'].get('enable_lts_log', False)
+
+    @property
+    def log_config(self):
+        return self.policy.data['mode'].get('log_config', None)
 
     def eg_agency(self):
         return self.policy.data['mode'].get('eg_agency')
@@ -467,11 +761,27 @@ class PolicyFunctionGraph(AbstractFunctionGraph):
     def packages(self):
         return self.policy.data['mode'].get('packages')
 
+    @property
+    def async_invoke_config(self):
+        return self.policy.data['mode'].get('async_invoke_config', None)
+
+    @property
+    def user_data_encrypt_kms_key_id(self):
+        return self.policy.data['mode'].get('user_data_encrypt_kms_key_id', None)
+
+    @property
+    def code_encrypt_kms_key_id(self):
+        return self.policy.data['mode'].get('code_encrypt_kms_key_id', None)
+
     def get_events(self, session_factory):
         events = []
         if self.policy.data['mode']['type'] == 'cloudtrace':
             events.append(
                 CloudTraceServiceSource(
+                    self.policy.data['mode'], session_factory))
+        elif self.policy.data['mode']['type'] == 'huaweicloud-periodic':
+            events.append(
+                TimerServiceSource(
                     self.policy.data['mode'], session_factory))
         return events
 
@@ -485,7 +795,7 @@ class PolicyFunctionGraph(AbstractFunctionGraph):
         return self.archive
 
 
-class CloudTraceServiceSource:
+class FunctionGraphTriggerBase:
     client_service = 'functiongraph'
 
     def __init__(self, data, session_factory):
@@ -505,6 +815,34 @@ class CloudTraceServiceSource:
         if not self._client:
             self._client = self.session.client(self.client_service)
         return self._client
+
+    @property
+    def trigger_type_code(self):
+        raise NotImplementedError("subclass responsibility")
+
+    def add(self, func_urn):
+        raise NotImplementedError("subclass responsibility")
+
+    def remove(self, trigger_id, func_urn):
+        request = DeleteFunctionTriggerRequest(function_urn=func_urn,
+                                               trigger_type_code=self.trigger_type_code,
+                                               trigger_id=trigger_id)
+        try:
+            _ = self.client.delete_function_trigger(request)
+        except exceptions.ClientRequestException as e:
+            log.error(f'Request[{e.request_id}] failed[{e.status_code}], '
+                      f'error_code[{e.error_code}], '
+                      f'error_msg[{e.error_msg}]')
+            return False
+
+        return True
+
+
+class CloudTraceServiceSource(FunctionGraphTriggerBase):
+
+    @property
+    def trigger_type_code(self):
+        return "CTS"
 
     def add(self, func_urn):
         # Create FunctionGraph CTS trigger.
@@ -526,7 +864,7 @@ class CloudTraceServiceSource:
 
     def build_create_cts_trigger_request_body(self):
         request_body = CreateFunctionTriggerRequestBody(
-            trigger_type_code="CTS",
+            trigger_type_code=self.trigger_type_code,
             trigger_status="ACTIVE",
         )
         operations = []
@@ -555,8 +893,53 @@ class CloudTraceServiceSource:
             operation = f'{service_type}:{resource_types}:{trace_names}'
             operations.append(operation)
         request_body.event_data = {
-            "name": 'custodian_' + datetime.now().strftime("%Y%m%d%H%M%S"),
+            "name": self.data.get('trigger_name',
+                                  'custodian_timer_' + datetime.now().strftime("%Y%m%d%H%M%S")),
             "operations": operations
+        }
+
+        return request_body
+
+
+class TimerServiceSource(FunctionGraphTriggerBase):
+
+    @property
+    def trigger_type_code(self):
+        return "TIMER"
+
+    def add(self, func_urn):
+        # Create FunctionGraph TIMER trigger.
+        create_trigger_request = CreateFunctionTriggerRequest(function_urn=func_urn)
+        create_trigger_request.body = self.build_create_timer_trigger_request_body()
+
+        try:
+            create_trigger_response = self.client.create_function_trigger(create_trigger_request)  # noqa: E501
+            log.info(f'Create TIMER trigger for function[{func_urn}] success, '
+                     f'trigger id: [{create_trigger_response.trigger_id}, '
+                     f'trigger name: [{create_trigger_response.event_data.name}], '
+                     f'trigger status: [{create_trigger_response.trigger_status}].')
+            return create_trigger_response
+        except exceptions.ClientRequestException as e:
+            log.error(f'Request[{e.request_id}] failed[{e.status_code}], '
+                      f'error_code[{e.error_code}], '
+                      f'error_msg[{e.error_msg}]')
+            return False
+
+    def build_create_timer_trigger_request_body(self):
+        request_body = CreateFunctionTriggerRequestBody(
+            trigger_type_code=self.trigger_type_code,
+            trigger_status=self.data.get('status', 'ACTIVE'),
+        )
+        schedule = self.data.get('schedule')
+        if self.data.get('schedule_type') == "Cron" \
+                and self.data.get('cron_tz', "") \
+                and not schedule.startswith("@every"):
+            schedule = f'CRON_TZ={self.data.get("cron_tz")} {schedule}'
+        request_body.event_data = {
+            "name": self.data.get('trigger_name',
+                                  'custodian_timer_' + datetime.now().strftime("%Y%m%d%H%M%S")),
+            "schedule_type": self.data.get('schedule_type'),
+            "schedule": schedule,
         }
 
         return request_body

@@ -79,7 +79,12 @@ class ReservedConcurrency(ValueFilter):
                   - type: reserved-concurrency
                     key: min_count # Number of reserved instances
                     value: 1
-                    key: qualifier_type # Limiting type. Options:
+                    key: qualifier_type # Limiting type. Options: version and alias.
+                    value: version
+                    key: qualifier_name # Limit value.
+                    value: v1
+                    key: idle_mode # Whether to enable the idle mode.
+                    value: true
 
         """
 
@@ -105,7 +110,7 @@ class ReservedConcurrency(ValueFilter):
                 response = client.list_reserved_instance_configs(request)
                 reserved_instances = response.reserved_instances
                 if reserved_instances is None:
-                    return r
+                    return None
                 for reserved_instance in reserved_instances:
                     if reserved_instance.function_urn == f'{r["func_urn"]}:{r["version"]}':
                         # change result to Python dict
@@ -118,6 +123,10 @@ class ReservedConcurrency(ValueFilter):
                 log.error(f'Request[{e.request_id}] failed[{e.status_code}], '
                           f'error_code[{e.error_code}], '
                           f'error_msg[{e.error_msg}]')
+                return None
+            except Exception as e:
+                log.error(f'other error, {str(e)}')
+                return None
             return r
 
         with self.executor_factory(max_workers=3) as w:
@@ -137,10 +146,13 @@ class FunctionTrigger(ValueFilter):
               - name: filter-function-by-reserved-concurrency
                 resource: huaweicloud.functiongraph
                 filters:
-                  - type: reserved-concurrency
-                    key: min_count # Number of reserved instances
-                    value: 1
-                    key: qualifier_type # Limiting type. Options:
+                  - type: trigger-type
+                    key: trigger_id # Trigger ID.
+                    value: xxx
+                    key: trigger_type_code # Trigger type.
+                    value: TIMER
+                    key: trigger_status
+                    value: ACTIVE # Trigger status.
 
         """
 
@@ -167,7 +179,7 @@ class FunctionTrigger(ValueFilter):
                 response = client.list_function_triggers(request)
                 triggers = response.body
                 if triggers is None:
-                    return r
+                    return None
                 # change result to Python dict
                 r[self.annotation_key] = eval(str(triggers).
                                               replace('null', 'None').
@@ -177,6 +189,10 @@ class FunctionTrigger(ValueFilter):
                 log.error(f'Request[{e.request_id}] failed[{e.status_code}], '
                           f'error_code[{e.error_code}], '
                           f'error_msg[{e.error_msg}]')
+                return None
+            except Exception as e:
+                log.error(f'other error, {str(e)}')
+                return None
             return r
 
         with self.executor_factory(max_workers=3) as w:
@@ -204,7 +220,7 @@ class FunctionTrigger(ValueFilter):
 
         # value extract
         # Function triggers in FunctionGraph is list
-        resources_triggers = i.get(self.annotation_key)
+        resources_triggers = i.get(self.annotation_key, [])
 
         # skip value type conversion
         v = self.v
@@ -256,7 +272,7 @@ class DeleteFunction(HuaweiCloudBaseAction):
     def perform_action(self, resource):
         client = self.manager.get_client()
         func_urn = resource["func_urn"]
-        if resource["version"] == 'latest':
+        if func_urn.split(":")[-1] == 'latest':
             func_urn = ":".join(func_urn.split(":")[:-1])
         request = DeleteFunctionRequest(function_urn=func_urn)
         try:
@@ -405,11 +421,8 @@ class ModifySecurityGroups(UpdateFunctionConfig):
                 value: test_custodian
             actions:
               - type: modify-security-groups
-                properties: {
-                  timeout: 50,
-                  handler: "index.handler",
-                  memory_size: 128
-                }
+                security_groups: ["test"]
+                xrole: fgs_admin
     """
 
     schema = type_schema(
