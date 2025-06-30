@@ -1,11 +1,26 @@
 policies:
   - name: HW-CTS-01-filter-resources-admin
     resource: huaweicloud.cts-tracker
+#    mode:
+#      type: cloudtrace
+#      xrole: cts_admin_trust
+#      default_region: cn-east-2
+#      events:
+#        - source: "CTS.tracker"
+#          event: "updateTracker"
+#          ids: "*"
+#        - source: "CTS.tracker"
+#          event: "createTracker"
+#          ids: "*"
     filters:
       # 筛选名称为"system"的追踪器（若打开"应用到我的组织"开关，即为组织追踪器），管理员账号最多只有1个追踪器
       - type: value
         key: tracker_name
         value: "system"
+      - type: value
+        key: lts.is_lts_enabled
+        op: eq
+        value: false
     actions:
       - type: set-trace-file-validation
         tracker_name: "system"
