@@ -181,12 +181,12 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
             "tracker_type": self.data.get("tracker_type", ""),
             "agency_name": self.data.get("agency_name", ""),
             "status": self.data.get("status", ""),
-            "is_organization_tracker": self.data.get("is_organization_tracker", True),
+            "is_organization_tracker": self.data.get("is_organization_tracker", False),
             "management_event_selector": self.data.get("management_event_selector", {}),
-            "is_lts_enabled": self.data.get("is_lts_enabled", True),
+            "is_lts_enabled": self.data.get("is_lts_enabled", False),
             "is_support_validate": self.data.get("is_support_validate"),
             "kms_id": self.data.get("kms_id"),
-            "is_support_trace_files_encryption": self.data.get("is_support_trace_files_encryption", True),
+            "is_support_trace_files_encryption": self.data.get("is_support_trace_files_encryption", False),
             "obs_info": self.data.get("obs_info", {}),
             "data_bucket": self.data.get("data_bucket", {})
         }
@@ -209,7 +209,7 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
                 is_obs_created=properties["obs_info"].get("is_obs_created"),
                 bucket_lifecycle=properties["obs_info"].get("bucket_lifecycle"),
                 compress_type=properties["obs_info"].get("compress_type", ""),
-                is_sort_by_service=properties["obs_info"].get("is_sort_by_service", True)
+                is_sort_by_service=properties["obs_info"].get("is_sort_by_service", False)
             ) if properties["obs_info"] else None,
             data_bucket=properties["data_bucket"] if properties["data_bucket"] else None
         )
