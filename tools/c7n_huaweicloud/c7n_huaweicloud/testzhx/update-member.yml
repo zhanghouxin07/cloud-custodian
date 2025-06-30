@@ -13,10 +13,11 @@ policies:
       - type: value
         key: is_organization_tracker
         value: false
-      # 关键修改：新增filter获取is_lts_enabled字段
+      # 匹配is_lts_enabled字段值为 true的情况
       - type: value
-        key: lts.is_lts_enabled  # 访问lts下的is_lts_enabled
-        op: exists  # 获取字段值，不做筛选
+        key: lts.is_lts_enabled
+        op: eq
+        value: true
 
     actions:
       - type: set-trace-file-validation
