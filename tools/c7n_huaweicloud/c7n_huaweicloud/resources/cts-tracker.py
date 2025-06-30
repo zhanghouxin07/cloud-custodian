@@ -231,7 +231,7 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
         return response
 
 @Tracker.action_registry.register("set-trace-file-validation-with-lts-preservation")
-class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
+class CtsSetTraceFileValidationWithLtsPreservation(HuaweiCloudBaseAction):
     """Set Trace File Validation. this action is used to configure the log file integrity
      verification and encryption storage settings for the CTS tracker.
     :Example:
@@ -269,7 +269,7 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
     """
 
     schema = type_schema(
-        "set-trace-file-validation",
+        "set-trace-file-validation-with-lts-preservation",
         tracker_name={"type": "string"},
         tracker_type={"type": "string"},
         agency_name={"type": "string"},
