@@ -40,6 +40,10 @@ policies:
           value_type: swap
           op: eq
           value: null
+        - type: value
+          key: "status"
+          op: eq
+          value: "disabled"
 
     actions:
       - type: set-trace-file-validation
