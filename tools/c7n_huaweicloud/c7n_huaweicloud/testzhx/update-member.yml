@@ -14,7 +14,7 @@ policies:
         key: is_organization_tracker
         value: false
       # 匹配is_lts_enabled字段值为 true的情况
-      - type: value
+      - type: has
         key: lts.is_lts_enabled
 
     actions:
