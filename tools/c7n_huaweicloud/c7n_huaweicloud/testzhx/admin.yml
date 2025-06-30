@@ -17,11 +17,11 @@ policies:
       - type: value
         key: tracker_name
         value: "system"
-      - type: value
-        key: lts.is_lts_enabled
-        op: eq
-        value: false
       - or:
+        - type: value
+          key: lts.is_lts_enabled
+          op: eq
+          value: false
         - type: value
           key: "obs_info.bucket_name"
           op: eq
