@@ -13,6 +13,9 @@ policies:
       - type: value
         key: is_organization_tracker
         value: false
+      # 将数组转换为单个对象（取第一个元素）
+      - type: reduce
+        value: "items[0]"
 
     actions:
       - type: set-trace-file-validation
