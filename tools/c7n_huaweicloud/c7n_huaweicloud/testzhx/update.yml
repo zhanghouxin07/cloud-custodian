@@ -7,21 +7,21 @@ policies:
         value: "system"
       - type: value
         key: is_organization_tracker
-        value: false
+        value: False
     actions:
       - type: set-trace-file-validation
         tracker_name: "system"
         tracker_type: "system"
         agency_name: "cts_admin_trust"
         status: "enabled"
-        is_organization_tracker: false
-        is_lts_enabled: false
-        is_support_validate: true
+        is_organization_tracker: False
+        is_lts_enabled: False
+        is_support_validate: True
         kms_id: "7d11203a-c426-49a3-a8c8-25e4e6f1fba1"
-        is_support_trace_files_encryption: true
+        is_support_trace_files_encryption: True
         obs_info:
           bucket_name: "bj4-guazhou1"
           file_prefix_name: ""
-          is_obs_created: false
+          is_obs_created: False
           compress_type: "gzip"
-          is_sort_by_service: true
+          is_sort_by_service: True
