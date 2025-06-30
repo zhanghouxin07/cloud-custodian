@@ -187,7 +187,8 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
             "is_lts_enabled": self.data.get("is_lts_enabled", False),
             "is_support_validate": self.data.get("is_support_validate"),
             "kms_id": self.data.get("kms_id"),
-            "is_support_trace_files_encryption": self.data.get("is_support_trace_files_encryption", False),
+            "is_support_trace_files_encryption":
+                self.data.get("is_support_trace_files_encryption", False),
             "obs_info": self.data.get("obs_info", {}),
             "data_bucket": self.data.get("data_bucket", {})
         }
@@ -229,6 +230,7 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
                       f" {e.error_code}, {e.error_msg}")
             raise
         return response
+
 
 @Tracker.action_registry.register("set-trace-file-validation-with-lts-preservation")
 class CtsSetTraceFileValidationWithLtsPreservation(HuaweiCloudBaseAction):
@@ -312,7 +314,8 @@ class CtsSetTraceFileValidationWithLtsPreservation(HuaweiCloudBaseAction):
             "is_lts_enabled": is_lts_enabled,
             "is_support_validate": self.data.get("is_support_validate"),
             "kms_id": self.data.get("kms_id"),
-            "is_support_trace_files_encryption": self.data.get("is_support_trace_files_encryption", False),
+            "is_support_trace_files_encryption":
+                self.data.get("is_support_trace_files_encryption", False),
             "obs_info": self.data.get("obs_info", {}),
             "data_bucket": self.data.get("data_bucket", {})
         }
