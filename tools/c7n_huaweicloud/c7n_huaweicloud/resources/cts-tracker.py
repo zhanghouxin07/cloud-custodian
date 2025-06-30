@@ -175,7 +175,6 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
     )
 
     def perform_action(self, resource):
-        log.info(f"resource: {resource}")
         client = self.manager.get_client()
         properties = {
             "tracker_name": self.data.get("tracker_name", ""),
@@ -217,10 +216,6 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
         )
 
         try:
-            # 简单打印 request 关键信息，比如 request.body
-            log.info(f"Request body: {request.body}")
-            # 也可以直接打印 request 对象，看其字符串表示
-            log.info(f"Request object: {request}")
             response = client.update_tracker(request)
             log.info(f"Successfully updated trace file validation ("
                      f"is_support_validate={properties['is_support_validate']}) "
@@ -344,7 +339,7 @@ class CtsSetTraceFileValidationWithLtsPreservation(HuaweiCloudBaseAction):
         )
 
         try:
-            # 打印 request 关键信息，比如 request.body
+            # 打印 request 关键信息
             log.info(f"Request body: {request.body}")
             response = client.update_tracker(request)
             log.info(f"Successfully updated trace file validation ("
