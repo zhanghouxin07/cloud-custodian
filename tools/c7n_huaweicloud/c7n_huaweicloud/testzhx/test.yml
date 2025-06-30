@@ -1,0 +1,3 @@
+policies:
+  - name: query-cts-trackers
+    resource: huaweicloud.cts-tracker
