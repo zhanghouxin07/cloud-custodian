@@ -3,7 +3,7 @@ policies:
     resource: huaweicloud.cts-tracker
     mode:
       type: cloudtrace
-      xrole: cts_admin_trust
+      xrole: test
       default_region: cn-north-4
       events:
         - source: "CTS.tracker"
