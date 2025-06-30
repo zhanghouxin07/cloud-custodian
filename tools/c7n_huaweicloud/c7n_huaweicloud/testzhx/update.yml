@@ -1,0 +1,40 @@
+policies:
+  - name: configure-cts-tracker-full
+    resource: huaweicloud.cts-tracker
+    filters:
+      - type: value
+        key: tracker_name
+        value: "system"
+      - type: value
+        key: is_organization_tracker
+        value: false
+    actions:
+      - type: set-trace-file-validation
+        # 基础参数
+        tracker_name: "system"   # 需与 filters 中一致
+        tracker_type: "system"   # 需与 filters 中一致
+        # agency_name: "your-agency"  # 替换为实际委托名称（可选）
+        status: "enabled"        # 启用追踪器（可选：enabled/disabled）
+        # is_organization_tracker: true  # 是否为组织追踪器（可选）
+
+        # 事件筛选（可选）
+        #management_event_selector:
+        #  exclude_service:       # 排除特定服务的事件（可选）
+        #    - "ServiceA"
+        #    - "ServiceB"
+
+        # LTS 日志配置（可选）
+        is_lts_enabled: true     # 是否启用 LTS 日志存储
+
+        # 日志校验与加密（必选/核心配置）
+        is_support_validate: true          # 启用日志完整性校验
+        kms_id: "7d11203a-c426-49a3-a8c8-25e4e6f1fba1"              # 替换为实际 KMS 密钥 ID
+        is_support_trace_files_encryption: true  # 启用日志加密存储
+
+        # OBS 存储配置（必选，需提前创建 OBS 桶）
+        obs_info:
+          bucket_name: "bj4-guazhou1"    # 替换为实际 OBS 桶名称
+          file_prefix_name: ""    # 日志文件前缀（可选）
+          is_obs_created: false             # 是否由系统创建桶（可选，通常设为 true）
+          compress_type: "gzip"            # 压缩类型（gzip/json/none）
+          is_sort_by_service: true         # 按服务分类存储日志
