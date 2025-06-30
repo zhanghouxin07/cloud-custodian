@@ -15,9 +15,8 @@ policies:
         value: false
       # 关键修改：新增filter获取is_lts_enabled字段
       - type: value
-        key: is_lts_enabled
-        # 保留空值以获取实际状态（不做筛选）
-        operator: exists
+        key: lts.is_lts_enabled  # 访问lts下的is_lts_enabled
+        op: exists  # 获取字段值，不做筛选
 
     actions:
       - type: set-trace-file-validation
