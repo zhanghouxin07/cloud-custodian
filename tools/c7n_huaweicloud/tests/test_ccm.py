@@ -1,7 +1,6 @@
 # Copyright The Cloud Custodian Authors.
 # SPDX-License-Identifier: Apache-2.0
 from unittest.mock import patch
-
 from huaweicloud_common import BaseTest
 
 
@@ -18,31 +17,99 @@ class CcmCertificateAuthorityTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_query", record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)  # Expect to return one CA resource
         # Expect the CA status to be ACTIVED
         self.assertEqual(resources[0]["status"], "ACTIVED")
 
     def test_certificate_authority_status_filter(self):
-        """Test filtering certificate authorities by status and issuer name"""
+        """Test filtering certificate authorities by status"""
         factory = self.replay_flight_data(
             "ccm_certificate_authority_status_filter")
         p = self.load_policy(
             {
-                "name": "find-cas-with-non-existent-issuer",
+                "name": "find-active-cas",
                 "resource": "huaweicloud.ccm-private-ca",
                 "filters": [
                     {
                         "type": "status",
-                        "status": "ACTIVED",
-                        "issuer_name": "null",
+                        "value": "ACTIVED"
                     }
                 ],
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_status_filter", record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
+        self.assertEqual(resources[0]["status"], "ACTIVED")
+
+        # Test with non-matching status
+        p = self.load_policy(
+            {
+                "name": "find-disabled-cas",
+                "resource": "huaweicloud.ccm-private-ca",
+                "filters": [
+                    {
+                        "type": "status",
+                        "value": "DISABLED"
+                    }
+                ],
+            },
+            session_factory=factory,
+        )
+        with self.myvcr.use_cassette("ccm_certificate_authority_status_filter", record_mode='none'):
+            resources = p.run()
+        # Expect no resources with DISABLED status
+        self.assertEqual(len(resources), 0)
+
+    def test_certificate_authority_issuer_name_filter(self):
+        """Test filtering certificate authorities by issuer name"""
+        factory = self.replay_flight_data(
+            "ccm_certificate_authority_issuer_filter")
+
+        # Test with a null issuer_name (should find CAs with empty issuer_name)
+        p = self.load_policy(
+            {
+                "name": "find-cas-with-empty-issuer",
+                "resource": "huaweicloud.ccm-private-ca",
+                "filters": [
+                    {
+                        "type": "issuer-name",
+                        "value": None
+                    }
+                ],
+            },
+            session_factory=factory,
+        )
+        with self.myvcr.use_cassette("ccm_certificate_authority_issuer_filter", record_mode='none'):
+            resources = p.run()
+        # Verify that all returned resources have empty issuer_name
+        for resource in resources:
+            issuer_name = resource.get('issuer_name')
+            self.assertTrue(issuer_name is None or (isinstance(
+                issuer_name, str) and not issuer_name.strip()))
+
+        # Test with a specific issuer_name
+        p = self.load_policy(
+            {
+                "name": "find-cas-with-specific-issuer",
+                "resource": "huaweicloud.ccm-private-ca",
+                "filters": [
+                    {
+                        "type": "issuer-name",
+                        "value": "test-issuer"
+                    }
+                ],
+            },
+            session_factory=factory,
+        )
+        with self.myvcr.use_cassette("ccm_certificate_authority_issuer_filter", record_mode='none'):
+            resources = p.run()
+        # Verify that all returned resources have the specified issuer_name
+        for resource in resources:
+            self.assertEqual(resource.get('issuer_name'), "test-issuer")
 
     @patch('c7n_huaweicloud.resources.ccm.local_session')
     def test_certificate_authority_crl_obs_bucket_filter(self, mock_local_session):
@@ -84,7 +151,9 @@ class CcmCertificateAuthorityTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_crl_bucket_filter",
+        record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
 
         # Verify OBS client was called with the right method
@@ -106,7 +175,9 @@ class CcmCertificateAuthorityTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_crl_bucket_filter",
+        record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
 
         # Test case 3: Filter by properties that are all true (should return no resources)
@@ -143,7 +214,9 @@ class CcmCertificateAuthorityTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_crl_bucket_filter",
+        record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 0)
 
     def test_certificate_authority_key_algorithm_filter(self):
@@ -163,7 +236,9 @@ class CcmCertificateAuthorityTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_key_algorithm_filter",
+        record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
         self.assertEqual(resources[0]["key_algorithm"], "RSA2048")
 
@@ -184,7 +259,9 @@ class CcmCertificateAuthorityTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_signature_algorithm_filter",
+        record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
         self.assertEqual(resources[0]["signature_algorithm"], "SHA256")
 
@@ -206,7 +283,8 @@ class CcmCertificateAuthorityTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_certificate_authority_disable", record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
         self.assertEqual(resources[0]["ca_id"], "ca-test-id")
 
@@ -224,7 +302,8 @@ class CcmPrivateCertificateTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_private_certificate_query", record_mode='none'):
+            resources = p.run()
         # Expect to return one certificate resource
         self.assertEqual(len(resources), 1)
         # Expect the certificate status to be ISSUED
@@ -247,7 +326,9 @@ class CcmPrivateCertificateTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_private_certificate_key_algorithm_filter",
+        record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
         self.assertEqual(resources[0]["key_algorithm"], "RSA2048")
 
@@ -268,9 +349,34 @@ class CcmPrivateCertificateTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_private_certificate_signature_algorithm_filter",
+        record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
         self.assertEqual(resources[0]["signature_algorithm"], "SHA256")
+
+    def test_private_certificate_create_time_filter(self):
+        """Test filtering private certificates by creation time"""
+        factory = self.replay_flight_data(
+            "ccm_private_certificate_create_time_filter")
+        # Test actual policy execution with patched resource data
+        p = self.load_policy(
+            {
+                "name": "find-certificates-after-date",
+                "resource": "huaweicloud.ccm-private-certificate",
+                "filters": [
+                    {
+                        "type": "create-time",
+                        "value": "2025-5-26 09:27:25"
+                    }
+                ],
+            },
+            session_factory=factory,
+        )
+        with self.myvcr.use_cassette("ccm_private_certificate_create_time_filter",
+        record_mode='none'):
+            resources = p.run()
+        self.assertEqual(len(resources), 1)
 
 
 # =========================
@@ -280,22 +386,26 @@ class CcmPrivateCertificateTest(BaseTest):
 
 class ReusableFeaturesTest(BaseTest):
     """Test reusable filters and actions on Certificate Authority resources"""
-
     def test_filter_value_match(self):
         """Test value filter - Match"""
+
         factory = self.replay_flight_data("ccm_ca_filter_value")
-        # Target CA ID
         target_id = "a6bbf0be-79f3-4f66-858a-0fdcb96dfcbe"
+
+        # 使用较宽松的过滤器
         p = self.load_policy(
             {
                 "name": "ccm-filter-value-match",
                 "resource": "huaweicloud.ccm-private-ca",
-                "filters": [{"type": "value", "key": "ca_id", "value": target_id}],
+                "filters": [{"type": "value", "key": "ca_id", "op": "eq", "value": target_id}],
             },
             session_factory=factory,
         )
-        resources = p.run()
-        # Verify only one CA matches this name
+
+        with self.myvcr.use_cassette("ccm_ca_filter_value", record_mode='none'):
+            resources = p.run()
+
+        # 验证结果
         self.assertEqual(len(resources), 1)
         self.assertEqual(resources[0]['ca_id'], target_id)
 
@@ -311,7 +421,10 @@ class ReusableFeaturesTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+
+        with self.myvcr.use_cassette("ccm_ca_filter_value", record_mode='none'):
+            resources = p.run()
+
         # Verify no CA matches this status
         self.assertEqual(len(resources), 0)
 
@@ -331,7 +444,9 @@ class ReusableFeaturesTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+
+        with self.myvcr.use_cassette("ccm_ca_filter_tag", record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
         # Verify that the matched CA is the one with that ID
         self.assertEqual(resources[0]['ca_id'], target_ca_id)
@@ -352,7 +467,8 @@ class ReusableFeaturesTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_ca_filter_marked", record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)
         # Verify that the matched CA is the one with that ID
         self.assertEqual(resources[0]['ca_id'], target_ca_id)
@@ -371,5 +487,6 @@ class ReusableFeaturesTest(BaseTest):
             },
             session_factory=factory,
         )
-        resources = p.run()
+        with self.myvcr.use_cassette("ccm_ca_filter_tag_count", record_mode='none'):
+            resources = p.run()
         self.assertEqual(len(resources), 1)

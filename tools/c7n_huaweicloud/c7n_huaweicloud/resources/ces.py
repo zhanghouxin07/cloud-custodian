@@ -5,14 +5,15 @@ import logging
 import os
 
 from c7n_huaweicloud.actions.base import HuaweiCloudBaseAction
-from c7n_huaweicloud.filters.ces import AlarmNameSpaceAndMetricFilter
+from c7n_huaweicloud.filters.ces import AlarmNameSpaceAndMetricFilter, AlarmNotificationFilter
 from c7n_huaweicloud.provider import resources
 from c7n_huaweicloud.query import QueryResourceManager, TypeInfo
 from huaweicloudsdkces.v2 import UpdateAlarmNotificationsRequest, Notification, \
     PutAlarmNotificationReq, BatchEnableAlarmRulesRequest, BatchEnableAlarmsRequestBody, \
-    CreateAlarmRulesRequest, Policy, PostAlarmsReqV2, AlarmType
+    CreateAlarmRulesRequest, Policy, PostAlarmsReqV2, AlarmType, ListAlarmRulesRequest
 from huaweicloudsdkcore.exceptions import exceptions
-from huaweicloudsdksmn.v2 import PublishMessageRequest, PublishMessageRequestBody
+from huaweicloudsdksmn.v2 import PublishMessageRequest, PublishMessageRequestBody, \
+    ListTopicsRequest
 
 from c7n.actions import BaseAction
 from c7n.filters.missing import Missing
@@ -29,9 +30,45 @@ class Alarm(QueryResourceManager):
         id = 'alarm_id'
         tag_resource_type = None
 
+    def get_resources(self, query):
+        return self.get_api_resources(query)
+
+    def _fetch_resources(self, query):
+        return self.get_api_resources(query)
+
+    def get_api_resources(self, resource_ids):
+        session = local_session(self.session_factory)
+        client = session.client(self.resource_type.service)
+        resources = []
+        offset, limit = 0, 100
+        while True:
+            request = ListAlarmRulesRequest()
+            request.offset = offset
+            request.limit = limit
+            try:
+                response = client.list_alarm_rules(request)
+                resource = eval(
+                    str(response.alarms)
+                        .replace("null", "None")
+                        .replace("false", "False")
+                        .replace("true", "True")
+                )
+                resources = resources + resource
+            except exceptions.ClientRequestException as e:
+                log.error(
+                    f"Failed to query API list: {str(e)}")
+                break
+
+            offset += limit
+            if not response.count or offset >= len(response.alarms):
+                break
+
+        return resources
+
 
 Alarm.filter_registry.register('missing', Missing)
 Alarm.filter_registry.register('alarm-namespace-metric', AlarmNameSpaceAndMetricFilter)
+Alarm.filter_registry.register('alarm-notification', AlarmNotificationFilter)
 
 
 @Alarm.action_registry.register("alarm-update-notification")
@@ -48,13 +85,13 @@ class AlarmUpdateNotification(HuaweiCloudBaseAction):
                       Update the SMN notifications corresponding to these alarm settings"
         resource: huaweicloud.ces-alarm
         filters:
-          - type: value
-            key: notification_enabled
-            value: false
+          - type: alarm-notification
+            notification_list: ["urn:smn:cn-north-4:xxxxx:CES_notification_xxxxxxx"]
         actions:
           - type: alarm-update-notification
             parameters:
               action_type: "notification"
+              notification_name: "Email_Notification_to_Owner"
               notification_list:
                 - "urn:smn:cn-north-4:xxxxx:CES_notification_xxxxxxx"
 
@@ -66,8 +103,11 @@ class AlarmUpdateNotification(HuaweiCloudBaseAction):
         **{
             "parameters": {
                 "type": "object",
-                "required": ["notification_list", "action_type"],
+                "required": ["action_type"],
                 "properties": {
+                    "notification_name": {
+                        "type": "string",
+                    },
                     "notification_list": {
                         "type": "array",
                         "items": {"type": "string"}
@@ -85,21 +125,68 @@ class AlarmUpdateNotification(HuaweiCloudBaseAction):
         params = self.data.get('parameters', {})
         action_type = params.get('action_type', 'notification')
         response = None
-        client = local_session(self.manager.session_factory).client('ces')
+        alarm_topic_urns = None
+        ok_topic_urns = None
+        alarm_contact_notification_list = None
+        ok_contact_notification_list = None
+        smnClient = local_session(self.manager.session_factory).client('smn')
+        notification_name = params.get('notification_name')
+        notification_list = params.get('notification_list')
+        if notification_name is not None:
+            request = ListTopicsRequest()
+            request.name = notification_name
+            response = smnClient.list_topics(request)
+            alarm_topic_urns = [topic.topic_urn for topic in response.topics]
+            ok_topic_urns = [topic.topic_urn for topic in response.topics]
+        elif notification_list is not None:
+            alarm_topic_urns = notification_list
+            ok_topic_urns = notification_list
+        else:
+            log.error("Update alarm notification need setting notification_name, "
+                      "notification_list param")
+            raise RuntimeError("missing notification_name, notification_list param")
+        alarm_notifications = resource["alarm_notifications"]
+        for item in alarm_notifications:
+            if item["type"] == "notification":
+                alarm_topic_urns += item["notification_list"]
+            if item["type"] == "contact":
+                alarm_contact_notification_list = item["notification_list"]
+
+        ok_notifications = resource["ok_notifications"]
+        for item in ok_notifications:
+            if item["type"] == "notification":
+                ok_topic_urns += item["notification_list"]
+            if item["type"] == "contact":
+                ok_contact_notification_list = item["notification_list"]
+
         request = UpdateAlarmNotificationsRequest()
-        request.alarm_id = resource["id"]
+        request.alarm_id = resource["alarm_id"]
         list_ok_notifications_body = [
             Notification(
                 type=action_type,
-                notification_list=params['notification_list']
+                notification_list=ok_topic_urns
             )
         ]
+        if ok_contact_notification_list is not None:
+            ok_notifications = Notification(
+                type="contact",
+                notification_list=ok_contact_notification_list
+            )
+            list_ok_notifications_body.append(ok_notifications)
+
         list_alarm_notifications_body = [
             Notification(
                 type=action_type,
-                notification_list=params['notification_list']
+                notification_list=alarm_topic_urns
             )
         ]
+        if alarm_contact_notification_list is not None:
+            alarm_notifications = Notification(
+                type="contact",
+                notification_list=alarm_contact_notification_list
+            )
+            list_alarm_notifications_body.append(alarm_notifications)
+
         request.body = PutAlarmNotificationReq(
             notification_end_time="23:59",
             notification_begin_time="00:00",
@@ -108,6 +195,7 @@ class AlarmUpdateNotification(HuaweiCloudBaseAction):
             notification_enabled=True
         )
         try:
+            client = local_session(self.manager.session_factory).client('ces')
             response = client.update_alarm_notifications(request)
             log.info(f"Update alarm notification {response}")
         except exceptions.ClientRequestException as e:
@@ -115,7 +203,7 @@ class AlarmUpdateNotification(HuaweiCloudBaseAction):
         return response
 
 
-@Alarm.action_registry.register("batch-start-stopped-alarm-rules")
+@Alarm.action_registry.register("batch-start-alarm-rules")
 class BatchStartStoppedAlarmRules(BaseAction):
     """Update CES Alarm all start.
 
@@ -132,34 +220,12 @@ class BatchStartStoppedAlarmRules(BaseAction):
             key: enabled
             value: false
         actions:
-          - type: batch-start-stopped-alarm-rules
-            parameters:
-              subject: "CES alarm not activated Check email"
-              message: "You have the following alarms that have not been started,
-                      please check the system.The tasks have been started,
-                      please log in to the system and check again."
-              notification_list:
-                - "urn:smn:cn-north-4:xxxxx:CES_notification_xxxxxxx"
+          - type: batch-start-alarm-rules
 
     """
 
     schema = type_schema(
-        "batch-start-stopped-alarm-rules",
-        required=["parameters"],
-        **{
-            "parameters": {
-                "type": "object",
-                "required": ["notification_list", "subject", "message"],
-                "properties": {
-                    "notification_list": {
-                        "type": "array",
-                        "items": {"type": "string"}
-                    },
-                    "subject": {"type": "string"},
-                    "message": {"type": "string"}
-                }
-            }
-        }
+        "batch-start-alarm-rules"
     )
 
     def process(self, resources):
@@ -167,31 +233,15 @@ class BatchStartStoppedAlarmRules(BaseAction):
             return
         response = None
         batch_enable_alarm_rule_request = BatchEnableAlarmRulesRequest()
-        list_alarm_ids = [str(item["id"]) for item in resources if "id" in item]
+        list_alarm_ids = [str(item["alarm_id"]) for item in resources if "alarm_id" in item]
         batch_enable_alarm_rule_request.body = BatchEnableAlarmsRequestBody(
             alarm_enabled=True,
             alarm_ids=list_alarm_ids
-        )
-        params = self.data.get('parameters', {})
-        subject = params.get('subject', 'subject')
-        message = params.get('message', 'message')
-        id_list = '\n'.join([f"- {alarm_id}" for alarm_id in list_alarm_ids])
-        message += f"\nalarm list:\n{id_list}"
-        message += f"\nregion: {os.getenv('HUAWEI_DEFAULT_REGION')}"
-        body = PublishMessageRequestBody(
-            subject=subject,
-            message=message
         )
         try:
             client = local_session(self.manager.session_factory).client('ces')
             update_response = client.batch_enable_alarm_rules(batch_enable_alarm_rule_request)
             log.info(f"Batch start alarm, response: {update_response}")
-            client = local_session(self.manager.session_factory).client('smn')
-            for topic_urn in params['notification_list']:
-                publish_message_request = PublishMessageRequest(topic_urn=topic_urn, body=body)
-                log.info(f"Message send, request: {publish_message_request}")
-                publish_message_response = client.publish_message(publish_message_request)
-                log.info(f"Message send, response: {publish_message_response}")
         except exceptions.ClientRequestException as e:
             log.error(f"Batch start alarm failed: {e.error_msg}")
         return response
@@ -603,7 +653,7 @@ class NotifyBySMN(BaseAction):
         params = self.data.get('parameters', {})
         subject = params.get('subject', 'subject')
         message = params.get('message', 'message')
-        list_alarm_ids = [str(item["id"]) for item in resources if "id" in item]
+        list_alarm_ids = [str(item["alarm_id"]) for item in resources if "alarm_id" in item]
         id_list = '\n'.join([f"- {alarm_id}" for alarm_id in list_alarm_ids])
         if len(id_list) != 0:
             message += f"\nalarm list:\n{id_list}"
