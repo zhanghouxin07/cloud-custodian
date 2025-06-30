@@ -1,7 +1,17 @@
 policies:
   - name: HW-CTS-01-filter-resources-member
     resource: huaweicloud.cts-tracker
-
+    mode:
+      type: cloudtrace
+      xrole: cts_admin_trust
+      default_region: cn-north-4
+      events:
+        - source: "CTS.tracker"
+          event: "updateTracker"
+          ids: "*"
+        - source: "CTS.tracker"
+          event: "createTracker"
+          ids: "*"
     filters:
       # 筛选名称为"system"的追踪器
       - type: value
