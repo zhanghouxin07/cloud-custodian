@@ -1,10 +1,12 @@
 policies:
-  - name: configure-cts-tracker-full
+  - name: HW-CTS-01-filter-resources-member
     resource: huaweicloud.cts-tracker
     filters:
+      # 筛选名称为"system"的追踪器
       - type: value
         key: tracker_name
         value: "system"
+      # 筛选非组织追踪器（is_organization_tracker为false）
       - type: value
         key: is_organization_tracker
         value: false
