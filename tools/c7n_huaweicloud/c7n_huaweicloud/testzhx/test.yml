@@ -7,4 +7,4 @@ policies:
         value: "system"
       - type: value
         key: is_organization_tracker
-        value: true
+        value: false
