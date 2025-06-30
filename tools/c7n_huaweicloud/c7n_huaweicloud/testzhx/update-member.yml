@@ -13,9 +13,6 @@ policies:
       - type: value
         key: is_organization_tracker
         value: false
-      # 匹配is_lts_enabled字段值为 true的情况
-      - type: has
-        key: lts
 
     actions:
       - type: set-trace-file-validation
