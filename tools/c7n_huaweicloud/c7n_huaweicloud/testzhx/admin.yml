@@ -21,6 +21,26 @@ policies:
         key: lts.is_lts_enabled
         op: eq
         value: false
+      - or:
+        - type: value
+          key: "obs_info.bucket_name"
+          op: eq
+          value: ""
+        - type: value
+          key: "obs_info.bucket_name"
+          value_type: swap
+          op: eq
+          value: null
+        - type: value
+          key: "is_support_validate"
+          op: eq
+          value: false
+        - type: value
+          key: "kms_id"
+          value_type: swap
+          op: eq
+          value: null
+
     actions:
       - type: set-trace-file-validation
         tracker_name: "system"
