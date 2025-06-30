@@ -175,6 +175,7 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
     )
 
     def perform_action(self, resource):
+        log.info(f"resource: {resource}")
         client = self.manager.get_client()
         properties = {
             "tracker_name": self.data.get("tracker_name", ""),
