@@ -48,7 +48,6 @@ policies:
       - type: set-trace-file-validation-with-lts-preservation
         tracker_name: "system"
         tracker_type: "system"
-        agency_name: "cts_admin_trust"
         status: "enabled"
         is_organization_tracker: false
 
