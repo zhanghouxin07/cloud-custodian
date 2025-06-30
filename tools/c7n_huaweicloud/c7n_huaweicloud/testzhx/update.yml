@@ -7,7 +7,7 @@ policies:
         value: "system"
       - type: value
         key: is_organization_tracker
-        value: False
+        value: false
     actions:
       - type: set-trace-file-validation
         tracker_name: "system"
