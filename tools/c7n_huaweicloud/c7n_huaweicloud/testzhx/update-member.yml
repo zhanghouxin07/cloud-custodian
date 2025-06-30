@@ -15,14 +15,13 @@ policies:
         value: false
 
     actions:
-      - type: set-trace-file-validation
+      - type: set-trace-file-validation-with-lts-preservation
         tracker_name: "system"
         tracker_type: "system"
         agency_name: "cts_admin_trust"
         status: "enabled"
         is_organization_tracker: false
-        # 动态引用filter获取的is_lts_enabled值
-        is_lts_enabled: "{{ lts.is_lts_enabled }}"
+
         is_support_validate: true
         kms_id: "7d11203a-c426-49a3-a8c8-25e4e6f1fba1"
         is_support_trace_files_encryption: true
