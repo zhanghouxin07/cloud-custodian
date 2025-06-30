@@ -2,7 +2,7 @@ policies:
   - name: HW-CTS-01-filter-resources-admin
     resource: huaweicloud.cts-tracker
     filters:
-      # 筛选名称为"system"的追踪器
+      # 筛选名称为"system"的追踪器（若打开"应用到我的组织"开关，即为组织追踪器），管理员账号最多只有1个追踪器
       - type: value
         key: tracker_name
         value: "system"
