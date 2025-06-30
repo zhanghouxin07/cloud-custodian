@@ -4,7 +4,6 @@ policies:
     mode:
       type: cloudtrace
       xrole: test
-      default_region: cn-north-4
       events:
         - source: "CTS.tracker"
           event: "updateTracker"
