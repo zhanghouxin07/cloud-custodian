@@ -14,7 +14,7 @@ policies:
         tracker_type: "system"
         agency_name: "cts_admin_trust"
         status: "enabled"
-        # is_organization_tracker: true  # 是否为组织追踪器（可选）
+        is_organization_tracker: false
         is_lts_enabled: true
         is_support_validate: true
         kms_id: "7d11203a-c426-49a3-a8c8-25e4e6f1fba1"
