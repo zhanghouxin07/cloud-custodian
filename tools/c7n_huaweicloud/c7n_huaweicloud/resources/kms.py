@@ -42,6 +42,13 @@ class rotationKey(HuaweiCloudBaseAction):
 policies:
   - name: enable_key_rotation
     resource: huaweicloud.kms
+    mode:
+      type: huaweicloud-periodic
+      xrole: fgs_admin
+      enable_lts_log: true
+      log_level: INFO
+      schedule: '1m'
+      schedule_type: Rate
     filters:
         - type: value
           key: key_rotation_enabled
@@ -65,51 +72,37 @@ policies:
     schema = type_schema("enable_key_rotation")
 
     def perform_action(self, resource):
-        session = local_session(self.manager.session_factory)
-        domain = session.domain_id
         supportList = {"AES_256", "SM4"}
         resourceId = resource["key_id"]
-        log.info("begin enable_key_rotation resourceId={}".format(resourceId))
         if (resource["default_key_flag"] == "0" and resource["key_spec"]
                 in supportList and resource["keystore_id"] == "0"
                 and resource["key_state"] in {"2"}):
             client = self.manager.get_client()
             request = EnableKeyRotationRequest()
-            if domain is None:
-                request.body = OperateKeyRequestBody(
-                    key_id=resource["key_id"],
-                    sequence=uuid.uuid4().hex
-                )
-                try:
-                    client.enable_key_rotation(request)
-                    log.info("enable_key_rotation the resourceType:KMS resourceId={},success"
-                             .format(resourceId))
-                except Exception as e:
-                    log.error("enable_key_rotation the resourceType:KMS resourceId={}，is failed"
+            request.body = OperateKeyRequestBody(
+                key_id=resource["key_id"],
+                sequence=uuid.uuid4().hex
+            )
+            try:
+                client.enable_key_rotation(request)
+                log.info("enable_key_rotation the resourceType:KMS resourceId={},success"
+                         .format(resourceId))
+            except Exception as e:
+                if e.status_code == 400:
+                    log.info(
+                        "the key rotation is already enabled or the key is not supported "
+                        "for rotation, resourceId={},msg={}".format(
+                            resourceId, e.error_msg))
+                else:
+                    log.error("enable_key_rotation the resourceType:KMS resourceId={} is failed"
                               .format(resourceId))
-                    raise e
-            else:
-                if domain == resource["domain_id"]:
-                    request.body = OperateKeyRequestBody(
-                        key_id=resource["key_id"],
-                        sequence=uuid.uuid4().hex
-                    )
-                    try:
-                        client.enable_key_rotation(request)
-                        log.info("enable_key_rotation the resourceType:KMS resourceId={},success"
-                                 .format(resourceId))
-                    except Exception as e:
-                        log.error(
-                            "enable_key_rotation the resourceType:KMS with:resourceId={},is failed"
-                            .format(resourceId))
-                        raise e
+
         else:
-            log.info(
-                "skip enable_key_rotation the resourceType:KMS resourceId={},"
-                "The key does not meet the conditions for "
-                "enabling rotation.The conditions for ending the key are:"
-                "the key is not the default key,is not a shared "
-                "key,and the algorithm is SM4 or AES_256".format(resourceId))
+            log.info("skip enable_key_rotation the resourceType:KMS resourceId={},"
+                     "The key does not meet the conditions for "
+                     "enabling rotation.The conditions for ending the key are:"
+                     "the key is not the default key,is not a shared "
+                     "key,and the algorithm is SM4 or AES_256".format(resourceId))
 
 
 @Kms.action_registry.register("disable_key_rotation")
