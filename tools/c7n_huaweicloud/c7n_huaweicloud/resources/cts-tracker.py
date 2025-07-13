@@ -217,7 +217,7 @@ class CtsSetTraceFileValidation(HuaweiCloudBaseAction):
 
         try:
             response = client.update_tracker(request)
-            log.info(f"Successfully updated trace file validation ("
+            log.info(f"[actions] - [update_tracker] The resource: [system] with id:[{resource.id}]"
                      f"is_support_validate={properties['is_support_validate']}) "
                      f"for tracker {properties['tracker_name']}.")
         except exceptions.ClientRequestException as e:
