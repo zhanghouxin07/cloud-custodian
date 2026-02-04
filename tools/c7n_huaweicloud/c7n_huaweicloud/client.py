@@ -821,7 +821,7 @@ class Session:
         elif service == 'vpcep-eps':
             request = ListEndpointServiceRequest()
         elif service == "cce-cluster":
-            request = ListClustersRequest()
+            request = ListClustersRequest(detail="true")
         elif service == "cce-nodepool":
             request = ListNodePoolsRequest()
         elif service == "cce-node":
