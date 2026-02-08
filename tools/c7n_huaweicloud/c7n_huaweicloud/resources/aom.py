@@ -750,3 +750,107 @@ class AddAlarmRule(HuaweiCloudBaseAction):
 
     def perform_action(self, resource):
         pass
+
+
+@AomAlarm.action_registry.register('modify')
+class ModifyAlarmRule(HuaweiCloudBaseAction):
+    """
+    modify AOM metric or event alarm rule according to API documentation
+
+    :example:
+        policies:
+          - name: aom-alarm-baseline-002
+            resource: huaweicloud.aom-alarm
+            filters:
+              - or:
+                  - type: value
+                    key: alarm_rule_enable
+                    op: eq
+                    value: false
+                  - type: value
+                    key: alarm_notifications.bind_notification_rule_id
+                    op: eq
+                    value: ""
+                  - type: value
+                    key: alarm_notifications.bind_notification_rule_id
+                    op: eq
+                    value: null
+            actions:
+              - type: modify
+                alarm_rule_enable: true
+    """
+    schema = type_schema(
+        'modify',
+        alarm_rule_enable={'type': 'boolean'},
+    )
+
+    def process(self, resources):
+        client = self.manager.get_client()
+        results = []
+
+        for resource in resources:
+            try:
+                body = self._build_body_from_resource(resource)
+
+                if 'alarm_rule_enable' in self.data:
+                    body.alarm_rule_enable = self.data['alarm_rule_enable']
+
+                request = AddOrUpdateMetricOrEventAlarmRuleRequest(
+                    action_id="update-alarm-action",
+                    enterprise_project_id=resource.get('enterprise_project_id', "0"),
+                    body=body
+                )
+
+                response = client.add_or_update_metric_or_event_alarm_rule(request)
+                results.append({
+                    'alarm_rule_name': resource['alarm_rule_name'],
+                    'status_code': response.status_code
+                })
+                log.info(f"[actions]-[modify]- The resource:[{resource['alarm_rule_name']}],"
+                         f" enable AOM alarm rule success")
+
+            except Exception as e:
+                log.error(
+                    f"[actions]-[modify]- The resource:[{resource['alarm_rule_name']}],"
+                    f" modify AOM alarm rule fail : {str(e)}")
+                results.append({
+                    'alarm_rule_name': resource['alarm_rule_name'],
+                    'error': str(e)
+                })
+
+        return results
+
+    def _build_body_from_resource(self, resource):
+        body = AddOrUpdateAlarmRuleV4RequestBody(
+            alarm_rule_name=resource.get('alarm_rule_name'),
+            alarm_rule_type=resource.get('alarm_rule_type')
+        )
+
+        optional_fields = {
+            'alarm_rule_description': resource.get('alarm_rule_description'),
+            'alarm_rule_enable': resource.get('alarm_rule_enable'),
+            'prom_instance_id': resource.get('prom_instance_id'),
+            'alias': resource.get('alias')
+        }
+
+        for field, value in optional_fields.items():
+            if hasattr(body, field) and value is not None:
+                setattr(body, field, value)
+
+        n_data = resource.get('alarm_notifications')
+        if n_data:
+            notification = AlarmNotification()
+            for k, v in n_data.items():
+                if hasattr(notification, k):
+                    setattr(notification, k, v)
+            body.alarm_notifications = notification
+
+        if resource.get('alarm_rule_type') == 'metric':
+            body.metric_alarm_spec = resource.get('metric_alarm_spec')
+        elif resource.get('alarm_rule_type') == 'event':
+            body.event_alarm_spec = resource.get('event_alarm_spec')
+
+        return body
+
+    def perform_action(self, resource):
+        pass
