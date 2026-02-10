@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import logging
+import json
 
 from huaweicloudsdkcore.exceptions import exceptions
 # Note: Although SDK provides v4 version, AOM alarm rule related APIs only exist in v2 version
@@ -820,6 +821,31 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
 
         return results
 
+    def _normalize_promql(self, raw_expr):
+        data = raw_expr
+        while True:
+            try:
+                if isinstance(data, list):
+                    if not data: return ""
+                    data = data[0]
+                    continue
+                if isinstance(data, str):
+                    if not (data.strip().startswith('[') or data.strip().startswith('"')):
+                        break
+
+                    loaded = json.loads(data)
+                    if loaded == data or isinstance(loaded, (dict, int, float, bool)):
+                        break
+
+                    data = loaded
+                else:
+                    break
+
+            except (json.JSONDecodeError, TypeError):
+                break
+
+        return data
+
     def _build_body_from_resource(self, resource):
         body = AddOrUpdateAlarmRuleV4RequestBody(
             alarm_rule_name=resource.get('alarm_rule_name'),
@@ -846,7 +872,11 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
             body.alarm_notifications = notification
 
         if resource.get('alarm_rule_type') == 'metric':
-            body.metric_alarm_spec = resource.get('metric_alarm_spec')
+            spec = resource.get('metric_alarm_spec', {})
+            if spec and 'promql_expr' in spec:
+                clean_expr = self._normalize_promql(spec['promql_expr'])
+                spec['promql_expr'] = clean_expr
+            body.metric_alarm_spec = spec
         elif resource.get('alarm_rule_type') == 'event':
             body.event_alarm_spec = resource.get('event_alarm_spec')
 
