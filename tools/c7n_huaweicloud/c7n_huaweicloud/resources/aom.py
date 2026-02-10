@@ -904,3 +904,5 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
             body.event_alarm_spec = resource.get('event_alarm_spec')
 
         return body
+    def perform_action(self, resource):
+        pass
