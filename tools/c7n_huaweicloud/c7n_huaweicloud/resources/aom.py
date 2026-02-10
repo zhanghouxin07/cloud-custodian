@@ -826,7 +826,8 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
         while True:
             try:
                 if isinstance(data, list):
-                    if not data: return ""
+                    if not data:
+                        return ""
                     data = data[0]
                     continue
                 if isinstance(data, str):
