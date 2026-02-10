@@ -3,10 +3,15 @@ interactions:
     method: GET
     uri: https://aom.ap-southeast-1.myhuaweicloud.com/v4/ap-southeat-1/alarm-rules?limit=100&offset=0
     body: null
+    headers: {}
   response:
-    status: {code: 200, message: success}
+    status:
+      code: 200
+      message: success
+    headers:
+      Content-Type:
+      - application/json
     body:
-      # 这里模拟了一个未启用的指标告警规则
       string: '{
         "alarm_rules": [
           {
@@ -33,12 +38,18 @@ interactions:
 
 - request:
     method: POST
-    # 注意：根据代码逻辑，修改操作使用的是 add_or_update 接口，action_id 为 update-alarm-action
     uri: https://aom.ap-southeast-1.myhuaweicloud.com/v4/ap-southeat-1/alarm-rules?action_id=update-alarm-action
-    # 预期的 Body 应该包含更新后的 alarm_rule_enable: true
-    body: '{"alarm_rule_name": "new-metric-alarm", "alarm_rule_type": "metric", "alarm_rule_enable": true, ...}'
+    body: null
+    headers:
+      Content-Type:
+      - application/json
   response:
-    status: {code: 200, message: success}
+    status:
+      code: 200
+      message: success
+    headers:
+      Content-Type:
+      - application/json
     body:
       string: '{
         "alarm_rules": [
