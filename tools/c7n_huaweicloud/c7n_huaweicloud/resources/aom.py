@@ -753,10 +753,10 @@ class AddAlarmRule(HuaweiCloudBaseAction):
         pass
 
 
-@AomAlarm.action_registry.register('modify')
-class ModifyAlarmRule(HuaweiCloudBaseAction):
+@AomAlarm.action_registry.register('enable-alarm-rule')
+class EnableAlarmRule(HuaweiCloudBaseAction):
     """
-    modify AOM metric or event alarm rule according to API documentation
+    Enable AOM metric or event alarm rules.
 
     :example:
         policies:
@@ -777,11 +777,11 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
                     op: eq
                     value: null
             actions:
-              - type: modify
+              - type: enable-alarm-rule
                 alarm_rule_enable: true
     """
     schema = type_schema(
-        'modify',
+        'enable-alarm-rule',
         alarm_rule_enable={'type': 'boolean'},
     )
 
@@ -797,7 +797,7 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
                     body.alarm_rule_enable = self.data['alarm_rule_enable']
 
                 final_spec = getattr(body, 'metric_alarm_spec', 'N/A')
-                log.debug(f"[actions]-[modify]- The resource:[{resource['alarm_rule_name']}],"
+                log.debug(f"[actions]-[enable-alarm-rule]- The resource:[{resource['alarm_rule_name']}],"
                           f"Final Body Spec: {final_spec}")
 
                 request = AddOrUpdateMetricOrEventAlarmRuleRequest(
@@ -811,13 +811,13 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
                     'alarm_rule_name': resource['alarm_rule_name'],
                     'status_code': response.status_code
                 })
-                log.info(f"[actions]-[modify]- The resource:[{resource['alarm_rule_name']}],"
+                log.info(f"[actions]-[enable-alarm-rule]- The resource:[{resource['alarm_rule_name']}],"
                          f" enable AOM alarm rule success")
 
             except Exception as e:
                 log.error(
-                    f"[actions]-[modify]- The resource:[{resource['alarm_rule_name']}],"
-                    f" modify AOM alarm rule fail : {str(e)}")
+                    f"[actions]-[enable-alarm-rule]- The resource:[{resource['alarm_rule_name']}],"
+                    f" enable AOM alarm rule fail : {str(e)}")
                 results.append({
                     'alarm_rule_name': resource['alarm_rule_name'],
                     'error': str(e)
