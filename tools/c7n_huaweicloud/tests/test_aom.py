@@ -344,7 +344,6 @@ class AomTest(BaseTest):
 
     def test_enable_aom_alarm_rule(self):
         """测试启用 AOM 告警规则操作 (enable-alarm-rule)"""
-        # 模拟录制的网络回放数据
         factory = self.replay_flight_data("aom_enable_alarm_rule")
 
         p = self.load_policy(
@@ -371,8 +370,6 @@ class AomTest(BaseTest):
 
         resources = p.run()
 
-        # 验证逻辑
         self.assertEqual(len(resources), 1)
         self.assertEqual(resources[0]["alarm_rule_name"], "new-metric-alarm")
-        # 验证 action 里的逻辑是否按预期执行
-        self.assertTrue(resources[0]["alarm_rule_enable"] is False)  # 运行前状态
+        self.assertTrue(resources[0]["alarm_rule_enable"] is False)

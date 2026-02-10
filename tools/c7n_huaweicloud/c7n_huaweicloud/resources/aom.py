@@ -797,7 +797,8 @@ class EnableAlarmRule(HuaweiCloudBaseAction):
                     body.alarm_rule_enable = self.data['alarm_rule_enable']
 
                 final_spec = getattr(body, 'metric_alarm_spec', 'N/A')
-                log.debug(f"[actions]-[enable-alarm-rule]- The resource:[{resource['alarm_rule_name']}],"
+                log.debug(f"[actions]-[enable-alarm-rule]- "
+                          f"The resource:[{resource['alarm_rule_name']}],"
                           f"Final Body Spec: {final_spec}")
 
                 request = AddOrUpdateMetricOrEventAlarmRuleRequest(
@@ -811,7 +812,8 @@ class EnableAlarmRule(HuaweiCloudBaseAction):
                     'alarm_rule_name': resource['alarm_rule_name'],
                     'status_code': response.status_code
                 })
-                log.info(f"[actions]-[enable-alarm-rule]- The resource:[{resource['alarm_rule_name']}],"
+                log.info(f"[actions]-[enable-alarm-rule]- "
+                         f"The resource:[{resource['alarm_rule_name']}],"
                          f" enable AOM alarm rule success")
 
             except Exception as e:
