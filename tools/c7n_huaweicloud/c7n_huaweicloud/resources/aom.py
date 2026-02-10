@@ -876,28 +876,14 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
             body.alarm_notifications = notification
 
         if resource.get('alarm_rule_type') == 'metric':
-            # 1. 获取 spec 字典（建议用 copy 防止修改原引用，视情况而定）
             spec = resource.get('metric_alarm_spec', {}).copy() if resource.get('metric_alarm_spec') else {}
-
-            # 2. 修正：遍历 trigger_conditions 列表寻找 promql_expr
             conditions = spec.get('trigger_conditions', [])
             if isinstance(conditions, list):
                 for idx, condition in enumerate(conditions):
                     if 'promql_expr' in condition:
-                        # [DEBUG-1] 找到了目标
                         raw_val = condition['promql_expr']
-                        log.info(
-                            f"[DEBUG-1] Found promql_expr in condition[{idx}]: type={type(raw_val)}, value={repr(raw_val)}")
-
-                        # 清洗
                         clean_expr = self._normalize_promql(raw_val)
                         condition['promql_expr'] = clean_expr
-
-                        # [DEBUG-2] 确认清洗结果
-                        log.info(
-                            f"[DEBUG-2] Cleaned condition[{idx}]: type={type(clean_expr)}, value={repr(clean_expr)}")
-
-            # 将更新后的 spec 赋值回 body
             body.metric_alarm_spec = spec
 
         elif resource.get('alarm_rule_type') == 'event':
