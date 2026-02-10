@@ -800,6 +800,12 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
                     enterprise_project_id=resource.get('enterprise_project_id', "0"),
                     body=body
                 )
+                try:
+                    import json
+                    request_json = json.dumps(body.to_dict(), indent=2, ensure_ascii=False)
+                    log.info(f"Policy: {self.manager.data.get('name')} | Request Body:\n{request_json}")
+                except Exception as log_err:
+                    log.warning(f"Failed to log request body: {str(log_err)}")
 
                 response = client.add_or_update_metric_or_event_alarm_rule(request)
                 results.append({
