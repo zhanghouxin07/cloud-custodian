@@ -796,6 +796,9 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
                 if 'alarm_rule_enable' in self.data:
                     body.alarm_rule_enable = self.data['alarm_rule_enable']
 
+                final_spec = getattr(body, 'metric_alarm_spec', 'N/A')
+                log.info(f"[DEBUG-3] Final Body Spec: {final_spec}")
+
                 request = AddOrUpdateMetricOrEventAlarmRuleRequest(
                     action_id="update-alarm-action",
                     enterprise_project_id=resource.get('enterprise_project_id', "0"),
@@ -875,8 +878,15 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
         if resource.get('alarm_rule_type') == 'metric':
             spec = resource.get('metric_alarm_spec', {})
             if spec and 'promql_expr' in spec:
+                # 【位置 1：清洗前】查看原始数据到底长什么样
+                raw_val = spec['promql_expr']
+                log.info(f"[DEBUG-1] Before Clean: type={type(raw_val)}, value={repr(raw_val)}")
+
                 clean_expr = self._normalize_promql(spec['promql_expr'])
                 spec['promql_expr'] = clean_expr
+
+                # 【位置 2：清洗后】查看清洗函数是否工作正常
+                log.info(f"[DEBUG-2] After Clean: type={type(clean_expr)}, value={repr(clean_expr)}")
             body.metric_alarm_spec = spec
         elif resource.get('alarm_rule_type') == 'event':
             body.event_alarm_spec = resource.get('event_alarm_spec')
