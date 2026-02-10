@@ -876,7 +876,10 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
             body.alarm_notifications = notification
 
         if resource.get('alarm_rule_type') == 'metric':
-            spec = resource.get('metric_alarm_spec', {}).copy() if resource.get('metric_alarm_spec') else {}
+            spec = (
+                resource.get('metric_alarm_spec', {}).copy()
+                if resource.get('metric_alarm_spec') else {}
+            )
             conditions = spec.get('trigger_conditions', [])
             if isinstance(conditions, list):
                 for idx, condition in enumerate(conditions):
@@ -890,5 +893,6 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
             body.event_alarm_spec = resource.get('event_alarm_spec')
 
         return body
+
     def perform_action(self, resource):
         pass
