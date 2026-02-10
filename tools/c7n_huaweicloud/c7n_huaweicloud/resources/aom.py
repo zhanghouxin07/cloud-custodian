@@ -826,30 +826,29 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
         return results
 
     def _normalize_promql(self, raw_expr):
-        data = raw_expr
+        curr_data = raw_expr
+
         while True:
+            prev_data = curr_data
             try:
-                if isinstance(data, list):
-                    if not data:
-                        return ""
-                    data = data[0]
-                    continue
-                if isinstance(data, str):
-                    if not (data.strip().startswith('[') or data.strip().startswith('"')):
-                        break
+                if isinstance(curr_data, list):
+                    curr_data = curr_data[0] if curr_data else ""
 
-                    loaded = json.loads(data)
-                    if loaded == data or isinstance(loaded, (dict, int, float, bool)):
-                        break
-
-                    data = loaded
-                else:
-                    break
+                elif isinstance(curr_data, str):
+                    stripped = curr_data.strip()
+                    if stripped.startswith('[') or stripped.startswith('"'):
+                        loaded = json.loads(curr_data)
+                        if loaded != curr_data:
+                            curr_data = loaded
 
             except (json.JSONDecodeError, TypeError):
-                break
+                pass
 
-        return data
+            if curr_data == prev_data:
+                if isinstance(curr_data, str):
+                    return curr_data
+                else:
+                    return str(curr_data)
 
     def _build_body_from_resource(self, resource):
         body = AddOrUpdateAlarmRuleV4RequestBody(
