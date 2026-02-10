@@ -797,7 +797,8 @@ class ModifyAlarmRule(HuaweiCloudBaseAction):
                     body.alarm_rule_enable = self.data['alarm_rule_enable']
 
                 final_spec = getattr(body, 'metric_alarm_spec', 'N/A')
-                log.info(f"[DEBUG-3] Final Body Spec: {final_spec}")
+                log.debug(f"[actions]-[modify]- The resource:[{resource['alarm_rule_name']}],"
+                          f"Final Body Spec: {final_spec}")
 
                 request = AddOrUpdateMetricOrEventAlarmRuleRequest(
                     action_id="update-alarm-action",
