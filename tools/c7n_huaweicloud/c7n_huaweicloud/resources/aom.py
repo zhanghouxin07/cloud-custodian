@@ -816,14 +816,14 @@ class EnableAlarmRule(HuaweiCloudBaseAction):
                          f"The resource:[{resource['alarm_rule_name']}],"
                          f" enable AOM alarm rule success")
 
-            except Exception as e:
+            except exceptions.ClientRequestException as e:
                 log.error(
                     f"[actions]-[enable-alarm-rule]- The resource:[{resource['alarm_rule_name']}],"
-                    f" enable AOM alarm rule fail : {str(e)}")
-                results.append({
-                    'alarm_rule_name': resource['alarm_rule_name'],
-                    'error': str(e)
-                })
+                    f" enable AOM alarm rule fail, error: {e.error_msg}")
+                results.append({'alarm_rule_name': resource['alarm_rule_name'],
+                                'error': f"{e.status_code}:{e.error_code}:{e.error_msg}"})
+                raise Exception(f"Failed to enable alarm rule [{resource['alarm_rule_name']}]:"
+                                f" {e.status_code}:{e.error_code}:{e.error_msg}") from e
 
         return results
 
